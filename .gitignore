@@ -1,0 +1,61 @@
+# ============================================================
+# TripNest — Root .gitignore
+# ============================================================
+
+# ─── Environment & Secrets ───────────────────────────────────
+.env
+.env.*
+!.env.example
+*.secret
+*.key
+
+# ─── Java / Maven (Backend) ──────────────────────────────────
+Backend/target/
+Backend/*.class
+Backend/.settings/
+Backend/.classpath
+Backend/.project
+Backend/.factorypath
+Backend/.idea/
+Backend/*.iml
+
+# ─── Node / Frontend ─────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+
+# ─── Temporary / Generated Directories ───────────────────────
+temp_pdf/
+tmp/
+.tmp/
+
+# ─── PDF and binary assets (large files) ─────────────────────
+*.pdf
+
+# ─── OS & Editor ─────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ─── Logs ────────────────────────────────────────────────────
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ─── Docker ──────────────────────────────────────────────────
+.docker/
+
+# ─── Misc ────────────────────────────────────────────────────
+*.class
+*.jar
+*.war
