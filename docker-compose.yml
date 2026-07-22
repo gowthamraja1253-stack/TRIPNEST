@@ -1,13 +1,12 @@
-version: '3.8'
 
 services:
   database:
     image: postgres:15-alpine
     container_name: tripnest-db
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB:-tripnestdatabase}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: productionpassword
+      POSTGRES_DB: tripnestdatabase
     ports:
       - "5432:5432"
     volumes:
@@ -23,15 +22,12 @@ services:
     depends_on:
       - database
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/${POSTGRES_DB:-tripnestdatabase}
-      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER:-postgres}
-      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/tripnestdatabase
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=productionpassword
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
       - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
-      - APP_JWT_SECRET=${APP_JWT_SECRET}
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
-      - UNSPLASH_API_KEY=${UNSPLASH_API_KEY}
-      - OPENWEATHER_API_KEY=${OPENWEATHER_API_KEY}
+      - APP_JWT_SECRET=VHJpcE5lc3RWMlNlY3VyZUtleVRoYXRJczMyQnl0ZXNM
     ports:
       - "8080:8080"
     networks:
