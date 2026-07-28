@@ -11,5 +11,13 @@ export const userService = {
 
   getTravelHistory: async () => {
     return await apiClient.get('/users/profile/history');
+  },
+
+  getSettings: async () => {
+    return await apiClient.get('/users/settings');
+  },
+
+  updateSettings: async (settingsData) => {
+    return await apiClient.put('/users/settings', settingsData);
   }
 };

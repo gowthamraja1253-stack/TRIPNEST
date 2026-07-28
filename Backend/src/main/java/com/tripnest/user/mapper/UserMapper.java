@@ -1,7 +1,9 @@
 package com.tripnest.user.mapper;
 
 import com.tripnest.auth.dto.RegisterRequest;
+import com.tripnest.user.dto.SettingsResponse;
 import com.tripnest.user.dto.UpdateProfileRequest;
+import com.tripnest.user.dto.UpdateSettingsRequest;
 import com.tripnest.user.dto.UserProfileResponse;
 import com.tripnest.user.entity.User;
 import org.mapstruct.Mapper;
@@ -30,4 +32,12 @@ public interface UserMapper {
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "preference", ignore = true)
     void updateUserFromRequest(UpdateProfileRequest request, @MappingTarget User user);
+
+    SettingsResponse toSettingsResponse(com.tripnest.user.entity.UserPreference preference);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "travelPreferences", ignore = true)
+    @Mapping(target = "favoriteDestinations", ignore = true)
+    void updateSettingsFromRequest(UpdateSettingsRequest request, @MappingTarget com.tripnest.user.entity.UserPreference preference);
 }

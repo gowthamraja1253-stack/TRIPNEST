@@ -17,4 +17,7 @@ public class UserProfileResponse {
     private String lastName;
     private String travelPreferences;
     private String favoriteDestinations;
+    private String profilePictureUrl;
+    private String phoneNumber;
+    private java.time.LocalDate dateOfBirth;
 }

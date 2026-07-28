@@ -19,10 +19,15 @@ const GithubIcon = () => (
 export default function SocialLogin({ mode = 'login' }) {
   const text = mode === 'login' ? 'Log in' : 'Sign up';
   
+  const handleGoogleLogin = () => {
+    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+  };
+
   return (
     <div className="space-y-4">
       <motion.button
         type="button"
+        onClick={handleGoogleLogin}
         whileHover={{ scale: 1.01 }}
         whileTap={{ scale: 0.98 }}
         className="w-full flex items-center justify-center gap-3 bg-white border border-border text-text font-semibold py-3 px-4 rounded-xl shadow-sm hover:bg-gray-50 hover:shadow-md transition-all cursor-pointer"

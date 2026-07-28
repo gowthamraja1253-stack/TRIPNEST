@@ -25,4 +25,20 @@ public class AnalyticsController {
         DashboardStatsResponse response = analyticsService.getDashboardStats(username);
         return ResponseEntity.ok(ApiResponse.success(response, "Dashboard stats retrieved successfully"));
     }
+
+    @GetMapping("/trips/{tripId}")
+    public ResponseEntity<ApiResponse<com.tripnest.analytics.dto.AnalyticsReportDto>> getTripAnalytics(
+            @org.springframework.web.bind.annotation.PathVariable Long tripId,
+            Authentication authentication) {
+        String username = authentication.getName();
+        com.tripnest.analytics.dto.AnalyticsReportDto response = analyticsService.getTripAnalytics(tripId, username);
+        return ResponseEntity.ok(ApiResponse.success(response, "Trip analytics retrieved successfully"));
+    }
+
+    @GetMapping("/reports")
+    public ResponseEntity<ApiResponse<com.tripnest.analytics.dto.AnalyticsReportDto>> getUserGlobalAnalytics(Authentication authentication) {
+        String username = authentication.getName();
+        com.tripnest.analytics.dto.AnalyticsReportDto response = analyticsService.getUserGlobalAnalytics(username);
+        return ResponseEntity.ok(ApiResponse.success(response, "Global analytics retrieved successfully"));
+    }
 }

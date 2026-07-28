@@ -11,6 +11,7 @@ const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
 const OTPVerification = lazy(() => import('./pages/auth/OTPVerification'));
 const ResetPassword = lazy(() => import('./pages/auth/ResetPassword'));
 const EmailVerified = lazy(() => import('./pages/auth/EmailVerified'));
+const OAuth2RedirectHandler = lazy(() => import('./pages/auth/OAuth2RedirectHandler'));
 
 const DashboardLayout = lazy(() => import('./components/dashboard/DashboardLayout'));
 const DashboardHome = lazy(() => import('./pages/dashboard/DashboardHome'));
@@ -32,6 +33,7 @@ const BudgetDashboard = lazy(() => import('./pages/budget/BudgetDashboard'));
 const ExpensesDashboard = lazy(() => import('./pages/expenses/ExpensesDashboard'));
 const DocumentsDashboard = lazy(() => import('./pages/documents/DocumentsDashboard'));
 const GroupsDashboard = lazy(() => import('./pages/groups/GroupsDashboard'));
+const GroupDetails = lazy(() => import('./pages/groups/GroupDetails'));
 const ReportsAnalytics = lazy(() => import('./pages/reports/ReportsAnalytics'));
 
 // Account Modules
@@ -80,6 +82,7 @@ function App() {
                 <Route path="/verify-otp" element={<OTPVerification />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/email-verified" element={<EmailVerified />} />
+                <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
 
                 {/* Dashboard Routes */}
                 <Route path="/dashboard" element={<DashboardLayout />}>
@@ -104,6 +107,7 @@ function App() {
                   <Route path="expenses" element={<ExpensesDashboard />} />
                   <Route path="documents" element={<DocumentsDashboard />} />
                   <Route path="groups" element={<GroupsDashboard />} />
+                  <Route path="groups/:groupId" element={<GroupDetails />} />
                   <Route path="reports" element={<ReportsAnalytics />} />
 
                   {/* Account */}

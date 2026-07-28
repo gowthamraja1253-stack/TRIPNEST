@@ -61,5 +61,66 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 .travelDays(travelDays)
                 .achievements(achievements)
                 .build();
+    @Override
+    public com.tripnest.analytics.dto.AnalyticsReportDto getTripAnalytics(Long tripId, String username) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new com.tripnest.exception.ResourceNotFoundException("Trip not found"));
+
+        // Verify access - assuming either owner or traveler can view
+        boolean isTraveler = trip.getTravelers().stream().anyMatch(u -> u.getUsername().equals(username));
+        if (!trip.getOwner().getUsername().equals(username) && !isTraveler) {
+            throw new com.tripnest.exception.UnauthorizedAccessException("Not authorized to view this trip's analytics");
+        }
+
+        List<com.tripnest.expense.entity.Expense> expenses = expenseRepository.findByTripId(tripId);
+        
+        return buildAnalyticsReport(expenses, trip.getBudget());
+    }
+
+    @Override
+    public com.tripnest.analytics.dto.AnalyticsReportDto getUserGlobalAnalytics(String username) {
+        List<Trip> trips = tripRepository.findAllByUser(username);
+        
+        List<com.tripnest.expense.entity.Expense> allExpenses = new java.util.ArrayList<>();
+        double totalBudget = 0.0;
+        
+        for (Trip trip : trips) {
+            allExpenses.addAll(expenseRepository.findByTripId(trip.getId()));
+            if (trip.getBudget() != null) {
+                totalBudget += trip.getBudget();
+            }
+        }
+        
+        return buildAnalyticsReport(allExpenses, totalBudget);
+    }
+    
+    private com.tripnest.analytics.dto.AnalyticsReportDto buildAnalyticsReport(List<com.tripnest.expense.entity.Expense> expenses, Double totalBudget) {
+        double totalSpent = expenses.stream()
+                .mapToDouble(e -> e.getAmount() != null ? e.getAmount() : 0.0)
+                .sum();
+                
+        java.util.Map<String, Double> byCategory = expenses.stream()
+                .collect(Collectors.groupingBy(
+                        e -> e.getCategory().name(),
+                        Collectors.summingDouble(e -> e.getAmount() != null ? e.getAmount() : 0.0)
+                ));
+                
+        java.util.Map<String, Double> byMonth = expenses.stream()
+                .collect(Collectors.groupingBy(
+                        e -> e.getDate().getMonth().name() + " " + e.getDate().getYear(),
+                        Collectors.summingDouble(e -> e.getAmount() != null ? e.getAmount() : 0.0)
+                ));
+                
+        Double budgetRemaining = totalBudget != null ? totalBudget - totalSpent : null;
+        Double budgetUsedPercentage = (totalBudget != null && totalBudget > 0) ? (totalSpent / totalBudget) * 100 : 0.0;
+        
+        return com.tripnest.analytics.dto.AnalyticsReportDto.builder()
+                .totalSpent(totalSpent)
+                .totalBudget(totalBudget)
+                .budgetRemaining(budgetRemaining)
+                .budgetUsedPercentage(budgetUsedPercentage)
+                .expensesByCategory(byCategory)
+                .expensesByMonth(byMonth)
+                .build();
     }
 }

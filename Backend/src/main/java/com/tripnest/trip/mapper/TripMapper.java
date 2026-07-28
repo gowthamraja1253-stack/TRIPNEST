@@ -1,7 +1,9 @@
 package com.tripnest.trip.mapper;
 
+import com.tripnest.trip.dto.TripDocumentDto;
 import com.tripnest.trip.dto.TripResponse;
 import com.tripnest.trip.entity.Trip;
+import com.tripnest.trip.entity.TripDocument;
 import com.tripnest.user.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -35,4 +37,6 @@ public interface TripMapper {
                 .map(User::getUsername)
                 .collect(Collectors.toSet());
     }
+    
+    TripDocumentDto toDocumentDto(TripDocument document);
 }

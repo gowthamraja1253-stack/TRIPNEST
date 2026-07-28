@@ -17,7 +17,7 @@ public class ExpenseMapper {
                 .amount(expense.getAmount())
                 .description(expense.getDescription())
                 .category(expense.getCategory())
-                .expenseDate(expense.getExpenseDate())
+                .expenseDate(expense.getDate())
                 .build();
     }
 }

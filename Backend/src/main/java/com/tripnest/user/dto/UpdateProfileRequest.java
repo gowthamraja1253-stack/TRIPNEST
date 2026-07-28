@@ -17,4 +17,12 @@ public class UpdateProfileRequest {
 
     @Size(max = 500, message = "Favorite destinations must not exceed 500 characters")
     private String favoriteDestinations;
+
+    @Size(max = 255, message = "Profile picture URL must not exceed 255 characters")
+    private String profilePictureUrl;
+
+    @Size(max = 20, message = "Phone number must not exceed 20 characters")
+    private String phoneNumber;
+
+    private java.time.LocalDate dateOfBirth;
 }

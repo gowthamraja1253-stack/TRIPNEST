@@ -18,4 +18,9 @@ public interface TripService {
     void shareTrip(Long id, ShareTripRequest request, String ownerUsername);
     void unshareTrip(Long id, ShareTripRequest request, String ownerUsername);
     TripTimelineResponse getTripTimeline(Long id, String username);
+    
+    // Document Management
+    com.tripnest.trip.dto.TripDocumentDto addDocument(Long tripId, com.tripnest.trip.dto.AddDocumentRequest request, String username);
+    List<com.tripnest.trip.dto.TripDocumentDto> getTripDocuments(Long tripId, String username);
+    void deleteDocument(Long tripId, Long documentId, String username);
 }

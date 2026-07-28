@@ -53,7 +53,7 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .amount(request.getAmount())
                 .description(request.getDescription())
                 .category(request.getCategory())
-                .expenseDate(request.getExpenseDate())
+                .date(request.getExpenseDate())
                 .build();
 
         Expense savedExpense = expenseRepository.save(expense);
@@ -82,7 +82,7 @@ public class ExpenseServiceImpl implements ExpenseService {
             expense.setCategory(request.getCategory());
         }
         if (request.getExpenseDate() != null) {
-            expense.setExpenseDate(request.getExpenseDate());
+            expense.setDate(request.getExpenseDate());
         }
 
         Expense updatedExpense = expenseRepository.save(expense);

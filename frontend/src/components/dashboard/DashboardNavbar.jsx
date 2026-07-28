@@ -1,9 +1,31 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, Bell, MessageSquare, Sun, ChevronDown, Menu } from 'lucide-react';
+import { notificationService } from '../../services/notificationService';
 
 import Breadcrumbs from '../ui/Breadcrumbs';
 
 export default function DashboardNavbar({ isCollapsed, setIsCollapsed, setIsMobileOpen }) {
+  const [unreadCount, setUnreadCount] = useState(0);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchUnreadCount();
+    // In a real app, you might want to poll this or use websockets
+    const interval = setInterval(fetchUnreadCount, 60000); // Check every minute
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchUnreadCount = async () => {
+    try {
+      const count = await notificationService.getUnreadCount();
+      setUnreadCount(count || 0);
+    } catch (error) {
+      console.error('Failed to fetch unread count:', error);
+    }
+  };
+
   return (
     <header 
       className="sticky top-0 z-40 transition-all duration-300 bg-background/80 backdrop-blur-xl border-b border-border/50 w-full"
@@ -52,9 +74,17 @@ export default function DashboardNavbar({ isCollapsed, setIsCollapsed, setIsMobi
           </div>
 
           <div className="flex items-center gap-2">
-            <button className="p-2 text-text-secondary hover:text-primary hover:bg-primary/10 rounded-full transition-colors relative" aria-label="Notifications">
+            <button 
+              onClick={() => navigate('/dashboard/notifications')}
+              className="p-2 text-text-secondary hover:text-primary hover:bg-primary/10 rounded-full transition-colors relative" 
+              aria-label="Notifications"
+            >
               <Bell size={20} />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full border-2 border-background"></span>
+              {unreadCount > 0 && (
+                <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-background">
+                  {unreadCount > 9 ? '9+' : unreadCount}
+                </span>
+              )}
             </button>
             <button className="hidden sm:block p-2 text-text-secondary hover:text-primary hover:bg-primary/10 rounded-full transition-colors" aria-label="Messages">
               <MessageSquare size={20} />

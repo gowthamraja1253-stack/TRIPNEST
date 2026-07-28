@@ -9,6 +9,9 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"preference"})
+    Optional<User> findWithPreferenceByUsername(String username);
+
     Optional<User> findByUsername(String username);
 
     Optional<User> findByEmail(String email);

@@ -33,6 +33,7 @@ public class TripServiceImpl implements TripService {
     private final UserRepository userRepository;
     private final DestinationRepository destinationRepository;
     private final ActivityRepository activityRepository;
+    private final com.tripnest.trip.repository.TripDocumentRepository tripDocumentRepository;
     private final TripMapper tripMapper;
     private final ActivityMapper activityMapper;
     private final LlmDestinationService llmDestinationService;
@@ -40,12 +41,14 @@ public class TripServiceImpl implements TripService {
 
     public TripServiceImpl(TripRepository tripRepository, UserRepository userRepository,
                            DestinationRepository destinationRepository, ActivityRepository activityRepository,
+                           com.tripnest.trip.repository.TripDocumentRepository tripDocumentRepository,
                            TripMapper tripMapper, ActivityMapper activityMapper, LlmDestinationService llmDestinationService,
                            UnsplashService unsplashService) {
         this.tripRepository = tripRepository;
         this.userRepository = userRepository;
         this.destinationRepository = destinationRepository;
         this.activityRepository = activityRepository;
+        this.tripDocumentRepository = tripDocumentRepository;
         this.tripMapper = tripMapper;
         this.activityMapper = activityMapper;
         this.llmDestinationService = llmDestinationService;

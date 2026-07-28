@@ -4,6 +4,16 @@ server:
 spring:
   application:
     name: tripnest
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:your_google_client_id_here}
+            client-secret: ${GOOGLE_CLIENT_SECRET:your_google_client_secret_here}
+            scope:
+              - email
+              - profile
   datasource:
     url: jdbc:mysql://localhost:3306/tripnestdatabase?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
     username: root
