@@ -61,6 +61,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 .travelDays(travelDays)
                 .achievements(achievements)
                 .build();
+    }
+    
     @Override
     public com.tripnest.analytics.dto.AnalyticsReportDto getTripAnalytics(Long tripId, String username) {
         Trip trip = tripRepository.findById(tripId)
