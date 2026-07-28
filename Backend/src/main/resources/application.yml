@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: tripnest
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:your_google_client_id_here}
+            client-secret: ${GOOGLE_CLIENT_SECRET:your_google_client_secret_here}
+            scope:
+              - email
+              - profile
+  datasource:
+    url: jdbc:mysql://localhost:3306/tripnestdatabase?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 12345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# Security & JWT Configuration
+app:
+  jwt:
+    secret: 404E635266556A586E3272357538782F413F4428472B4B6250655368566D5970
+    expiration-ms: 86400000 # 24 hours
+
+# Third-Party Integrations
+apis:
+  gemini:
+    key: ${GEMINI_API_KEY:YOUR_GEMINI_API_KEY_HERE}
+  unsplash:
+    key: ${UNSPLASH_API_KEY:YOUR_UNSPLASH_API_KEY_HERE}
+  openweather:
+    key: ${OPENWEATHER_API_KEY:YOUR_OPENWEATHER_API_KEY_HERE}
