@@ -1,6 +1,6 @@
 package com.tripnest.expense.repository;
 
-import com.tripnest.entity.Budget;
+import com.tripnest.expense.entity.Budget;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

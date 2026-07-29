@@ -1,4 +1,4 @@
-package main.java.com.tripnest.expense.entity;
+package com.tripnest.expense.entity;
 
 public enum BudgetStatus {
 
