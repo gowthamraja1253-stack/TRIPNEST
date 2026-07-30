@@ -4,6 +4,7 @@ import com.tripnest.trip.entity.Activity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -12,4 +13,7 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
     List<Activity> findByTripId(Long tripId);
 
     List<Activity> findByTripIdOrderByActivityDateAscStartTimeAsc(Long tripId);
+
+    List<Activity> findByActivityDate(LocalDate activityDate);
 }
+

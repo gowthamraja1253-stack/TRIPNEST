@@ -254,4 +254,82 @@ public class TripServiceImpl implements TripService {
                 .days(days)
                 .build();
     }
+
+    @Override
+    @Transactional
+    public com.tripnest.trip.dto.TripDocumentDto addDocument(Long tripId, com.tripnest.trip.dto.AddDocumentRequest request, String username) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trip not found with ID: " + tripId));
+
+        if (!trip.getOwner().getUsername().equals(username)) {
+            boolean isTraveler = trip.getTravelers().stream()
+                    .anyMatch(u -> u.getUsername().equals(username));
+            if (!isTraveler) {
+                throw new BadRequestException("You do not have permission to add documents to this trip");
+            }
+        }
+
+        com.tripnest.trip.entity.TripDocument document = com.tripnest.trip.entity.TripDocument.builder()
+                .name(request.getName())
+                .fileUrl(request.getFileUrl())
+                .fileType(request.getFileType())
+                .fileSize(request.getFileSize())
+                .trip(trip)
+                .build();
+
+        com.tripnest.trip.entity.TripDocument saved = tripDocumentRepository.save(document);
+
+        return com.tripnest.trip.dto.TripDocumentDto.builder()
+                .id(saved.getId())
+                .name(saved.getName())
+                .fileUrl(saved.getFileUrl())
+                .fileType(saved.getFileType())
+                .fileSize(saved.getFileSize())
+                .uploadedAt(saved.getUploadedAt())
+                .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<com.tripnest.trip.dto.TripDocumentDto> getTripDocuments(Long tripId, String username) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trip not found with ID: " + tripId));
+
+        boolean isTraveler = trip.getTravelers().stream()
+                .anyMatch(u -> u.getUsername().equals(username));
+        if (!trip.getOwner().getUsername().equals(username) && !isTraveler) {
+            throw new BadRequestException("You do not have permission to view this trip's documents");
+        }
+
+        return tripDocumentRepository.findByTripId(tripId).stream()
+                .map(doc -> com.tripnest.trip.dto.TripDocumentDto.builder()
+                        .id(doc.getId())
+                        .name(doc.getName())
+                        .fileUrl(doc.getFileUrl())
+                        .fileType(doc.getFileType())
+                        .fileSize(doc.getFileSize())
+                        .uploadedAt(doc.getUploadedAt())
+                        .build())
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void deleteDocument(Long tripId, Long documentId, String username) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trip not found with ID: " + tripId));
+
+        if (!trip.getOwner().getUsername().equals(username)) {
+            throw new BadRequestException("Only the trip owner can delete documents");
+        }
+
+        com.tripnest.trip.entity.TripDocument document = tripDocumentRepository.findById(documentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Document not found with ID: " + documentId));
+
+        if (!document.getTrip().getId().equals(tripId)) {
+            throw new BadRequestException("Document does not belong to the specified trip");
+        }
+
+        tripDocumentRepository.delete(document);
+    }
 }

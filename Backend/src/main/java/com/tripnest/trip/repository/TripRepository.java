@@ -1,11 +1,13 @@
 package com.tripnest.trip.repository;
 
 import com.tripnest.trip.entity.Trip;
+import com.tripnest.trip.entity.TripStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -18,4 +20,7 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
            "WHERE t.owner.username = :username " +
            "OR EXISTS (SELECT u FROM t.travelers u WHERE u.username = :username)")
     List<Trip> findAllByUser(@Param("username") String username);
+
+    List<Trip> findByStartDateAndStatus(LocalDate startDate, TripStatus status);
 }
+
