@@ -11,6 +11,8 @@ import java.time.LocalDate;
 @Data
 public class CreateExpenseRequest {
 
+    private String title;
+
     @NotNull(message = "Amount is required")
     @Positive(message = "Amount must be positive")
     private Double amount;

@@ -8,6 +8,7 @@ import { tripService } from '../../services/tripService';
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import { useToast } from '../../components/ui/ToastProvider';
 
 export default function EditTrip() {
   const { id } = useParams();
@@ -15,6 +16,7 @@ export default function EditTrip() {
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [trip, setTrip] = useState(null);
+  const { addToast } = useToast();
 
   const { register, handleSubmit, reset, watch, formState: { errors, isDirty } } = useForm();
 
@@ -45,6 +47,8 @@ export default function EditTrip() {
       navigate(`/dashboard/trips/${id}`);
     } catch (error) {
       console.error(error);
+      const errMsg = error.response?.data?.message || error.message || 'Failed to update trip';
+      addToast(errMsg, 'error');
       setIsSaving(false);
     }
   };

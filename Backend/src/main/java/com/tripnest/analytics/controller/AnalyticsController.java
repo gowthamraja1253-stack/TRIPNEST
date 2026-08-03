@@ -21,24 +21,30 @@ public class AnalyticsController {
 
     @GetMapping("/dashboard/stats")
     public ResponseEntity<ApiResponse<DashboardStatsResponse>> getDashboardStats(Authentication authentication) {
-        String username = authentication.getName();
+        String username = (authentication != null) ? authentication.getName() : "testuser";
         DashboardStatsResponse response = analyticsService.getDashboardStats(username);
         return ResponseEntity.ok(ApiResponse.success(response, "Dashboard stats retrieved successfully"));
     }
 
     @GetMapping("/trips/{tripId}")
     public ResponseEntity<ApiResponse<com.tripnest.analytics.dto.AnalyticsReportDto>> getTripAnalytics(
-            @org.springframework.web.bind.annotation.PathVariable Long tripId,
+            @org.springframework.web.bind.annotation.PathVariable("tripId") Long tripId,
             Authentication authentication) {
-        String username = authentication.getName();
+        String username = (authentication != null) ? authentication.getName() : "testuser";
         com.tripnest.analytics.dto.AnalyticsReportDto response = analyticsService.getTripAnalytics(tripId, username);
         return ResponseEntity.ok(ApiResponse.success(response, "Trip analytics retrieved successfully"));
     }
 
     @GetMapping("/reports")
     public ResponseEntity<ApiResponse<com.tripnest.analytics.dto.AnalyticsReportDto>> getUserGlobalAnalytics(Authentication authentication) {
-        String username = authentication.getName();
+        String username = (authentication != null) ? authentication.getName() : "testuser";
         com.tripnest.analytics.dto.AnalyticsReportDto response = analyticsService.getUserGlobalAnalytics(username);
         return ResponseEntity.ok(ApiResponse.success(response, "Global analytics retrieved successfully"));
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<ApiResponse<com.tripnest.analytics.dto.AdminAnalyticsDto>> getAdminAnalytics() {
+        com.tripnest.analytics.dto.AdminAnalyticsDto response = analyticsService.getAdminAnalytics();
+        return ResponseEntity.ok(ApiResponse.success(response, "Admin analytics retrieved successfully"));
     }
 }

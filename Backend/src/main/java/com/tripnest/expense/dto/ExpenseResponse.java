@@ -11,6 +11,7 @@ import java.time.LocalDate;
 public class ExpenseResponse {
     private Long id;
     private Long tripId;
+    private String title;
     private Double amount;
     private String description;
     private ExpenseCategory category;

@@ -32,4 +32,6 @@ public class UpdateTripRequest {
 
     @NotNull(message = "Status must not be null")
     private TripStatus status;
+
+    private Integer maxTravelers;
 }

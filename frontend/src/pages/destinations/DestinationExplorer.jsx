@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Search, Compass, Map, Palmtree, Mountain, Tent, Building2, MapPin, Heart } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, Compass, Map, Palmtree, Mountain, Tent, Building2, MapPin, Plus, X, Image as ImageIcon, Sparkles } from 'lucide-react';
 import { destinationService } from '../../services/destinationService';
 import DestinationCard from '../../components/destinations/DestinationCard';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import Button from '../../components/ui/Button';
+import Input from '../../components/ui/Input';
 import SEO from '../../components/ui/SEO';
+import { useToast } from '../../components/ui/ToastProvider';
 
 const CATEGORIES = [
   { name: 'Beaches', icon: Palmtree, color: 'text-sky-500', bg: 'bg-sky-500/10' },
@@ -19,23 +22,69 @@ export default function DestinationExplorer() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
+  
+  // Add Destination Modal State
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [destName, setDestName] = useState('');
+  const [destCountry, setDestCountry] = useState('');
+  const [destDescription, setDestDescription] = useState('');
+  const [destAttractions, setDestAttractions] = useState('');
+  const [destImageUrl, setDestImageUrl] = useState('');
+  const [destPopular, setDestPopular] = useState(true);
+
+  const { addToast } = useToast();
+
+  const fetchDestinations = async () => {
+    try {
+      setLoading(true);
+      const data = await destinationService.getTrendingDestinations();
+      setDestinations(data || []);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchDestinations = async () => {
-      try {
-        const data = await destinationService.getTrendingDestinations();
-        setDestinations(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchDestinations();
   }, []);
 
+  const handleAddDestination = async () => {
+    if (!destName || !destCountry) return;
+    setIsSubmitting(true);
+    try {
+      await destinationService.createDestination({
+        name: destName,
+        country: destCountry,
+        description: destDescription,
+        attractions: destAttractions,
+        imageUrl: destImageUrl,
+        popular: destPopular
+      });
+      addToast('Destination added successfully!', 'success');
+      setShowAddModal(false);
+      // Reset form
+      setDestName('');
+      setDestCountry('');
+      setDestDescription('');
+      setDestAttractions('');
+      setDestImageUrl('');
+      setDestPopular(true);
+      // Reload destinations
+      await fetchDestinations();
+    } catch (error) {
+      console.error('Failed to add destination:', error);
+      addToast('Failed to add destination. Please check the backend connection.', 'error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const filteredDestinations = destinations.filter(dest => {
-    const matchesSearch = dest.name.toLowerCase().includes(searchQuery.toLowerCase()) || dest.country.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = (dest.name || '').toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          (dest.country || '').toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = activeCategory === 'All' || dest.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
@@ -43,6 +92,7 @@ export default function DestinationExplorer() {
   return (
     <div className="space-y-12 pb-12">
       <SEO title="Explore Destinations" description="Discover beautiful destinations around the world." />
+      
       {/* ── Hero Search Section ── */}
       <motion.section 
         initial={{ opacity: 0, y: 20 }}
@@ -66,7 +116,7 @@ export default function DestinationExplorer() {
             </div>
             <input
               type="text"
-              placeholder="Search destinations, countries, or activities..."
+              placeholder="Search destinations, countries, or attractions..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-white/90 backdrop-blur-xl border border-white/20 text-dark placeholder-gray-500 rounded-full py-4 pl-14 pr-6 outline-none focus:ring-4 focus:ring-primary/30 transition-all shadow-xl text-lg font-medium"
@@ -75,13 +125,22 @@ export default function DestinationExplorer() {
         </div>
       </motion.section>
 
-      {/* ── Categories ── */}
+      {/* ── Categories & Actions ── */}
       <section className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-heading font-bold flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+          <h2 className="text-2xl font-heading font-bold flex items-center gap-2 text-text">
             <Compass className="text-primary" /> Popular Categories
           </h2>
+          <Button 
+            variant="primary" 
+            glow 
+            onClick={() => setShowAddModal(true)}
+            className="flex items-center gap-2 text-sm"
+          >
+            <Plus size={18} /> Add New Destination
+          </Button>
         </div>
+        
         <div className="flex gap-4 overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
           <button
             onClick={() => setActiveCategory('All')}
@@ -108,7 +167,7 @@ export default function DestinationExplorer() {
 
       {/* ── Destination Grid ── */}
       <section className="max-w-7xl mx-auto">
-        <h2 className="text-2xl font-heading font-bold mb-6">Trending Destinations</h2>
+        <h2 className="text-2xl font-heading font-bold mb-6 text-text">Trending Destinations</h2>
         
         {loading ? (
           <div className="flex justify-center py-20">
@@ -121,13 +180,134 @@ export default function DestinationExplorer() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-white rounded-3xl border border-border/50">
+          <div className="text-center py-20 bg-white rounded-3xl border border-border/50 p-8">
             <MapPin size={48} className="mx-auto text-gray-300 mb-4" />
             <h3 className="text-xl font-heading font-bold text-text mb-2">No destinations found</h3>
-            <p className="text-text-secondary">Try adjusting your search criteria</p>
+            <p className="text-text-secondary mb-6">Be the first to add this destination!</p>
+            <Button variant="primary" onClick={() => setShowAddModal(true)}>
+              <Plus size={18} className="mr-1" /> Add Destination
+            </Button>
           </div>
         )}
       </section>
+
+      {/* ── Add Destination Modal ── */}
+      <AnimatePresence>
+        {showAddModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+            onClick={() => !isSubmitting && setShowAddModal(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              onClick={e => e.stopPropagation()}
+              className="bg-white rounded-[24px] shadow-2xl border border-border p-6 sm:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto"
+            >
+              <div className="flex justify-between items-center mb-6 border-b border-border pb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                    <Sparkles size={20} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-heading font-bold text-text">Add New Destination</h3>
+                    <p className="text-xs text-text-secondary">Save new place details into the database</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setShowAddModal(false)} 
+                  disabled={isSubmitting}
+                  className="p-2 rounded-full hover:bg-gray-100 text-text-secondary"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Input
+                    label="Destination Name"
+                    value={destName}
+                    onChange={e => setDestName(e.target.value)}
+                    placeholder="e.g. Kyoto"
+                    required
+                  />
+                  <Input
+                    label="Country"
+                    value={destCountry}
+                    onChange={e => setDestCountry(e.target.value)}
+                    placeholder="e.g. Japan"
+                    required
+                  />
+                </div>
+
+                <Input
+                  label="Image URL"
+                  value={destImageUrl}
+                  onChange={e => setDestImageUrl(e.target.value)}
+                  placeholder="https://images.unsplash.com/photo-..."
+                  icon={ImageIcon}
+                />
+
+                {destImageUrl && (
+                  <div className="relative rounded-xl overflow-hidden h-40 border border-border">
+                    <img src={destImageUrl} alt="Preview" className="w-full h-full object-cover" />
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-sm font-semibold text-text-secondary mb-1.5">Description</label>
+                  <textarea
+                    rows={3}
+                    value={destDescription}
+                    onChange={e => setDestDescription(e.target.value)}
+                    placeholder="Describe what makes this destination special..."
+                    className="w-full p-3 bg-gray-50 border border-border rounded-xl text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm"
+                  />
+                </div>
+
+                <Input
+                  label="Key Attractions (comma separated)"
+                  value={destAttractions}
+                  onChange={e => setDestAttractions(e.target.value)}
+                  placeholder="e.g. Fushimi Inari, Kinkaku-ji, Bamboo Grove"
+                />
+
+                <div className="flex items-center gap-3 pt-2">
+                  <input
+                    type="checkbox"
+                    id="popular-check"
+                    checked={destPopular}
+                    onChange={e => setDestPopular(e.target.checked)}
+                    className="w-4 h-4 text-primary accent-primary rounded cursor-pointer"
+                  />
+                  <label htmlFor="popular-check" className="text-sm font-medium text-text cursor-pointer">
+                    Mark as Popular / Featured Destination
+                  </label>
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-3 mt-8 pt-4 border-t border-border">
+                <Button variant="outline" onClick={() => setShowAddModal(false)} disabled={isSubmitting}>
+                  Cancel
+                </Button>
+                <Button 
+                  variant="primary" 
+                  glow 
+                  onClick={handleAddDestination} 
+                  disabled={isSubmitting || !destName || !destCountry}
+                >
+                  {isSubmitting ? 'Adding...' : 'Add Destination'}
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

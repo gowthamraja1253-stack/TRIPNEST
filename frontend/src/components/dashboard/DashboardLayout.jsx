@@ -11,6 +11,11 @@ export default function DashboardLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
+  // Scroll window to top whenever route path changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   // Auto-collapse sidebar on smaller desktop screens
   useEffect(() => {
     const handleResize = () => {
@@ -66,7 +71,7 @@ export default function DashboardLayout() {
           </main>
 
           {/* ── Right Sidebar (Desktop only) ── */}
-          {location.pathname !== '/dashboard/itinerary' && location.pathname !== '/dashboard' && <RightSidebar />}
+          {!['/dashboard/documents', '/dashboard/itinerary', '/dashboard/budget', '/dashboard/destinations'].some(path => location.pathname.startsWith(path)) && <RightSidebar />}
         </div>
       </div>
     </div>

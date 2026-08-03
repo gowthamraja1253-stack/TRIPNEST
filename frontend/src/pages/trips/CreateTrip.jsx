@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { MapPin, Calendar as CalendarIcon, Users, Wallet, ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
 
@@ -9,6 +9,7 @@ import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import { tripService } from '../../services/tripService';
 import { formatINR } from '../../utils/currency';
+import { useToast } from '../../components/ui/ToastProvider';
 
 const STEPS = [
   { id: 'basics', label: 'Basic Info', icon: MapPin },
@@ -22,11 +23,19 @@ export default function CreateTrip() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-  
+  const [searchParams] = useSearchParams();
+  const { addToast } = useToast();
+
+  const initialDestination = searchParams.get('destination') || '';
+  const initialCountry = searchParams.get('country') || '';
+
   const { register, handleSubmit, watch, trigger, formState: { errors } } = useForm({
     mode: 'onChange',
     defaultValues: {
-      travelType: 'Leisure'
+      travelType: 'Leisure',
+      name: initialDestination ? `${initialDestination} Trip` : '',
+      destination: initialDestination,
+      country: initialCountry
     }
   });
 
@@ -64,6 +73,8 @@ export default function CreateTrip() {
       setTimeout(() => navigate('/dashboard/trips'), 2000);
     } catch (error) {
       console.error(error);
+      const errMsg = error.response?.data?.message || error.message || 'Failed to create trip';
+      addToast(errMsg, 'error');
       setIsSubmitting(false);
     }
   };

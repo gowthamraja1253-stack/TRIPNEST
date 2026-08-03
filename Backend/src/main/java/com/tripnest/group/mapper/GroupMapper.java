@@ -13,6 +13,10 @@ import java.util.List;
 public interface GroupMapper {
 
     @Mapping(source = "createdBy.username", target = "createdByUsername")
+    @Mapping(source = "trip.id", target = "tripId")
+    @Mapping(source = "trip.title", target = "tripName")
+    @Mapping(source = "trip.destination.name", target = "tripDestination")
+    @Mapping(source = "trip.maxTravelers", target = "maxTravelers")
     TravelGroupDto toDto(TravelGroup travelGroup);
 
     List<TravelGroupDto> toDtoList(List<TravelGroup> travelGroups);

@@ -17,4 +17,6 @@ public interface TravelGroupRepository extends JpaRepository<TravelGroup, Long> 
 
     @Query("SELECT tg FROM TravelGroup tg LEFT JOIN FETCH tg.members m LEFT JOIN FETCH m.user WHERE tg.id = :id")
     Optional<TravelGroup> findByIdWithMembers(@Param("id") Long id);
+
+    List<TravelGroup> findByTripId(Long tripId);
 }

@@ -12,14 +12,17 @@ export const authService = {
     // Call backend login
     const data = await apiClient.post('/auth/login', payload);
     
-    // Save token and user details to localStorage
+    // Save token and user details to sessionStorage (per-tab isolation) and localStorage
     if (data && data.token) {
-      localStorage.setItem('tripnest_token', data.token);
-      localStorage.setItem('tripnest_user', JSON.stringify({
+      const userObj = JSON.stringify({
         username: data.username,
         email: data.email,
         roles: data.roles
-      }));
+      });
+      sessionStorage.setItem('tripnest_token', data.token);
+      sessionStorage.setItem('tripnest_user', userObj);
+      localStorage.setItem('tripnest_token', data.token);
+      localStorage.setItem('tripnest_user', userObj);
     }
     
     return data;

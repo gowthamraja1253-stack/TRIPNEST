@@ -4,6 +4,8 @@ public enum BudgetStatus {
 
     ACTIVE,
 
+    EXCEEDED,
+
     COMPLETED,
 
     CANCELLED

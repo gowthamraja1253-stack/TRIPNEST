@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, MapPin, Star, Sun, Wallet, Clock } from 'lucide-react';
+import { Heart, MapPin, Star, Sun, Wallet, Clock, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { formatINR } from '../../utils/currency';
 
 const DestinationCard = ({ destination }) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const navigate = useNavigate();
+
+  const handleExplore = (e) => {
+    e.stopPropagation();
+    if (destination?.id) {
+      navigate(`/dashboard/destinations/${destination.id}`);
+    }
+  };
 
   return (
     <motion.div 
       whileHover={{ y: -8 }}
-      className="group relative flex flex-col w-full h-[480px] rounded-3xl overflow-hidden bg-background border border-border shadow-lg transition-all duration-300 hover:shadow-xl"
+      onClick={handleExplore}
+      className="group relative flex flex-col w-full h-[480px] rounded-3xl overflow-hidden bg-background border border-border shadow-lg transition-all duration-300 hover:shadow-xl cursor-pointer"
     >
       {/* Image Section (Top 60%) */}
       <div className="relative h-[60%] w-full overflow-hidden">
@@ -25,7 +35,10 @@ const DestinationCard = ({ destination }) => {
         
         {/* Favorite Button */}
         <button 
-          onClick={() => setIsFavorite(!isFavorite)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsFavorite(!isFavorite);
+          }}
           className="absolute top-4 right-4 p-2.5 rounded-full glass-card hover:bg-white/20 transition-colors z-10"
           aria-label="Toggle Favorite"
         >
@@ -48,12 +61,12 @@ const DestinationCard = ({ destination }) => {
         <div>
           <div className="flex items-start justify-between mb-1">
             <h3 className="text-2xl font-heading font-bold text-text truncate pr-2">
-              {destination?.name || 'Jaipur'}
+              {destination?.name || 'Destination'}
             </h3>
           </div>
           <div className="flex items-center gap-1.5 text-text-secondary mb-4">
             <MapPin size={16} className="text-primary" />
-            <span className="text-sm font-medium">{destination?.country || 'India'}</span>
+            <span className="text-sm font-medium">{destination?.country || 'Global'}</span>
           </div>
 
           {/* Details Grid */}
@@ -89,8 +102,11 @@ const DestinationCard = ({ destination }) => {
         </div>
 
         {/* Action Button */}
-        <button className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm">
-          Explore Destination
+        <button 
+          onClick={handleExplore}
+          className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
+        >
+          Explore Destination <ArrowRight size={16} />
         </button>
       </div>
     </motion.div>

@@ -43,6 +43,11 @@ const TripCard = memo(({ trip, variant = 'manage', viewMode = 'grid', onDeleteRe
   const rawExpenses = trip.expenses || 0;
   const progressPercent = trip.progress !== undefined ? trip.progress : (Math.min((rawExpenses / rawBudget) * 100, 100) || 0);
 
+  const storedUserStr = sessionStorage.getItem('tripnest_user') || localStorage.getItem('tripnest_user');
+  const currentUser = storedUserStr ? JSON.parse(storedUserStr) : null;
+  const currentUsername = currentUser?.username || localStorage.getItem('username');
+  const isOwner = !trip.owner || trip.owner === currentUsername;
+
   return (
     <motion.div
       layout
@@ -68,8 +73,8 @@ const TripCard = memo(({ trip, variant = 'manage', viewMode = 'grid', onDeleteRe
           </span>
         </div>
 
-        {/* Quick Action Menu Trigger (Only for Manage variant) */}
-        {!isDashboard && (
+        {/* Quick Action Menu Trigger (Only for Manage variant and trip owners) */}
+        {!isDashboard && isOwner && (
           <div className="absolute top-4 right-4" ref={menuRef}>
             <button 
               onClick={(e) => {

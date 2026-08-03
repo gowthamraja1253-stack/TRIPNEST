@@ -135,6 +135,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileOpen, set
         <NavLink
           to="/login"
           onClick={() => {
+            sessionStorage.removeItem('tripnest_token');
+            sessionStorage.removeItem('tripnest_user');
             localStorage.removeItem('tripnest_token');
             localStorage.removeItem('tripnest_user');
           }}

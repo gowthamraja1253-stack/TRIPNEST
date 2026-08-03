@@ -28,4 +28,6 @@ public class CreateTripRequest {
     @NotNull(message = "Budget must not be null")
     @Min(value = 0, message = "Budget must be greater than or equal to 0")
     private Double budget;
+
+    private Integer maxTravelers;
 }

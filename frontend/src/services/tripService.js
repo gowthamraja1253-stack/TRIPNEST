@@ -66,6 +66,10 @@ export const tripService = {
     }
   },
 
+  getUserTrips: async () => {
+    return await tripService.getTrips();
+  },
+
   getTripById: async (id) => {
     try {
       const data = await apiClient.get(`/trips/${id}`);
@@ -86,7 +90,8 @@ export const tripService = {
         destinationName: tripData.destination || 'Unknown',
         startDate: tripData.startDate,
         endDate: tripData.endDate,
-        budget: parseFloat(tripData.budget) || 0.0
+        budget: parseFloat(tripData.budget) || 0.0,
+        maxTravelers: Number(tripData.travelers) || 1
       };
 
       const data = await apiClient.post('/trips', payload);
@@ -114,7 +119,8 @@ export const tripService = {
         startDate: tripData.startDate,
         endDate: tripData.endDate,
         budget: parseFloat(tripData.budget) || 0.0,
-        status: backendStatus
+        status: backendStatus,
+        maxTravelers: Number(tripData.travelers) || 1
       };
 
       const data = await apiClient.put(`/trips/${id}`, payload);

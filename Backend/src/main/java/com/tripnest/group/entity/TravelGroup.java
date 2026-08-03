@@ -39,6 +39,10 @@ public class TravelGroup {
     @JoinColumn(name = "created_by_id", nullable = false)
     private User createdBy;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trip_id")
+    private com.tripnest.trip.entity.Trip trip;
+
     @OneToMany(mappedBy = "travelGroup", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private Set<GroupMember> members = new HashSet<>();

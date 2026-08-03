@@ -41,6 +41,9 @@ public class Trip {
     @Column(nullable = false, length = 20)
     private TripStatus status;
 
+    @Column(name = "max_travelers")
+    private Integer maxTravelers;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;

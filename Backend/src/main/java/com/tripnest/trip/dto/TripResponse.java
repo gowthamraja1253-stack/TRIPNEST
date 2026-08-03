@@ -26,4 +26,5 @@ public class TripResponse {
     private String ownerUsername;
     private Set<String> travelerUsernames;
     private String destinationImageUrl;
+    private Integer maxTravelers;
 }

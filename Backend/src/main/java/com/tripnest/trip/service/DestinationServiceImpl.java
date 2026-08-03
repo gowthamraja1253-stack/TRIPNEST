@@ -57,4 +57,20 @@ public class DestinationServiceImpl implements DestinationService {
 
         return openWeatherService.getWeather(destination.getName());
     }
+
+    @Override
+    @Transactional
+    public DestinationResponse createDestination(com.tripnest.trip.dto.CreateDestinationRequest request) {
+        Destination destination = Destination.builder()
+                .name(request.getName())
+                .country(request.getCountry())
+                .description(request.getDescription())
+                .attractions(request.getAttractions())
+                .popular(request.getPopular() != null ? request.getPopular() : false)
+                .imageUrl(request.getImageUrl())
+                .build();
+
+        Destination saved = destinationRepository.save(destination);
+        return destinationMapper.toResponse(saved);
+    }
 }

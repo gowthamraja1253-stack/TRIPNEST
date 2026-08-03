@@ -80,13 +80,17 @@ export default function TripDetails() {
   }, [id, navigate]);
 
   const handleDelete = async () => {
+    if (!trip?.id) return;
     setIsDeleting(true);
     try {
       await tripService.deleteTrip(trip.id);
+      addToast('Trip deleted successfully', 'success');
       window.dispatchEvent(new Event('tripUpdated'));
+      setDeleteModalOpen(false);
       navigate('/dashboard/trips');
     } catch (error) {
-      console.error(error);
+      console.error('Failed to delete trip:', error);
+      addToast('Failed to delete trip. Please try again.', 'error');
       setIsDeleting(false);
     }
   };
@@ -101,6 +105,11 @@ export default function TripDetails() {
   };
 
   const formatDate = (dateString) => new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+  const storedUserStr = sessionStorage.getItem('tripnest_user') || localStorage.getItem('tripnest_user');
+  const currentUser = storedUserStr ? JSON.parse(storedUserStr) : null;
+  const currentUsername = currentUser?.username || localStorage.getItem('username');
+  const isOwner = trip && (!trip.owner || trip.owner === currentUsername);
 
   return (
     <AnimatePresence mode="wait">
@@ -150,14 +159,18 @@ export default function TripDetails() {
               <Button variant="outline" size="sm" onClick={handleShare} className="flex items-center gap-2">
                 <Share2 size={14} /> Share
               </Button>
-              <Link to={`/dashboard/trips/${trip.id}/edit`}>
-                <Button variant="outline" size="sm" className="flex items-center gap-2">
-                  <Edit size={14} /> Edit
-                </Button>
-              </Link>
-              <Button variant="outline" size="sm" onClick={() => setDeleteModalOpen(true)} className="flex items-center gap-2 text-red-600 hover:bg-red-50 hover:border-red-200">
-                <Trash2 size={14} />
-              </Button>
+              {isOwner && (
+                <>
+                  <Link to={`/dashboard/trips/${trip.id}/edit`}>
+                    <Button variant="outline" size="sm" className="flex items-center gap-2">
+                      <Edit size={14} /> Edit
+                    </Button>
+                  </Link>
+                  <Button variant="outline" size="sm" onClick={() => setDeleteModalOpen(true)} className="flex items-center gap-2 text-red-600 hover:bg-red-50 hover:border-red-200">
+                    <Trash2 size={14} />
+                  </Button>
+                </>
+              )}
             </div>
           </div>
 
@@ -189,7 +202,9 @@ export default function TripDetails() {
               <div className="flex justify-between md:justify-start gap-4 md:gap-8 bg-black/30 backdrop-blur-md p-4 rounded-2xl border border-white/10 overflow-x-auto no-scrollbar">
                 <div>
                   <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-1">Dates</p>
-                  <p className="text-white font-semibold flex items-center gap-2"><Calendar size={16}/> {trip.duration} Days</p>
+                  <p className="text-white font-semibold flex items-center gap-2">
+                    <Calendar size={16}/> {trip.startDate ? formatDate(trip.startDate) : ''} - {trip.endDate ? formatDate(trip.endDate) : ''} ({trip.duration} Days)
+                  </p>
                 </div>
                 <div>
                   <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-1">Travelers</p>

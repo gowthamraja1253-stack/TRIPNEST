@@ -34,8 +34,16 @@ public class DestinationController {
     }
 
     @GetMapping("/{id}/weather")
-    public ResponseEntity<ApiResponse<WeatherResponse>> getWeatherForDestination(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<WeatherResponse>> getWeatherForDestination(@PathVariable("id") Long id) {
         WeatherResponse weather = destinationService.getWeatherForDestination(id);
         return ResponseEntity.ok(ApiResponse.success(weather, "Weather details retrieved successfully"));
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<DestinationResponse>> createDestination(
+            @jakarta.validation.Valid @RequestBody com.tripnest.trip.dto.CreateDestinationRequest request) {
+        DestinationResponse destination = destinationService.createDestination(request);
+        return ResponseEntity.status(org.springframework.http.HttpStatus.CREATED)
+                .body(ApiResponse.success(destination, "Destination created successfully"));
     }
 }

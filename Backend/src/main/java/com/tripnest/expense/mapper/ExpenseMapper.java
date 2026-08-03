@@ -13,7 +13,8 @@ public class ExpenseMapper {
         }
         return ExpenseResponse.builder()
                 .id(expense.getId())
-                .tripId(expense.getTrip().getId())
+                .tripId(expense.getTrip() != null ? expense.getTrip().getId() : null)
+                .title(expense.getTitle())
                 .amount(expense.getAmount())
                 .description(expense.getDescription())
                 .category(expense.getCategory())

@@ -42,7 +42,7 @@ public class NotificationController {
 
     @PutMapping("/{id}/read")
     public ResponseEntity<ApiResponse<Void>> markAsRead(
-            @PathVariable Long id,
+            @PathVariable("id") Long id,
             Authentication authentication) {
         String username = authentication.getName();
         notificationService.markAsRead(id, username);
@@ -58,7 +58,7 @@ public class NotificationController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteNotification(
-            @PathVariable Long id,
+            @PathVariable("id") Long id,
             Authentication authentication) {
         String username = authentication.getName();
         notificationService.deleteNotification(id, username);

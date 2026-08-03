@@ -17,13 +17,16 @@ const OAuth2RedirectHandler = () => {
                 // Decode token to get user info (assuming standard JWT structure)
                 const decodedToken = jwtDecode(token);
                 
-                // Save token and user details to localStorage
-                localStorage.setItem('tripnest_token', token);
-                localStorage.setItem('tripnest_user', JSON.stringify({
+                // Save token and user details to sessionStorage (per-tab isolation) and localStorage
+                const userObj = JSON.stringify({
                     username: decodedToken.sub || decodedToken.username || 'User',
                     email: decodedToken.email || '',
                     roles: decodedToken.roles || []
-                }));
+                });
+                sessionStorage.setItem('tripnest_token', token);
+                sessionStorage.setItem('tripnest_user', userObj);
+                localStorage.setItem('tripnest_token', token);
+                localStorage.setItem('tripnest_user', userObj);
                 
                 // Redirect to dashboard
                 navigate('/dashboard', { replace: true });

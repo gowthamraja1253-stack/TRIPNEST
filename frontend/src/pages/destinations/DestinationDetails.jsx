@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, MapPin, Star, CloudSun, Calendar, MessageSquare, Clock, ShieldCheck, Map } from 'lucide-react';
 
@@ -15,12 +15,21 @@ import TravelGuideWidget from '../../components/destinations/TravelGuideWidget';
 
 export default function DestinationDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [destination, setDestination] = useState(null);
   const [attractions, setAttractions] = useState([]);
   const [hotels, setHotels] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
+
+  const handlePlanTrip = () => {
+    if (destination) {
+      const name = destination.name || '';
+      const country = destination.country || '';
+      navigate(`/dashboard/trips/create?destination=${encodeURIComponent(name)}&country=${encodeURIComponent(country)}`);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,7 +101,7 @@ export default function DestinationDetails() {
             </div>
           </div>
           
-          <Button variant="primary" glow className="shadow-black/20 font-bold whitespace-nowrap">
+          <Button variant="primary" glow onClick={handlePlanTrip} className="shadow-black/20 font-bold whitespace-nowrap">
             Plan a Trip Here
           </Button>
         </div>

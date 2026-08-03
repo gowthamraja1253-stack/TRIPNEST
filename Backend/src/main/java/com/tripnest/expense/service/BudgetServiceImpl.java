@@ -108,6 +108,11 @@ public class BudgetServiceImpl implements BudgetService {
         double totalSpent = expenses.stream().mapToDouble(Expense::getAmount).sum();
         budget.setSpentAmount(totalSpent);
         budget.setRemainingAmount(budget.getTotalBudget() - totalSpent);
+        if (totalSpent > budget.getTotalBudget() && budget.getStatus() == BudgetStatus.ACTIVE) {
+            budget.setStatus(BudgetStatus.EXCEEDED);
+        } else if (totalSpent <= budget.getTotalBudget() && budget.getStatus() == BudgetStatus.EXCEEDED) {
+            budget.setStatus(BudgetStatus.ACTIVE);
+        }
 
         return toResponse(budget);
     }
@@ -122,6 +127,13 @@ public class BudgetServiceImpl implements BudgetService {
 
         List<Expense> expenses = expenseRepository.findByTripId(tripId);
         double totalSpent = expenses.stream().mapToDouble(Expense::getAmount).sum();
+
+        BudgetStatus currentStatus = budget.getStatus();
+        if (totalSpent > budget.getTotalBudget() && currentStatus == BudgetStatus.ACTIVE) {
+            currentStatus = BudgetStatus.EXCEEDED;
+        } else if (totalSpent <= budget.getTotalBudget() && currentStatus == BudgetStatus.EXCEEDED) {
+            currentStatus = BudgetStatus.ACTIVE;
+        }
 
         // Calculate spending by category
         Map<String, Double> spendingByCategory = new HashMap<>();
@@ -144,7 +156,7 @@ public class BudgetServiceImpl implements BudgetService {
                 .totalSpent(totalSpent)
                 .remaining(budget.getTotalBudget() - totalSpent)
                 .percentageUsed(Math.round(percentageUsed * 100.0) / 100.0)
-                .status(budget.getStatus())
+                .status(currentStatus)
                 .spendingByCategory(spendingByCategory)
                 .build();
     }

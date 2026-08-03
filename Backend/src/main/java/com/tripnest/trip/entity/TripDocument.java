@@ -31,6 +31,10 @@ public class TripDocument {
     @Column(name = "file_size")
     private Long fileSize;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category", length = 30)
+    private DocumentCategory category;
+
     @CreationTimestamp
     @Column(name = "uploaded_at", updatable = false)
     private LocalDateTime uploadedAt;

@@ -31,7 +31,7 @@ public class BudgetController {
 
     @PutMapping("/{budgetId}")
     public ResponseEntity<BudgetResponse> updateBudget(
-            @PathVariable Long budgetId,
+            @PathVariable("budgetId") Long budgetId,
             @Valid @RequestBody BudgetRequest request,
             Authentication authentication) {
         return ResponseEntity.ok(
@@ -41,7 +41,7 @@ public class BudgetController {
 
     @GetMapping("/trip/{tripId}")
     public ResponseEntity<BudgetResponse> getBudgetByTrip(
-            @PathVariable Long tripId,
+            @PathVariable("tripId") Long tripId,
             Authentication authentication) {
         return ResponseEntity.ok(
                 budgetService.getBudgetByTrip(tripId, authentication.getName())
@@ -50,7 +50,7 @@ public class BudgetController {
 
     @GetMapping("/trip/{tripId}/summary")
     public ResponseEntity<BudgetSummaryResponse> getBudgetSummary(
-            @PathVariable Long tripId,
+            @PathVariable("tripId") Long tripId,
             Authentication authentication) {
         return ResponseEntity.ok(
                 budgetService.getBudgetSummary(tripId, authentication.getName())
@@ -59,7 +59,7 @@ public class BudgetController {
 
     @DeleteMapping("/{budgetId}")
     public ResponseEntity<Void> deleteBudget(
-            @PathVariable Long budgetId,
+            @PathVariable("budgetId") Long budgetId,
             Authentication authentication) {
         budgetService.deleteBudget(budgetId, authentication.getName());
         return ResponseEntity.noContent().build();

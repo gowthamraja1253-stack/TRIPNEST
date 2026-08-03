@@ -11,4 +11,6 @@ public class CreateGroupRequest {
     private String description;
     
     private String coverImageUrl;
+
+    private Long tripId;
 }

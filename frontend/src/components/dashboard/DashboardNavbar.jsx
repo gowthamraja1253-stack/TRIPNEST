@@ -12,9 +12,14 @@ export default function DashboardNavbar({ isCollapsed, setIsCollapsed, setIsMobi
 
   useEffect(() => {
     fetchUnreadCount();
-    // In a real app, you might want to poll this or use websockets
-    const interval = setInterval(fetchUnreadCount, 60000); // Check every minute
-    return () => clearInterval(interval);
+    const interval = setInterval(fetchUnreadCount, 10000); // Check every 10 seconds for real-time alerts
+    const handleNotificationEvent = () => fetchUnreadCount();
+    window.addEventListener('notificationUpdate', handleNotificationEvent);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('notificationUpdate', handleNotificationEvent);
+    };
   }, []);
 
   const fetchUnreadCount = async () => {

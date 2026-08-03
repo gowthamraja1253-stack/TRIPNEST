@@ -15,6 +15,10 @@ public class TravelGroupDto {
     private String description;
     private String coverImageUrl;
     private String createdByUsername;
+    private Long tripId;
+    private String tripName;
+    private String tripDestination;
+    private Integer maxTravelers;
     private LocalDateTime createdAt;
     private List<GroupMemberDto> members;
 }

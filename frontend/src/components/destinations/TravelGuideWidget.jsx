@@ -80,7 +80,13 @@ const TravelGuideWidget = ({ guide }) => {
           onClick={() => toggleSection('packing')}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
-            {(guide?.packing || ['Comfortable walking shoes', 'Modest clothing for temples', 'Universal power adapter', 'Mosquito repellent', 'Sunscreen & Sunglasses', 'Basic first-aid kit']).map((item, idx) => (
+            {(
+              Array.isArray(guide?.packing)
+                ? guide.packing
+                : typeof guide?.packing === 'string'
+                  ? guide.packing.split(',').map(s => s.trim())
+                  : ['Comfortable walking shoes', 'Modest clothing for temples', 'Universal power adapter', 'Mosquito repellent', 'Sunscreen & Sunglasses', 'Basic first-aid kit']
+            ).map((item, idx) => (
               <div key={idx} className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-accent"></div>
                 <span className="text-text">{item}</span>

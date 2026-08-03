@@ -24,8 +24,8 @@ const mapBackendDestination = (d) => {
     bestSeason: 'Spring & Autumn',
     estBudget: 150000,
     duration: '5-7 Days',
-    image: getDestinationImage(d.name),
-    category: d.popular ? 'Historical' : 'Trending',
+    image: d.imageUrl || getDestinationImage(d.name),
+    category: d.popular ? 'Popular' : 'Trending',
     description: d.description,
     attractionsList: d.attractions ? d.attractions.split(',').map(s => s.trim()) : []
   };
@@ -54,7 +54,6 @@ export const destinationService = {
   
   getDestinationDetails: async (id) => {
     try {
-      // If id is a string like "dest1", parse or extract numeric part
       const cleanId = parseInt(String(id).replace(/[^\d]/g, ''), 10);
       const destId = isNaN(cleanId) ? 1 : cleanId;
 
@@ -64,6 +63,19 @@ export const destinationService = {
       console.error("Failed to load destination details", error);
       return null;
     }
+  },
+
+  createDestination: async (destData) => {
+    const payload = {
+      name: destData.name,
+      country: destData.country,
+      description: destData.description || '',
+      attractions: destData.attractions || '',
+      popular: Boolean(destData.popular),
+      imageUrl: destData.imageUrl || ''
+    };
+    const data = await apiClient.post('/destinations', payload);
+    return mapBackendDestination(data);
   },
   
   getAttractions: async (destId) => {

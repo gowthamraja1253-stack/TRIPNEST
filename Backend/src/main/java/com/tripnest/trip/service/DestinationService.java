@@ -9,4 +9,5 @@ public interface DestinationService {
     List<DestinationResponse> getAllDestinations(String search, Boolean popular);
     DestinationResponse getDestinationById(Long id);
     WeatherResponse getWeatherForDestination(Long id);
+    DestinationResponse createDestination(com.tripnest.trip.dto.CreateDestinationRequest request);
 }

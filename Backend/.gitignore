@@ -6,3 +6,5 @@ target/
 .factorypath
 .idea/
 *.iml
+data/
+*.db

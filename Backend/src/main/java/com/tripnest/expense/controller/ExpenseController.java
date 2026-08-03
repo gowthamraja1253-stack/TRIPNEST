@@ -23,7 +23,7 @@ public class ExpenseController {
 
     @PostMapping
     public ResponseEntity<ExpenseResponse> addExpense(
-            @PathVariable Long tripId,
+            @PathVariable("tripId") Long tripId,
             @Valid @RequestBody CreateExpenseRequest request,
             Authentication authentication) {
         
@@ -35,8 +35,8 @@ public class ExpenseController {
 
     @PutMapping("/{expenseId}")
     public ResponseEntity<ExpenseResponse> updateExpense(
-            @PathVariable Long tripId,
-            @PathVariable Long expenseId,
+            @PathVariable("tripId") Long tripId,
+            @PathVariable("expenseId") Long expenseId,
             @Valid @RequestBody UpdateExpenseRequest request,
             Authentication authentication) {
 
@@ -47,8 +47,8 @@ public class ExpenseController {
 
     @DeleteMapping("/{expenseId}")
     public ResponseEntity<Void> deleteExpense(
-            @PathVariable Long tripId,
-            @PathVariable Long expenseId,
+            @PathVariable("tripId") Long tripId,
+            @PathVariable("expenseId") Long expenseId,
             Authentication authentication) {
 
         expenseService.deleteExpense(tripId, expenseId, authentication.getName());
@@ -57,7 +57,7 @@ public class ExpenseController {
 
     @GetMapping
     public ResponseEntity<List<ExpenseResponse>> getTripExpenses(
-            @PathVariable Long tripId,
+            @PathVariable("tripId") Long tripId,
             Authentication authentication) {
 
         return ResponseEntity.ok(

@@ -1,43 +1,75 @@
-import api from './apiClient';
+import { apiClient } from './apiClient';
 
 export const groupService = {
-  createGroup: async (groupData) => {
-    const response = await api.post('/groups', groupData);
-    return response.data.data;
-  },
-
   getUserGroups: async () => {
-    const response = await api.get('/groups');
-    return response.data.data;
+    return await apiClient.get('/groups');
   },
 
   getGroupDetails: async (id) => {
-    const response = await api.get(`/groups/${id}`);
-    return response.data.data;
+    return await apiClient.get(`/groups/${id}`);
+  },
+
+  createGroup: async (groupData) => {
+    return await apiClient.post('/groups', groupData);
   },
 
   updateGroup: async (id, groupData) => {
-    const response = await api.put(`/groups/${id}`, groupData);
-    return response.data.data;
+    return await apiClient.put(`/groups/${id}`, groupData);
   },
 
   deleteGroup: async (id) => {
-    const response = await api.delete(`/groups/${id}`);
-    return response.data.data;
+    return await apiClient.delete(`/groups/${id}`);
   },
 
-  inviteMember: async (groupId, usernameOrEmail, role = 'MEMBER') => {
-    const response = await api.post(`/groups/${groupId}/members`, { usernameOrEmail, role });
-    return response.data.data;
+  inviteMember: async (groupId, usernameOrEmail) => {
+    return await apiClient.post(`/groups/${groupId}/members`, { usernameOrEmail, role: 'MEMBER' });
+  },
+
+  inviteByEmail: async (groupId, email, tripId) => {
+    return await apiClient.post(`/groups/${groupId}/invitations/email`, { email, tripId });
+  },
+
+  getPendingInvitations: async () => {
+    return await apiClient.get('/groups/invitations/pending');
+  },
+
+  getGroupInvitations: async (groupId) => {
+    return await apiClient.get(`/groups/${groupId}/invitations`);
+  },
+
+  acceptInvitation: async (invitationId) => {
+    return await apiClient.put(`/groups/invitations/${invitationId}/accept`);
+  },
+
+  rejectInvitation: async (invitationId) => {
+    return await apiClient.put(`/groups/invitations/${invitationId}/reject`);
+  },
+
+  cancelInvitation: async (groupId, invitationId) => {
+    return await apiClient.delete(`/groups/${groupId}/invitations/${invitationId}`);
+  },
+
+  updateMemberRole: async (groupId, memberId, role) => {
+    return await apiClient.put(`/groups/${groupId}/members/${memberId}/role?role=${role}`);
+  },
+
+  transferOwnership: async (groupId, newAdminMemberId) => {
+    return await apiClient.put(`/groups/${groupId}/transfer-ownership?newAdminMemberId=${newAdminMemberId}`);
   },
 
   removeMember: async (groupId, memberId) => {
-    const response = await api.delete(`/groups/${groupId}/members/${memberId}`);
-    return response.data.data;
+    return await apiClient.delete(`/groups/${groupId}/members/${memberId}`);
   },
 
   leaveGroup: async (groupId) => {
-    const response = await api.post(`/groups/${groupId}/leave`);
-    return response.data.data;
+    return await apiClient.post(`/groups/${groupId}/leave`);
+  },
+
+  getGroupMessages: async (groupId) => {
+    return await apiClient.get(`/groups/${groupId}/messages`);
+  },
+
+  sendGroupMessage: async (groupId, message) => {
+    return await apiClient.post(`/groups/${groupId}/messages`, { message });
   }
 };

@@ -34,6 +34,10 @@ public class TripServiceImpl implements TripService {
     private final DestinationRepository destinationRepository;
     private final ActivityRepository activityRepository;
     private final com.tripnest.trip.repository.TripDocumentRepository tripDocumentRepository;
+    private final com.tripnest.expense.repository.ExpenseRepository expenseRepository;
+    private final com.tripnest.expense.repository.BudgetRepository budgetRepository;
+    private final com.tripnest.group.repository.TravelGroupRepository travelGroupRepository;
+    private final com.tripnest.group.repository.GroupInvitationRepository groupInvitationRepository;
     private final TripMapper tripMapper;
     private final ActivityMapper activityMapper;
     private final LlmDestinationService llmDestinationService;
@@ -42,6 +46,10 @@ public class TripServiceImpl implements TripService {
     public TripServiceImpl(TripRepository tripRepository, UserRepository userRepository,
                            DestinationRepository destinationRepository, ActivityRepository activityRepository,
                            com.tripnest.trip.repository.TripDocumentRepository tripDocumentRepository,
+                           com.tripnest.expense.repository.ExpenseRepository expenseRepository,
+                           com.tripnest.expense.repository.BudgetRepository budgetRepository,
+                           com.tripnest.group.repository.TravelGroupRepository travelGroupRepository,
+                           com.tripnest.group.repository.GroupInvitationRepository groupInvitationRepository,
                            TripMapper tripMapper, ActivityMapper activityMapper, LlmDestinationService llmDestinationService,
                            UnsplashService unsplashService) {
         this.tripRepository = tripRepository;
@@ -49,6 +57,10 @@ public class TripServiceImpl implements TripService {
         this.destinationRepository = destinationRepository;
         this.activityRepository = activityRepository;
         this.tripDocumentRepository = tripDocumentRepository;
+        this.expenseRepository = expenseRepository;
+        this.budgetRepository = budgetRepository;
+        this.travelGroupRepository = travelGroupRepository;
+        this.groupInvitationRepository = groupInvitationRepository;
         this.tripMapper = tripMapper;
         this.activityMapper = activityMapper;
         this.llmDestinationService = llmDestinationService;
@@ -90,12 +102,15 @@ public class TripServiceImpl implements TripService {
             throw new BadRequestException("Start date cannot be after end date");
         }
 
+        validateNoOverlappingTrips(ownerUsername, request.getStartDate(), request.getEndDate(), null);
+
         Trip trip = Trip.builder()
                 .title(request.getTitle())
                 .destination(destination)
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
                 .budget(request.getBudget())
+                .maxTravelers(request.getMaxTravelers())
                 .status(TripStatus.PLANNED)
                 .owner(owner)
                 .travelers(new HashSet<>())
@@ -124,15 +139,32 @@ public class TripServiceImpl implements TripService {
             throw new BadRequestException("Start date cannot be after end date");
         }
 
+        validateNoOverlappingTrips(username, request.getStartDate(), request.getEndDate(), id);
+
         trip.setTitle(request.getTitle());
         trip.setDestination(destination);
         trip.setStartDate(request.getStartDate());
         trip.setEndDate(request.getEndDate());
         trip.setBudget(request.getBudget());
         trip.setStatus(request.getStatus());
+        trip.setMaxTravelers(request.getMaxTravelers());
 
         Trip savedTrip = tripRepository.save(trip);
         return tripMapper.toResponse(savedTrip);
+    }
+
+    private void validateNoOverlappingTrips(String username, java.time.LocalDate startDate, java.time.LocalDate endDate, Long currentTripId) {
+        List<Trip> existingTrips = tripRepository.findAllByUser(username);
+        for (Trip existingTrip : existingTrips) {
+            if (currentTripId != null && existingTrip.getId().equals(currentTripId)) {
+                continue;
+            }
+            if (!startDate.isAfter(existingTrip.getEndDate()) && !endDate.isBefore(existingTrip.getStartDate())) {
+                throw new BadRequestException("You already have a trip ('" + existingTrip.getTitle() + 
+                    "') planned from " + existingTrip.getStartDate() + " to " + existingTrip.getEndDate() + 
+                    " which overlaps with your selected dates.");
+            }
+        }
     }
 
     @Override
@@ -143,6 +175,43 @@ public class TripServiceImpl implements TripService {
 
         if (!trip.getOwner().getUsername().equals(username)) {
             throw new BadRequestException("You do not have permission to delete this trip");
+        }
+
+        // 1. Delete associated activities
+        List<Activity> activities = activityRepository.findByTripIdOrderByActivityDateAscStartTimeAsc(id);
+        if (!activities.isEmpty()) {
+            activityRepository.deleteAll(activities);
+        }
+
+        // 2. Delete associated documents
+        List<com.tripnest.trip.entity.TripDocument> docs = tripDocumentRepository.findByTripId(id);
+        if (!docs.isEmpty()) {
+            tripDocumentRepository.deleteAll(docs);
+        }
+
+        // 3. Delete associated expenses
+        List<com.tripnest.expense.entity.Expense> expenses = expenseRepository.findByTripId(id);
+        if (!expenses.isEmpty()) {
+            expenseRepository.deleteAll(expenses);
+        }
+
+        // 4. Delete associated budget
+        budgetRepository.findByTripId(id).ifPresent(budgetRepository::delete);
+
+        // 5. Delete group invitations linked to this trip
+        List<com.tripnest.group.entity.GroupInvitation> invitations = groupInvitationRepository.findByTripId(id);
+        if (!invitations.isEmpty()) {
+            groupInvitationRepository.deleteAll(invitations);
+        }
+
+        // 6. Delete travel groups associated with this trip
+        List<com.tripnest.group.entity.TravelGroup> groups = travelGroupRepository.findByTripId(id);
+        for (com.tripnest.group.entity.TravelGroup g : groups) {
+            List<com.tripnest.group.entity.GroupInvitation> groupInvs = groupInvitationRepository.findByTravelGroupId(g.getId());
+            if (!groupInvs.isEmpty()) {
+                groupInvitationRepository.deleteAll(groupInvs);
+            }
+            travelGroupRepository.delete(g);
         }
 
         tripRepository.delete(trip);

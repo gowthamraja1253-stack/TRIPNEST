@@ -17,10 +17,17 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
     private final TripRepository tripRepository;
     private final ExpenseRepository expenseRepository;
+    private final com.tripnest.user.repository.UserRepository userRepository;
+    private final com.tripnest.trip.repository.DestinationRepository destinationRepository;
 
-    public AnalyticsServiceImpl(TripRepository tripRepository, ExpenseRepository expenseRepository) {
+    public AnalyticsServiceImpl(TripRepository tripRepository, 
+                                ExpenseRepository expenseRepository,
+                                com.tripnest.user.repository.UserRepository userRepository,
+                                com.tripnest.trip.repository.DestinationRepository destinationRepository) {
         this.tripRepository = tripRepository;
         this.expenseRepository = expenseRepository;
+        this.userRepository = userRepository;
+        this.destinationRepository = destinationRepository;
     }
 
     @Override
@@ -123,6 +130,43 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 .budgetUsedPercentage(budgetUsedPercentage)
                 .expensesByCategory(byCategory)
                 .expensesByMonth(byMonth)
+                .build();
+    }
+
+    @Override
+    public com.tripnest.analytics.dto.AdminAnalyticsDto getAdminAnalytics() {
+        long totalUsers = userRepository.count();
+        long totalTrips = tripRepository.count();
+        long totalDestinations = destinationRepository.count();
+        
+        List<com.tripnest.expense.entity.Expense> allExpenses = expenseRepository.findAll();
+        long totalExpensesCount = allExpenses.size();
+        double totalPlatformExpensesAmount = allExpenses.stream()
+                .mapToDouble(e -> e.getAmount() != null ? e.getAmount() : 0.0)
+                .sum();
+
+        List<Trip> allTrips = tripRepository.findAll();
+        java.util.Map<String, Long> tripsByStatus = allTrips.stream()
+                .collect(Collectors.groupingBy(
+                        t -> t.getStatus() != null ? t.getStatus().name() : "PLANNED",
+                        Collectors.counting()
+                ));
+
+        java.util.Map<String, Long> topDestinations = allTrips.stream()
+                .filter(t -> t.getDestination() != null && t.getDestination().getName() != null)
+                .collect(Collectors.groupingBy(
+                        t -> t.getDestination().getName(),
+                        Collectors.counting()
+                ));
+
+        return com.tripnest.analytics.dto.AdminAnalyticsDto.builder()
+                .totalUsers(totalUsers)
+                .totalTrips(totalTrips)
+                .totalDestinations(totalDestinations)
+                .totalExpensesCount(totalExpensesCount)
+                .totalPlatformExpensesAmount(totalPlatformExpensesAmount)
+                .tripsByStatus(tripsByStatus)
+                .topDestinations(topDestinations)
                 .build();
     }
 }

@@ -13,10 +13,10 @@ export const apiClient = axios.create({
   timeout: 10000,
 });
 
-// Request Interceptor: Attach JWT Token if available
+// Request Interceptor: Attach JWT Token if available (sessionStorage for tab isolation, fallback to localStorage)
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('tripnest_token');
+    const token = sessionStorage.getItem('tripnest_token') || localStorage.getItem('tripnest_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
