@@ -102,7 +102,12 @@ export default function GroupDetails() {
     if (!newMessageText.trim()) return;
     try {
       const sent = await groupService.sendGroupMessage(groupId, newMessageText.trim());
-      setChatMessages(prev => [...prev, sent]);
+      setChatMessages(prev => {
+        if (prev.some(m => m.id === sent.id)) {
+          return prev;
+        }
+        return [...prev, sent];
+      });
       setNewMessageText('');
       setTimeout(() => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
