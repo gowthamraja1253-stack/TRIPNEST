@@ -1,6 +1,7 @@
 # Build Stage
 FROM maven:3.9.7-eclipse-temurin-21 AS build
 WORKDIR /app
+ENV MAVEN_OPTS="-Xmx256m"
 COPY pom.xml .
 # Download all dependencies first (cacheable layer)
 RUN mvn dependency:resolve dependency:resolve-plugins -B
