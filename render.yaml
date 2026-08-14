@@ -3,7 +3,7 @@ services:
     name: tripnest-backend
     env: docker
     dockerContext: ./Backend
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: Backend/Dockerfile
     envVars:
       - key: SPRING_DATASOURCE_URL
         sync: false
@@ -23,7 +23,7 @@ services:
     name: tripnest-frontend
     env: docker
     dockerContext: ./frontend
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: frontend/Dockerfile
     envVars:
       - key: VITE_API_URL
         fromService:
