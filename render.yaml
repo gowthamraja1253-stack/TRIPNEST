@@ -2,7 +2,7 @@ services:
   - type: web
     name: tripnest-backend
     env: docker
-    dockerContext: ./backend
+    dockerContext: ./Backend
     dockerfilePath: ./Dockerfile
     envVars:
       - key: SPRING_DATASOURCE_URL
@@ -22,7 +22,7 @@ services:
   - type: web
     name: tripnest-frontend
     env: docker
-    dockerContext: ./Frontend
+    dockerContext: ./frontend
     dockerfilePath: ./Dockerfile
     envVars:
       - key: VITE_API_URL
