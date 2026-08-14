@@ -79,7 +79,7 @@ const ExpenseCharts = ({ expenses = [], summary = {} }) => {
 
       {/* Pie Chart */}
 
-      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-md p-6">
+      <div className="bg-surface rounded-2xl shadow-md p-6">
 
         <h2 className="text-xl font-bold mb-6">
           Expense Categories
@@ -127,7 +127,7 @@ const ExpenseCharts = ({ expenses = [], summary = {} }) => {
 
       {/* Bar Chart */}
 
-      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-md p-6">
+      <div className="bg-surface rounded-2xl shadow-md p-6">
 
         <h2 className="text-xl font-bold mb-6">
           Monthly Expenses
@@ -162,7 +162,7 @@ const ExpenseCharts = ({ expenses = [], summary = {} }) => {
 
       {/* Budget Summary */}
 
-      <div className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-2xl shadow-md p-8">
+      <div className="lg:col-span-2 bg-surface rounded-2xl shadow-md p-8">
 
         <h2 className="text-2xl font-bold mb-8">
           Budget Insights

@@ -27,9 +27,9 @@ const TripCard = memo(({ trip, variant = 'manage', viewMode = 'grid', onDeleteRe
       case 'upcoming': 
       case 'booked': return 'bg-blue-100 text-blue-600';
       case 'completed': return 'bg-emerald-100 text-emerald-600';
-      case 'archived': return 'bg-gray-100 text-gray-600';
+      case 'archived': return 'bg-black/10 dark:bg-white/10 text-gray-600';
       case 'dreaming': return 'bg-purple-100 text-purple-600';
-      default: return 'bg-gray-100 text-gray-600';
+      default: return 'bg-black/10 dark:bg-white/10 text-gray-600';
     }
   };
 
@@ -37,8 +37,8 @@ const TripCard = memo(({ trip, variant = 'manage', viewMode = 'grid', onDeleteRe
   const isDashboard = variant === 'dashboard';
 
   // Normalize data between dashboard mock and trips mock
-  const tripName = trip.name || trip.destination;
-  const tripLocation = trip.country ? `${trip.destination}, ${trip.country}` : trip.destination;
+  const tripName = trip.title || trip.name || trip.destinationName || trip.destination;
+  const tripLocation = trip.destinationCountry || trip.country ? `${trip.destinationName || trip.destination}, ${trip.destinationCountry || trip.country}` : (trip.destinationName || trip.destination);
   const rawBudget = typeof trip.budget === 'string' ? parseFloat(trip.budget.replace(/[^0-9.-]+/g,"")) : trip.budget;
   const rawExpenses = trip.expenses || 0;
   const progressPercent = trip.progress !== undefined ? trip.progress : (Math.min((rawExpenses / rawBudget) * 100, 100) || 0);
@@ -46,7 +46,7 @@ const TripCard = memo(({ trip, variant = 'manage', viewMode = 'grid', onDeleteRe
   const storedUserStr = sessionStorage.getItem('tripnest_user') || localStorage.getItem('tripnest_user');
   const currentUser = storedUserStr ? JSON.parse(storedUserStr) : null;
   const currentUsername = currentUser?.username || localStorage.getItem('username');
-  const isOwner = !trip.owner || trip.owner === currentUsername;
+  const isOwner = !trip.ownerUsername || trip.ownerUsername === currentUsername;
 
   return (
     <motion.div
@@ -54,13 +54,13 @@ const TripCard = memo(({ trip, variant = 'manage', viewMode = 'grid', onDeleteRe
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -5 }}
-      className={`bg-white rounded-[20px] border border-border/50 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all overflow-hidden flex group relative ${isList ? 'flex-col md:flex-row' : 'flex-col'}`}
+      className={`bg-surface rounded-[20px] border border-border/50 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all overflow-hidden flex group relative ${isList ? 'flex-col md:flex-row' : 'flex-col'}`}
     >
       {/* ── Image Header ── */}
       <div className={`relative overflow-hidden shrink-0 ${isList ? 'h-48 md:h-full md:w-[240px]' : (isDashboard ? 'h-40 w-full' : 'h-48 w-full')}`}>
         <img 
-          src={trip.image} 
-          alt={trip.destination} 
+          src={trip.destinationImageUrl || trip.image} 
+          alt={trip.destinationName || trip.destination} 
           loading="lazy"
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
         />
@@ -91,15 +91,15 @@ const TripCard = memo(({ trip, variant = 'manage', viewMode = 'grid', onDeleteRe
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9, transformOrigin: 'top right' }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-border overflow-hidden z-20 py-1"
+                className="absolute right-0 mt-2 w-48 bg-surface rounded-xl shadow-xl border border-border overflow-hidden z-20 py-1"
               >
-                <Link to={`/dashboard/trips/${trip.id}/edit`} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-text hover:bg-gray-50 transition-colors">
+                <Link to={`/dashboard/trips/${trip.id}/edit`} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-text hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                   <Edit size={14} className="text-text-secondary" /> Edit Trip
                 </Link>
-                <button className="w-full flex items-center gap-2 px-4 py-2 text-sm text-text hover:bg-gray-50 transition-colors">
+                <button className="w-full flex items-center gap-2 px-4 py-2 text-sm text-text hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                   <Copy size={14} className="text-text-secondary" /> Duplicate
                 </button>
-                <button className="w-full flex items-center gap-2 px-4 py-2 text-sm text-text hover:bg-gray-50 transition-colors">
+                <button className="w-full flex items-center gap-2 px-4 py-2 text-sm text-text hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                   <Share2 size={14} className="text-text-secondary" /> Share
                 </button>
                 <div className="h-px bg-border my-1"></div>
@@ -132,7 +132,7 @@ const TripCard = memo(({ trip, variant = 'manage', viewMode = 'grid', onDeleteRe
       </div>
 
       {/* ── Content ── */}
-      <div className={`p-5 flex-1 flex flex-col bg-white z-10 relative ${isList ? 'md:border-l md:border-border/50' : ''}`}>
+      <div className={`p-5 flex-1 flex flex-col bg-surface z-10 relative ${isList ? 'md:border-l md:border-border/50' : ''}`}>
         
         {isDashboard ? (
           <div className="flex items-center gap-2 text-sm text-text-secondary mb-3">
@@ -143,11 +143,11 @@ const TripCard = memo(({ trip, variant = 'manage', viewMode = 'grid', onDeleteRe
           <div className={`flex items-center justify-between text-sm text-text-secondary mb-4 pb-4 border-b border-border/60 ${isList ? 'md:flex-col md:items-start md:gap-3 md:pb-0 md:border-b-0' : ''}`}>
             <div className="flex items-center gap-2 font-medium">
               <Calendar size={16} className="text-primary" />
-              {trip.duration} Days
+              {trip.duration || (trip.startDate && trip.endDate ? (Math.ceil((new Date(trip.endDate) - new Date(trip.startDate)) / (1000 * 60 * 60 * 24)) + 1) : 0)} Days
             </div>
             <div className="flex items-center gap-2 font-medium">
               <Users size={16} className="text-primary" />
-              {trip.travelers} {trip.travelers === 1 ? 'Person' : 'People'}
+              {trip.travelerUsernames ? trip.travelerUsernames.length : (trip.travelers || 1)} {trip.travelers === 1 ? 'Person' : 'People'}
             </div>
           </div>
         )}
@@ -169,7 +169,7 @@ const TripCard = memo(({ trip, variant = 'manage', viewMode = 'grid', onDeleteRe
             )}
             <span className="text-primary">{Math.round(progressPercent)}% {isDashboard ? '' : 'Used'}</span>
           </div>
-          <div className={`w-full bg-gray-100 rounded-full overflow-hidden ${isDashboard ? 'h-2 mb-5' : 'h-1.5 mb-6'}`}>
+          <div className={`w-full bg-black/10 dark:bg-white/10 rounded-full overflow-hidden ${isDashboard ? 'h-2 mb-5' : 'h-1.5 mb-6'}`}>
             <motion.div 
               initial={{ width: 0 }}
               animate={{ width: `${progressPercent}%` }}

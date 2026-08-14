@@ -5,7 +5,7 @@ export function ItinerarySkeletons() {
   return (
     <div className="space-y-6">
       {/* Header Skeleton */}
-      <div className="bg-white rounded-[24px] p-6 border border-border/50 shadow-sm flex flex-col md:flex-row justify-between gap-6">
+      <div className="bg-surface rounded-[24px] p-6 border border-border/50 shadow-sm flex flex-col md:flex-row justify-between gap-6">
         <div className="space-y-4 flex-1">
           <Skeleton width="w-1/3" height="h-8" rounded="rounded-lg" />
           <div className="flex gap-4">
@@ -23,7 +23,7 @@ export function ItinerarySkeletons() {
         {/* Sidebar Skeleton */}
         <div className="w-full lg:w-64 space-y-4">
           {[1, 2, 3, 4, 5].map((i) => (
-            <Skeleton key={i} height="h-12" rounded="rounded-xl" className="border border-border/50 bg-white" />
+            <Skeleton key={i} height="h-12" rounded="rounded-xl" className="border border-border/50 bg-surface" />
           ))}
         </div>
 
@@ -36,10 +36,10 @@ export function ItinerarySkeletons() {
               {/* Timeline dot */}
               <div className="flex flex-col items-center">
                 <Skeleton width="w-4" height="h-4" rounded="rounded-full" />
-                <div className="w-0.5 h-32 bg-gray-100"></div>
+                <div className="w-0.5 h-32 bg-black/10 dark:bg-white/10"></div>
               </div>
               {/* Card */}
-              <div className="flex-1 bg-white rounded-2xl border border-border/50 p-5 h-32 flex flex-col justify-between">
+              <div className="flex-1 bg-surface rounded-2xl border border-border/50 p-5 h-32 flex flex-col justify-between">
                 <div className="flex justify-between mb-4">
                   <Skeleton width="w-1/3" height="h-6" />
                   <Skeleton width="w-16" height="h-6" />

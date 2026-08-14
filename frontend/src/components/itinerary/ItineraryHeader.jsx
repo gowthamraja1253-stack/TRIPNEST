@@ -39,7 +39,7 @@ export default function ItineraryHeader({ trip, trips = [], activities = [], vie
   const totalHours = calculateTotalHours(activities);
 
   return (
-    <div className="bg-white rounded-[24px] p-6 border border-border/50 shadow-sm relative z-20">
+    <div className="bg-surface rounded-[24px] p-6 border border-border/50 shadow-sm relative z-20">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         
         {/* Left: Trip Info */}
@@ -62,7 +62,7 @@ export default function ItineraryHeader({ trip, trips = [], activities = [], vie
                   const selectedId = e.target.value;
                   window.location.search = `?tripId=${selectedId}`;
                 }}
-                className="bg-gray-50 border border-border rounded-xl px-3 py-1.5 text-sm font-semibold text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer shadow-sm hover:border-text-muted transition-all"
+                className="bg-black/5 dark:bg-white/5 border border-border rounded-xl px-3 py-1.5 text-sm font-semibold text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer shadow-sm hover:border-text-muted transition-all"
               >
                 {trips.map(t => (
                   <option key={t.id} value={t.id}>{t.name}</option>
@@ -77,22 +77,22 @@ export default function ItineraryHeader({ trip, trips = [], activities = [], vie
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
           
           {/* View Toggles */}
-          <div className="flex bg-gray-100 p-1.5 rounded-xl w-full sm:w-auto justify-center">
+          <div className="flex bg-black/10 dark:bg-white/10 p-1.5 rounded-xl w-full sm:w-auto justify-center">
             <button
               onClick={() => setViewMode('timeline')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-sm font-semibold ${viewMode === 'timeline' ? 'bg-white shadow-sm text-primary' : 'text-text-secondary hover:text-text'}`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-sm font-semibold ${viewMode === 'timeline' ? 'bg-surface shadow-sm text-primary' : 'text-text-secondary hover:text-text'}`}
             >
               <LayoutList size={16} /> <span className="hidden sm:inline">Timeline</span>
             </button>
             <button
               onClick={() => setViewMode('calendar')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-sm font-semibold ${viewMode === 'calendar' ? 'bg-white shadow-sm text-primary' : 'text-text-secondary hover:text-text'}`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-sm font-semibold ${viewMode === 'calendar' ? 'bg-surface shadow-sm text-primary' : 'text-text-secondary hover:text-text'}`}
             >
               <Calendar size={16} /> <span className="hidden sm:inline">Calendar</span>
             </button>
             <button
               onClick={() => setViewMode('kanban')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-sm font-semibold ${viewMode === 'kanban' ? 'bg-white shadow-sm text-primary' : 'text-text-secondary hover:text-text'}`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-sm font-semibold ${viewMode === 'kanban' ? 'bg-surface shadow-sm text-primary' : 'text-text-secondary hover:text-text'}`}
             >
               <Columns size={16} /> <span className="hidden sm:inline">Board</span>
             </button>

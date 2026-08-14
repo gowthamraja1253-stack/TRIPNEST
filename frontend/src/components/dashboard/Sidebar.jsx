@@ -156,7 +156,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileOpen, set
       <motion.aside
         animate={{ width: isCollapsed ? '88px' : '280px' }}
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-        className="hidden lg:flex flex-col h-screen fixed left-0 top-0 bg-white/80 backdrop-blur-xl border-r border-border/50 z-40 shadow-sm"
+        className="hidden lg:flex flex-col h-screen fixed left-0 top-0 bg-surface/80 backdrop-blur-xl border-r border-border/50 z-40 shadow-sm"
       >
         <SidebarContent />
       </motion.aside>
@@ -177,7 +177,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileOpen, set
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 250 }}
-              className="fixed left-0 top-0 bottom-0 w-72 bg-white flex flex-col z-50 shadow-2xl lg:hidden"
+              className="fixed left-0 top-0 bottom-0 w-72 bg-surface flex flex-col z-50 shadow-2xl lg:hidden"
             >
               <SidebarContent />
             </motion.aside>

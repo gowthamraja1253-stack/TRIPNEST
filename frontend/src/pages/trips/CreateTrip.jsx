@@ -106,7 +106,7 @@ export default function CreateTrip() {
       <div>
         <label className="block text-sm font-semibold text-text-secondary mb-2">Cover Image URL (Optional)</label>
         <input
-          className="w-full p-4 bg-gray-50 border border-border rounded-xl text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+          className="w-full p-4 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
           placeholder="https://images.unsplash.com/..."
           {...register('image')}
         />
@@ -149,7 +149,7 @@ export default function CreateTrip() {
             {['Leisure', 'Business', 'Adventure', 'Family'].map(type => (
               <label key={type} className="cursor-pointer">
                 <input type="radio" value={type} {...register('travelType')} className="peer sr-only" />
-                <div className="p-4 text-center rounded-xl border border-border bg-white peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:text-primary transition-all font-medium text-text-secondary hover:bg-gray-50 shadow-sm">
+                <div className="p-4 text-center rounded-xl border border-border bg-surface peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:text-primary transition-all font-medium text-text-secondary hover:bg-black/5 dark:hover:bg-white/5 shadow-sm">
                   {type}
                 </div>
               </label>
@@ -208,7 +208,7 @@ export default function CreateTrip() {
           <p className="text-text-secondary">Packing your bags and redirecting to the dashboard...</p>
         </motion.div>
       ) : (
-        <div className="text-left space-y-6 bg-gray-50 p-6 rounded-2xl border border-border">
+        <div className="text-left space-y-6 bg-black/5 dark:bg-white/5 p-6 rounded-2xl border border-border">
           <h2 className="text-2xl font-heading font-bold text-text mb-4 text-center">Ready to explore?</h2>
           
           <div className="grid grid-cols-2 gap-4 text-sm">
@@ -252,7 +252,7 @@ export default function CreateTrip() {
         <p className="text-text-secondary">Let's get the basics down first.</p>
       </div>
 
-      <div className="bg-white rounded-[24px] shadow-xl shadow-primary/5 border border-border p-6 sm:p-10">
+      <div className="bg-surface rounded-[24px] shadow-xl shadow-primary/5 border border-border p-6 sm:p-10">
         <WizardStepper steps={STEPS} currentStep={currentStep} />
 
         <form onSubmit={handleSubmit(onSubmit)}>

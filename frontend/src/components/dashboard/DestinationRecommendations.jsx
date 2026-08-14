@@ -9,12 +9,12 @@ export default function DestinationRecommendations() {
   ];
 
   return (
-    <div className="bg-white rounded-[20px] border border-border/50 p-6 shadow-sm h-full flex flex-col">
+    <div className="bg-surface rounded-[20px] border border-border/50 p-6 shadow-sm h-fit">
       <div className="flex justify-between items-center mb-6">
         <h3 className="font-heading font-bold text-lg text-text">Recommended For You</h3>
       </div>
 
-      <div className="space-y-4 flex-1">
+      <div className="space-y-4">
         {recommendations.map((item, idx) => (
           <motion.div 
             key={idx}
@@ -32,7 +32,7 @@ export default function DestinationRecommendations() {
                 <span>Est. {item.price}</span>
               </div>
             </div>
-            <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors shrink-0">
+            <div className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors shrink-0">
               <ArrowRight size={16} />
             </div>
           </motion.div>

@@ -23,7 +23,7 @@ const CATEGORIES = [
   { value: 'FOOD', label: 'Food', icon: Coffee, color: 'bg-orange-100 text-orange-600' },
   { value: 'SHOPPING', label: 'Shopping', icon: ShoppingBag, color: 'bg-pink-100 text-pink-600' },
   { value: 'ENTERTAINMENT', label: 'Entertainment', icon: Music, color: 'bg-emerald-100 text-emerald-600' },
-  { value: 'MISCELLANEOUS', label: 'Miscellaneous', icon: HelpCircle, color: 'bg-gray-100 text-gray-600' }
+  { value: 'MISCELLANEOUS', label: 'Miscellaneous', icon: HelpCircle, color: 'bg-black/10 dark:bg-white/10 text-gray-600' }
 ];
 
 const getCategoryMeta = (cat) => CATEGORIES.find(c => c.value === cat) || CATEGORIES[5];
@@ -297,7 +297,7 @@ export default function ExpensesDashboard() {
           <select
             value={selectedTripId || ''}
             onChange={e => setSelectedTripId(Number(e.target.value))}
-            className="p-3 bg-white border border-border rounded-xl text-text outline-none focus:border-primary text-sm font-medium shadow-sm"
+            className="p-3 bg-surface border border-border rounded-xl text-text outline-none focus:border-primary text-sm font-medium shadow-sm"
           >
             {trips.map(t => (
               <option key={t.id} value={t.id}>{t.title || t.name || t.destination}</option>
@@ -309,7 +309,7 @@ export default function ExpensesDashboard() {
             glow
             onClick={openAddModal}
             disabled={!isAllMembersAdded}
-            className={`flex items-center gap-2 ${!isAllMembersAdded ? 'opacity-50 cursor-not-allowed bg-gray-400' : ''}`}
+            className={`flex items-center gap-2 ${!isAllMembersAdded ? 'opacity-50 cursor-not-allowed bg-black/40 dark:bg-white/40' : ''}`}
           >
             <Plus size={18} /> Add Expense & Split
           </Button>
@@ -335,7 +335,7 @@ export default function ExpensesDashboard() {
             variant="outline"
             size="sm"
             onClick={() => navigate(activeGroup ? `/dashboard/groups/${activeGroup.id}` : '/dashboard/groups')}
-            className="bg-white border-amber-300 text-amber-800 hover:bg-amber-100 shrink-0 text-xs font-bold"
+            className="bg-surface border-amber-300 text-amber-800 hover:bg-amber-100 shrink-0 text-xs font-bold"
           >
             {activeGroup ? 'Add Trip Mates' : 'Create Group & Add Mates'} <ArrowRight size={14} className="ml-1" />
           </Button>
@@ -344,22 +344,22 @@ export default function ExpensesDashboard() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-[20px] border border-border p-6 shadow-sm">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-surface rounded-[20px] border border-border p-6 shadow-sm">
           <p className="text-text-secondary text-xs font-semibold uppercase tracking-wider mb-1">Total Spent</p>
           <p className="text-3xl font-heading font-bold text-text">{formatINR(totalExpenses)}</p>
         </motion.div>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white rounded-[20px] border border-border p-6 shadow-sm">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-surface rounded-[20px] border border-border p-6 shadow-sm">
           <p className="text-text-secondary text-xs font-semibold uppercase tracking-wider mb-1">Target Budget</p>
           <p className="text-3xl font-heading font-bold text-text">{formatINR(budget)}</p>
         </motion.div>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-white rounded-[20px] border border-border p-6 shadow-sm">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-surface rounded-[20px] border border-border p-6 shadow-sm">
           <p className="text-text-secondary text-xs font-semibold uppercase tracking-wider mb-1">Remaining Balance</p>
           <p className={`text-3xl font-heading font-bold ${remaining >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{formatINR(remaining)}</p>
         </motion.div>
       </div>
 
       {/* Recorded Expenses Table */}
-      <div className="bg-white rounded-[24px] border border-border p-6 shadow-sm space-y-4">
+      <div className="bg-surface rounded-[24px] border border-border p-6 shadow-sm space-y-4">
         <h3 className="text-xl font-heading font-bold text-text">Recorded Expense Log</h3>
 
         {expenses.length === 0 ? (
@@ -410,7 +410,7 @@ export default function ExpensesDashboard() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={e => e.stopPropagation()}
-              className="bg-white rounded-[24px] p-6 sm:p-8 w-full max-w-lg shadow-2xl border border-border max-h-[90vh] overflow-y-auto"
+              className="bg-surface rounded-[24px] p-6 sm:p-8 w-full max-w-lg shadow-2xl border border-border max-h-[90vh] overflow-y-auto"
             >
               <div className="flex justify-between items-center mb-6 border-b border-border pb-4">
                 <div className="flex items-center gap-2">
@@ -446,7 +446,7 @@ export default function ExpensesDashboard() {
                     <select
                       value={formCategory}
                       onChange={e => setFormCategory(e.target.value)}
-                      className="w-full p-3 bg-gray-50 border border-border rounded-xl text-sm font-medium outline-none focus:border-primary"
+                      className="w-full p-3 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-sm font-medium outline-none focus:border-primary"
                     >
                       {CATEGORIES.map(c => (
                         <option key={c.value} value={c.value}>{c.label}</option>
@@ -458,12 +458,12 @@ export default function ExpensesDashboard() {
                 {/* ── PAID BY WHOM SECTION ── */}
                 <div className="pt-3 border-t border-border">
                   <label className="block text-sm font-bold text-text mb-2">Paid By Whom?</label>
-                  <div className="flex bg-gray-100 p-1 rounded-xl border border-border mb-3">
+                  <div className="flex bg-black/10 dark:bg-white/10 p-1 rounded-xl border border-border mb-3">
                     <button
                       type="button"
                       onClick={() => setPayerMode('single')}
                       className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${
-                        payerMode === 'single' ? 'bg-white text-primary shadow-sm' : 'text-text-secondary'
+                        payerMode === 'single' ? 'bg-surface text-primary shadow-sm' : 'text-text-secondary'
                       }`}
                     >
                       Single Payer
@@ -472,7 +472,7 @@ export default function ExpensesDashboard() {
                       type="button"
                       onClick={() => setPayerMode('multiple')}
                       className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${
-                        payerMode === 'multiple' ? 'bg-white text-primary shadow-sm' : 'text-text-secondary'
+                        payerMode === 'multiple' ? 'bg-surface text-primary shadow-sm' : 'text-text-secondary'
                       }`}
                     >
                       Multiple Payers
@@ -483,7 +483,7 @@ export default function ExpensesDashboard() {
                     <select
                       value={singlePayerUsername}
                       onChange={e => setSinglePayerUsername(e.target.value)}
-                      className="w-full p-3 bg-gray-50 border border-border rounded-xl text-sm font-medium outline-none focus:border-primary"
+                      className="w-full p-3 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-sm font-medium outline-none focus:border-primary"
                     >
                       {groupMembers.map(m => (
                         <option key={m.id || m.username} value={m.username}>
@@ -492,7 +492,7 @@ export default function ExpensesDashboard() {
                       ))}
                     </select>
                   ) : (
-                    <div className="space-y-2 max-h-40 overflow-y-auto p-2 bg-gray-50 rounded-xl border border-border">
+                    <div className="space-y-2 max-h-40 overflow-y-auto p-2 bg-black/5 dark:bg-white/5 rounded-xl border border-border">
                       {groupMembers.map(m => (
                         <div key={m.id || m.username} className="flex items-center justify-between text-xs font-semibold">
                           <span>{m.firstName ? `${m.firstName} ${m.lastName || ''}` : m.username}</span>
@@ -501,7 +501,7 @@ export default function ExpensesDashboard() {
                             placeholder="Amount Paid (₹)"
                             value={multiPayersMap[m.username] || ''}
                             onChange={e => setMultiPayersMap({ ...multiPayersMap, [m.username]: parseFloat(e.target.value) || 0 })}
-                            className="w-32 p-1.5 bg-white border border-border rounded-lg text-right font-bold"
+                            className="w-32 p-1.5 bg-surface border border-border rounded-lg text-right font-bold"
                           />
                         </div>
                       ))}
@@ -513,7 +513,7 @@ export default function ExpensesDashboard() {
                   <label className="block text-sm font-bold text-text">Split Among Members</label>
                   <p className="text-xs text-text-secondary">Select who participated in this expense:</p>
 
-                  <div className="space-y-2 max-h-44 overflow-y-auto p-2 bg-gray-50 rounded-xl border border-border">
+                  <div className="space-y-2 max-h-44 overflow-y-auto p-2 bg-black/5 dark:bg-white/5 rounded-xl border border-border">
                     {groupMembers.map(m => {
                       const isSelected = selectedParticipants.includes(m.username);
                       return (
@@ -521,7 +521,7 @@ export default function ExpensesDashboard() {
                           key={m.id || m.username}
                           onClick={() => handleToggleParticipant(m.username)}
                           className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition-colors ${
-                            isSelected ? 'bg-primary/10 border border-primary/30 text-primary font-bold' : 'bg-white text-text-secondary border border-border'
+                            isSelected ? 'bg-primary/10 border border-primary/30 text-primary font-bold' : 'bg-surface text-text-secondary border border-border'
                           }`}
                         >
                           <span className="text-xs">{m.firstName ? `${m.firstName} ${m.lastName || ''}` : m.username}</span>
@@ -535,12 +535,12 @@ export default function ExpensesDashboard() {
                 {/* ── SPLIT MODE SELECTION ── */}
                 <div className="pt-3 border-t border-border space-y-3">
                   <label className="block text-sm font-bold text-text mb-1">Owed Split Mode</label>
-                  <div className="flex bg-gray-100 p-1 rounded-xl border border-border mb-3">
+                  <div className="flex bg-black/10 dark:bg-white/10 p-1 rounded-xl border border-border mb-3">
                     <button
                       type="button"
                       onClick={() => setSplitMode('equal')}
                       className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${
-                        splitMode === 'equal' ? 'bg-white text-primary shadow-sm' : 'text-text-secondary'
+                        splitMode === 'equal' ? 'bg-surface text-primary shadow-sm' : 'text-text-secondary'
                       }`}
                     >
                       Split Equally
@@ -549,7 +549,7 @@ export default function ExpensesDashboard() {
                       type="button"
                       onClick={() => setSplitMode('custom')}
                       className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${
-                        splitMode === 'custom' ? 'bg-white text-primary shadow-sm' : 'text-text-secondary'
+                        splitMode === 'custom' ? 'bg-surface text-primary shadow-sm' : 'text-text-secondary'
                       }`}
                     >
                       Split Custom (Unequally)
@@ -557,7 +557,7 @@ export default function ExpensesDashboard() {
                   </div>
 
                   {splitMode === 'custom' && (
-                    <div className="space-y-2 max-h-40 overflow-y-auto p-2 bg-gray-50 rounded-xl border border-border">
+                    <div className="space-y-2 max-h-40 overflow-y-auto p-2 bg-black/5 dark:bg-white/5 rounded-xl border border-border">
                       {groupMembers
                         .filter(m => selectedParticipants.includes(m.username))
                         .map(m => (
@@ -568,7 +568,7 @@ export default function ExpensesDashboard() {
                               placeholder="Owed Share (₹)"
                               value={customSharesMap[m.username] || ''}
                               onChange={e => setCustomSharesMap({ ...customSharesMap, [m.username]: parseFloat(e.target.value) || 0 })}
-                              className="w-32 p-1.5 bg-white border border-border rounded-lg text-right font-bold"
+                              className="w-32 p-1.5 bg-surface border border-border rounded-lg text-right font-bold"
                             />
                           </div>
                         ))}

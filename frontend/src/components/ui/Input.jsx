@@ -21,7 +21,7 @@ const Input = forwardRef(({ label, type = 'text', error, className = '', ...prop
       animate={shakeAnimation}
     >
       <div 
-        className={`relative w-full flex items-center border-2 rounded-xl bg-white/50 backdrop-blur-sm transition-colors duration-300 ${
+        className={`relative w-full flex items-center border-2 rounded-xl bg-black/5 dark:bg-white/5 backdrop-blur-sm transition-colors duration-300 ${
           error ? 'border-red-500' : isFocused ? 'border-primary' : 'border-border hover:border-text-muted'
         }`}
       >

@@ -28,7 +28,7 @@ public class LlmDestinationService {
         }
 
         try {
-            String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + geminiApiKey;
+            String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + geminiApiKey;
             
             String prompt = "You are a travel assistant. Provide details for the destination: '" + destinationName + "'. " +
                     "Return ONLY a raw JSON object (no markdown, no backticks) with exactly these 3 string keys: " +

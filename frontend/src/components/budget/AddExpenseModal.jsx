@@ -61,7 +61,7 @@ const AddExpenseModal = ({ open, onClose, refreshData }) => {
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
 
-      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-2xl p-8 relative">
+      <div className="bg-surface rounded-2xl shadow-2xl w-full max-w-2xl p-8 relative">
 
         {/* Close */}
 
@@ -210,7 +210,7 @@ const AddExpenseModal = ({ open, onClose, refreshData }) => {
           <button
             onClick={onClose}
             disabled={loading}
-            className="px-6 py-3 rounded-xl border hover:bg-gray-100 dark:hover:bg-slate-700 transition"
+            className="px-6 py-3 rounded-xl border hover:bg-black/10 dark:hover:bg-white/10 dark:hover:bg-slate-700 transition"
           >
             Cancel
           </button>

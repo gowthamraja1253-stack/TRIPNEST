@@ -148,7 +148,7 @@ export default function ReportsAnalytics() {
             <select
               value={selectedTripId}
               onChange={e => setSelectedTripId(e.target.value)}
-              className="p-2 bg-white border border-border rounded-xl text-xs font-semibold outline-none focus:border-primary text-text shadow-sm"
+              className="p-2 bg-surface border border-border rounded-xl text-xs font-semibold outline-none focus:border-primary text-text shadow-sm"
             >
               <option value="">All Trips</option>
               {trips.map(t => (
@@ -159,11 +159,11 @@ export default function ReportsAnalytics() {
 
           {/* Platform Admin Toggle (Only visible if user is a Platform Admin) */}
           {isPlatformAdmin && (
-            <div className="bg-gray-100 p-1 rounded-xl flex border border-border">
+            <div className="bg-black/10 dark:bg-white/10 p-1 rounded-xl flex border border-border">
               <button
                 onClick={() => setViewMode('traveler')}
                 className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
-                  viewMode === 'traveler' ? 'bg-white text-primary shadow-sm' : 'text-text-secondary'
+                  viewMode === 'traveler' ? 'bg-surface text-primary shadow-sm' : 'text-text-secondary'
                 }`}
               >
                 My Travel Insights
@@ -171,7 +171,7 @@ export default function ReportsAnalytics() {
               <button
                 onClick={() => setViewMode('admin')}
                 className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
-                  viewMode === 'admin' ? 'bg-white text-primary shadow-sm' : 'text-text-secondary'
+                  viewMode === 'admin' ? 'bg-surface text-primary shadow-sm' : 'text-text-secondary'
                 }`}
               >
                 Platform Admin
@@ -189,7 +189,7 @@ export default function ReportsAnalytics() {
         <div className="space-y-8">
           {/* Summary Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="bg-white p-6 rounded-[20px] border border-border shadow-sm">
+            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="bg-surface p-6 rounded-[20px] border border-border shadow-sm">
               <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-4">
                 <TrendingUp size={24} />
               </div>
@@ -197,7 +197,7 @@ export default function ReportsAnalytics() {
               <h3 className="text-2xl font-heading font-bold text-text">{formatINR(report?.totalSpent || 0)}</h3>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white p-6 rounded-[20px] border border-border shadow-sm">
+            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-surface p-6 rounded-[20px] border border-border shadow-sm">
               <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 flex items-center justify-center mb-4">
                 <Wallet size={24} />
               </div>
@@ -205,7 +205,7 @@ export default function ReportsAnalytics() {
               <h3 className="text-2xl font-heading font-bold text-text">{formatINR(report?.totalBudget || 0)}</h3>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-white p-6 rounded-[20px] border border-border shadow-sm">
+            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-surface p-6 rounded-[20px] border border-border shadow-sm">
               <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center mb-4">
                 <Activity size={24} />
               </div>
@@ -215,7 +215,7 @@ export default function ReportsAnalytics() {
               </h3>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="bg-white p-6 rounded-[20px] border border-border shadow-sm">
+            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="bg-surface p-6 rounded-[20px] border border-border shadow-sm">
               <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 flex items-center justify-center mb-4">
                 <PieChartIcon size={24} />
               </div>
@@ -223,7 +223,7 @@ export default function ReportsAnalytics() {
               <h3 className="text-2xl font-heading font-bold text-text">
                 {(report?.budgetUsedPercentage || 0).toFixed(1)}%
               </h3>
-              <div className="w-full bg-gray-100 rounded-full h-2 mt-3 overflow-hidden">
+              <div className="w-full bg-black/10 dark:bg-white/10 rounded-full h-2 mt-3 overflow-hidden">
                 <div 
                   className={`h-full rounded-full transition-all duration-500 ${(report?.budgetUsedPercentage || 0) > 90 ? 'bg-red-500' : 'bg-primary'}`}
                   style={{ width: `${Math.min(report?.budgetUsedPercentage || 0, 100)}%` }}
@@ -235,7 +235,7 @@ export default function ReportsAnalytics() {
           {/* Charts Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Category Breakdown Pie Chart */}
-            <div className="bg-white p-6 rounded-[24px] border border-border shadow-sm space-y-4">
+            <div className="bg-surface p-6 rounded-[24px] border border-border shadow-sm space-y-4">
               <h3 className="text-xl font-heading font-bold text-text flex items-center gap-2">
                 <PieChartIcon className="text-primary" size={20} /> Category Expense Breakdown
               </h3>
@@ -270,7 +270,7 @@ export default function ReportsAnalytics() {
             </div>
 
             {/* Monthly Expense Bar Chart */}
-            <div className="bg-white p-6 rounded-[24px] border border-border shadow-sm space-y-4">
+            <div className="bg-surface p-6 rounded-[24px] border border-border shadow-sm space-y-4">
               <h3 className="text-xl font-heading font-bold text-text flex items-center gap-2">
                 <BarChart3 className="text-primary" size={20} /> Monthly Spending Trends
               </h3>
@@ -299,7 +299,7 @@ export default function ReportsAnalytics() {
         /* Admin Analytics Dashboard */
         <div className="space-y-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded-[20px] border border-border shadow-sm">
+            <div className="bg-surface p-6 rounded-[20px] border border-border shadow-sm">
               <div className="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-600 flex items-center justify-center mb-4">
                 <Users size={24} />
               </div>
@@ -307,7 +307,7 @@ export default function ReportsAnalytics() {
               <h3 className="text-2xl font-heading font-bold text-text">{adminStats?.totalUsers || 0}</h3>
             </div>
 
-            <div className="bg-white p-6 rounded-[20px] border border-border shadow-sm">
+            <div className="bg-surface p-6 rounded-[20px] border border-border shadow-sm">
               <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 flex items-center justify-center mb-4">
                 <Compass size={24} />
               </div>
@@ -315,7 +315,7 @@ export default function ReportsAnalytics() {
               <h3 className="text-2xl font-heading font-bold text-text">{adminStats?.totalTrips || 0}</h3>
             </div>
 
-            <div className="bg-white p-6 rounded-[20px] border border-border shadow-sm">
+            <div className="bg-surface p-6 rounded-[20px] border border-border shadow-sm">
               <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center mb-4">
                 <MapPin size={24} />
               </div>
@@ -323,7 +323,7 @@ export default function ReportsAnalytics() {
               <h3 className="text-2xl font-heading font-bold text-text">{adminStats?.totalDestinations || 0}</h3>
             </div>
 
-            <div className="bg-white p-6 rounded-[20px] border border-border shadow-sm">
+            <div className="bg-surface p-6 rounded-[20px] border border-border shadow-sm">
               <div className="w-12 h-12 rounded-2xl bg-accent/10 text-accent flex items-center justify-center mb-4">
                 <Wallet size={24} />
               </div>
@@ -333,7 +333,7 @@ export default function ReportsAnalytics() {
           </div>
 
           {/* Top Destinations Table */}
-          <div className="bg-white p-6 rounded-[24px] border border-border shadow-sm space-y-4">
+          <div className="bg-surface p-6 rounded-[24px] border border-border shadow-sm space-y-4">
             <h3 className="text-xl font-heading font-bold text-text flex items-center gap-2">
               <MapPin className="text-primary" size={20} /> Popular Destinations Breakdown
             </h3>
@@ -350,11 +350,11 @@ export default function ReportsAnalytics() {
                   </thead>
                   <tbody className="divide-y divide-border/50 font-medium">
                     {topDestinationsData.map((dest, idx) => (
-                      <tr key={idx} className="hover:bg-gray-50">
+                      <tr key={idx} className="hover:bg-black/5 dark:hover:bg-white/5">
                         <td className="py-3.5 px-4 font-bold text-text">{dest.name}</td>
                         <td className="py-3.5 px-4 text-text-secondary">{dest.count} Trips</td>
                         <td className="py-3.5 px-4">
-                          <div className="w-full bg-gray-100 rounded-full h-2 max-w-xs overflow-hidden">
+                          <div className="w-full bg-black/10 dark:bg-white/10 rounded-full h-2 max-w-xs overflow-hidden">
                             <div 
                               className="bg-primary h-full rounded-full"
                               style={{ width: `${Math.min((dest.count / (adminStats?.totalTrips || 1)) * 100, 100)}%` }}

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 const SEO = ({ title, description }) => {
   useEffect(() => {
     // Update title
-    document.title = title ? `${title} | TripNest` : 'TripNest';
+    document.title = 'TripNest';
 
     // Update meta description
     if (description) {

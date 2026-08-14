@@ -22,7 +22,7 @@ export default function CTA() {
             {/* Buttons */}
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
-                className="bg-white text-primary font-semibold px-8 py-4 rounded-full hover:shadow-xl transition cursor-pointer"
+                className="bg-surface text-primary font-semibold px-8 py-4 rounded-full hover:shadow-xl transition cursor-pointer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 animate={{

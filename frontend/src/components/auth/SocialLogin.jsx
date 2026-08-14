@@ -23,6 +23,10 @@ export default function SocialLogin({ mode = 'login' }) {
     window.location.href = 'http://localhost:8080/oauth2/authorization/google';
   };
 
+  const handleGithubLogin = () => {
+    window.location.href = 'http://localhost:8080/oauth2/authorization/github';
+  };
+
   return (
     <div className="space-y-4">
       <motion.button
@@ -30,7 +34,7 @@ export default function SocialLogin({ mode = 'login' }) {
         onClick={handleGoogleLogin}
         whileHover={{ scale: 1.01 }}
         whileTap={{ scale: 0.98 }}
-        className="w-full flex items-center justify-center gap-3 bg-white border border-border text-text font-semibold py-3 px-4 rounded-xl shadow-sm hover:bg-gray-50 hover:shadow-md transition-all cursor-pointer"
+        className="w-full flex items-center justify-center gap-3 bg-surface border border-border text-text font-semibold py-3 px-4 rounded-xl shadow-sm hover:bg-black/5 dark:hover:bg-white/5 hover:shadow-md transition-all cursor-pointer"
       >
         <GoogleIcon />
         {text} with Google
@@ -38,6 +42,7 @@ export default function SocialLogin({ mode = 'login' }) {
       
       <motion.button
         type="button"
+        onClick={handleGithubLogin}
         whileHover={{ scale: 1.01 }}
         whileTap={{ scale: 0.98 }}
         className="w-full flex items-center justify-center gap-3 bg-dark text-white font-semibold py-3 px-4 rounded-xl shadow-sm hover:bg-black hover:shadow-md transition-all cursor-pointer"

@@ -41,7 +41,7 @@ const OAuth2RedirectHandler = () => {
     }, [location, navigate]);
 
     return (
-        <div className="flex justify-center items-center h-screen bg-gray-50">
+        <div className="flex justify-center items-center h-screen bg-black/5 dark:bg-white/5">
             <div className="flex flex-col items-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mb-4"></div>
                 <h2 className="text-xl font-semibold text-gray-700">Authenticating with Google...</h2>

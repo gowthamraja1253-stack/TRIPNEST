@@ -189,7 +189,7 @@ export default function ItineraryDashboard() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="min-h-[60vh] flex items-center justify-center bg-white rounded-[24px] border border-border/50 p-6"
+          className="min-h-[60vh] flex items-center justify-center bg-surface rounded-[24px] border border-border/50 p-6"
         >
           <EmptyState 
             icon={ListTodo}
@@ -239,7 +239,7 @@ export default function ItineraryDashboard() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-white rounded-[24px] border border-border/50 shadow-sm p-6 min-h-[500px]"
+                  className="bg-surface rounded-[24px] border border-border/50 shadow-sm p-6 min-h-[500px]"
                 >
                   {renderView()}
                 </motion.div>

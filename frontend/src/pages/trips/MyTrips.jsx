@@ -47,8 +47,16 @@ export default function MyTrips() {
     const timer = setTimeout(() => {
       fetchTrips();
     }, 300);
+    
+    const handleTripCreated = () => {
+      fetchTrips();
+    };
+    window.addEventListener('trip-created', handleTripCreated);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('trip-created', handleTripCreated);
+    };
   }, [searchQuery, statusFilter, sortOrder]);
 
   const handleDeleteRequest = (trip) => {

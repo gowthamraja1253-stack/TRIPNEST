@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, useWatch } from 'react-hook-form';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import AuthLayout from '../../components/auth/AuthLayout';
 import Input from '../../components/ui/Input';
 import SocialLogin from '../../components/auth/SocialLogin';
@@ -9,10 +9,12 @@ import PasswordStrengthMeter from '../../components/auth/PasswordStrengthMeter';
 import Button from '../../components/ui/Button';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import { authService } from '../../services/authService';
+import LoginSuccessAnim from '../../components/auth/LoginSuccessAnim';
 
 export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState('');
+  const [showSuccessAnim, setShowSuccessAnim] = useState(false);
   const navigate = useNavigate();
   
   const { register, handleSubmit, control, formState: { errors } } = useForm({
@@ -26,8 +28,10 @@ export default function Register() {
     setAuthError('');
     try {
       await authService.register(data);
-      // Navigate to OTP verification instead of directly logging in
-      navigate('/verify-otp', { state: { email: data.email } });
+      setShowSuccessAnim(true);
+      setTimeout(() => {
+        navigate('/login', { state: { message: 'Registration successful! Please log in.' } });
+      }, 2500);
     } catch (err) {
       setAuthError(err.message || 'Failed to register');
     } finally {
@@ -37,10 +41,22 @@ export default function Register() {
 
   return (
     <AuthLayout 
-      title="Create Account" 
-      subtitle="Join TripNest and start planning smarter."
+      title={showSuccessAnim ? "" : "Create Account"} 
+      subtitle={showSuccessAnim ? "" : "Join TripNest and start planning smarter."}
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <AnimatePresence mode="wait">
+        {showSuccessAnim ? (
+          <LoginSuccessAnim key="success" />
+        ) : (
+          <motion.div 
+            key="form"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+            className="w-full"
+          >
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         
         {authError && (
           <motion.div 
@@ -134,6 +150,9 @@ export default function Register() {
           Log in
         </Link>
       </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </AuthLayout>
   );
 }

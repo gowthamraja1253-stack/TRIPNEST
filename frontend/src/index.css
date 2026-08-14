@@ -3,6 +3,26 @@
 @variant dark (&:is(.dark *));
 
 /* ─── Design Tokens ─── */
+:root {
+  color-scheme: light;
+  --app-bg: #F8FAFC;
+  --app-surface: #FFFFFF;
+  --app-text: #0F172A;
+  --app-text-secondary: #475569;
+  --app-text-muted: #94A3B8;
+  --app-border: #E2E8F0;
+}
+
+.dark {
+  color-scheme: dark;
+  --app-bg: #0F172A;
+  --app-surface: #1E293B;
+  --app-text: #F8FAFC;
+  --app-text-secondary: #94A3B8;
+  --app-text-muted: #64748B;
+  --app-border: #334155;
+}
+
 @theme {
   --color-primary: #2563EB;
   --color-primary-light: #3B82F6;
@@ -13,12 +33,14 @@
   --color-accent: #F97316;
   --color-accent-light: #FB923C;
   --color-accent-dark: #EA580C;
-  --color-background: #F8FAFC;
-  --color-surface: #FFFFFF;
-  --color-text: #0F172A;
-  --color-text-secondary: #475569;
-  --color-text-muted: #94A3B8;
-  --color-border: #E2E8F0;
+  
+  --color-background: var(--app-bg);
+  --color-surface: var(--app-surface);
+  --color-text: var(--app-text);
+  --color-text-secondary: var(--app-text-secondary);
+  --color-text-muted: var(--app-text-muted);
+  --color-border: var(--app-border);
+  
   --color-dark: #0F172A;
   --color-dark-surface: #1E293B;
 

@@ -1,77 +1,52 @@
 package com.tripnest.media.service;
 
-import com.tripnest.media.config.FileStorageProperties;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.tripnest.media.exception.FileNotFoundException;
 import com.tripnest.media.exception.FileStorageException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
 
-    private final Path fileStorageLocation;
+    private final Cloudinary cloudinary;
 
-    @Autowired
-    public FileStorageServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
-                .toAbsolutePath().normalize();
-
-        try {
-            Files.createDirectories(this.fileStorageLocation);
-        } catch (Exception ex) {
-            throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
-        }
+    public FileStorageServiceImpl(@Value("${cloudinary.url}") String cloudinaryUrl) {
+        this.cloudinary = new Cloudinary(cloudinaryUrl);
     }
 
     @Override
     public String storeFile(MultipartFile file) {
-        // Normalize file name
-        String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
-        
-        // Generate a unique file name to prevent overriding existing files
-        String fileExtension = "";
         try {
-            fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-        } catch(Exception e) {
-            fileExtension = "";
-        }
-        
-        String fileName = UUID.randomUUID().toString() + fileExtension;
+            String originalFilename = file.getOriginalFilename() != null ? file.getOriginalFilename() : "file";
+            String publicId = "tripnest/media/" + UUID.randomUUID().toString() + "_" + originalFilename;
 
-        try {
-            // Check if the file's name contains invalid characters
-            if (fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-            }
+            Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.asMap(
+                    "public_id", publicId,
+                    "resource_type", "auto"
+            ));
 
-            // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
-            return fileName;
+            return uploadResult.get("secure_url").toString();
         } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+            throw new FileStorageException("Could not store file to Cloudinary. Please try again!", ex);
         }
     }
 
     @Override
     public Resource loadFileAsResource(String fileName) {
         try {
-            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
-            Resource resource = new UrlResource(filePath.toUri());
-            if (resource.exists()) {
+            // If the fileName is already a Cloudinary URL, we can return it as a UrlResource
+            Resource resource = new UrlResource(fileName);
+            if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
                 throw new FileNotFoundException("File not found " + fileName);

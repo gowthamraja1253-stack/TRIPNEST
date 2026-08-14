@@ -95,7 +95,7 @@ export default function SettingsPage() {
         <p className="text-slate-600 dark:text-slate-400">Manage your app preferences and notification settings.</p>
       </div>
 
-      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+      <div className="bg-surface rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
         <form onSubmit={handleSubmit}>
           
           {/* Preferences Section */}
@@ -211,7 +211,7 @@ export default function SettingsPage() {
             </h3>
             
             <div className="space-y-4">
-              <label className="flex items-start gap-4 cursor-pointer p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-brand-300 transition-colors">
+              <label className="flex items-start gap-4 cursor-pointer p-4 bg-surface border border-slate-200 dark:border-slate-700 rounded-xl hover:border-brand-300 transition-colors">
                 <div className="flex items-center h-5 mt-1">
                   <input
                     type="checkbox"
@@ -227,7 +227,7 @@ export default function SettingsPage() {
                 </div>
               </label>
 
-              <label className="flex items-start gap-4 cursor-pointer p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-brand-300 transition-colors">
+              <label className="flex items-start gap-4 cursor-pointer p-4 bg-surface border border-slate-200 dark:border-slate-700 rounded-xl hover:border-brand-300 transition-colors">
                 <div className="flex items-center h-5 mt-1">
                   <input
                     type="checkbox"

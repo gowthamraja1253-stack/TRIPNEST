@@ -144,6 +144,14 @@ export default function DocumentsDashboard() {
   const totalFiles = documents.length;
   const totalBytes = documents.reduce((sum, d) => sum + (d.fileSize || 0), 0);
 
+  const resolveFileUrl = (url) => {
+    if (!url) return '';
+    if (url.startsWith('http') || url.startsWith('blob:') || url.startsWith('data:')) return url;
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+    const host = baseUrl.replace(/\/api\/v1\/?$/, '');
+    return `${host}${url.startsWith('/') ? '' : '/'}${url}`;
+  };
+
   return (
     <div className="max-w-6xl mx-auto space-y-8 pb-12 w-full overflow-hidden">
       <SEO title="Travel Documents & Media" description="Upload, manage, and view all travel documents, tickets, hotel bookings, and photos." />
@@ -166,7 +174,7 @@ export default function DocumentsDashboard() {
 
       {/* ── Storage Overview Stats ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-[20px] p-5 border border-border shadow-sm flex items-center gap-4 min-w-0">
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="bg-surface rounded-[20px] p-5 border border-border shadow-sm flex items-center gap-4 min-w-0">
           <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
             <FileBox size={22} />
           </div>
@@ -176,7 +184,7 @@ export default function DocumentsDashboard() {
           </div>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white rounded-[20px] p-5 border border-border shadow-sm flex items-center gap-4 min-w-0">
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-surface rounded-[20px] p-5 border border-border shadow-sm flex items-center gap-4 min-w-0">
           <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
             <HardDrive size={22} />
           </div>
@@ -186,7 +194,7 @@ export default function DocumentsDashboard() {
           </div>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-white rounded-[20px] p-5 border border-border shadow-sm flex items-center gap-4 min-w-0 sm:col-span-2 lg:col-span-1">
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-surface rounded-[20px] p-5 border border-border shadow-sm flex items-center gap-4 min-w-0 sm:col-span-2 lg:col-span-1">
           <div className="w-11 h-11 rounded-2xl bg-accent/10 text-accent flex items-center justify-center shrink-0">
             <Sparkles size={22} />
           </div>
@@ -209,7 +217,7 @@ export default function DocumentsDashboard() {
                 className={`flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap text-xs font-semibold transition-all border ${
                   activeCategory === cat.id
                     ? 'bg-primary text-white border-primary shadow-md shadow-primary/20'
-                    : 'bg-white border-border text-text-secondary hover:bg-gray-50'
+                    : 'bg-surface border-border text-text-secondary hover:bg-black/5 dark:hover:bg-white/5'
                 }`}
               >
                 <cat.icon size={15} /> {cat.label}
@@ -226,14 +234,14 @@ export default function DocumentsDashboard() {
                 placeholder="Search files..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="pl-9 pr-4 py-2 bg-white border border-border rounded-xl text-xs outline-none focus:border-primary w-full sm:w-48"
+                className="pl-9 pr-4 py-2 bg-surface border border-border rounded-xl text-xs outline-none focus:border-primary w-full sm:w-48"
               />
             </div>
 
             <select
               value={selectedTripId}
               onChange={e => setSelectedTripId(e.target.value)}
-              className="p-2 bg-white border border-border rounded-xl text-xs outline-none focus:border-primary text-text font-medium flex-1 sm:flex-initial"
+              className="p-2 bg-surface border border-border rounded-xl text-xs outline-none focus:border-primary text-text font-medium flex-1 sm:flex-initial"
             >
               <option value="">All Trips</option>
               {trips.map(t => (
@@ -258,12 +266,12 @@ export default function DocumentsDashboard() {
                 key={doc.id}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-white rounded-[20px] border border-border overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between group"
+                className="bg-surface rounded-[20px] border border-border overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between group"
               >
                 {/* Header / Thumbnail */}
-                <div className="relative h-44 bg-gray-100 flex items-center justify-center overflow-hidden border-b border-border/50">
+                <div className="relative h-44 bg-black/10 dark:bg-white/10 flex items-center justify-center overflow-hidden border-b border-border/50">
                   {isImg ? (
-                    <img src={doc.fileUrl} alt={doc.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={resolveFileUrl(doc.fileUrl)} alt={doc.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
                     <div className="flex flex-col items-center gap-2 text-primary p-4 text-center">
                       {doc.category === 'TICKET' ? <Ticket size={48} /> : doc.category === 'HOTEL_BOOKING' ? <Hotel size={48} /> : <FileText size={48} />}
@@ -297,20 +305,17 @@ export default function DocumentsDashboard() {
 
                   {/* Actions Bar */}
                   <div className="flex gap-2 pt-1 border-t border-border/40">
-                    {isImg ? (
-                      <button
-                        onClick={() => setPreviewDoc(doc)}
-                        className="flex-1 py-1.5 bg-gray-50 hover:bg-gray-100 text-text text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-1 border border-border"
-                      >
-                        <Eye size={14} /> Preview
-                      </button>
-                    ) : null}
+                    <button
+                      onClick={() => setPreviewDoc(doc)}
+                      className="flex-1 py-1.5 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-text text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-1 border border-border"
+                    >
+                      <Eye size={14} /> Preview
+                    </button>
 
                     <a
-                      href={doc.fileUrl}
+                      href={resolveFileUrl(doc.fileUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      download
                       className="flex-1 py-1.5 bg-primary/10 hover:bg-primary/20 text-primary text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-1"
                     >
                       <Download size={14} /> Download
@@ -330,7 +335,7 @@ export default function DocumentsDashboard() {
           })}
         </div>
       ) : (
-        <div className="bg-white rounded-[24px] border border-border p-12 text-center space-y-4 max-w-lg mx-auto">
+        <div className="bg-surface rounded-[24px] border border-border p-12 text-center space-y-4 max-w-lg mx-auto">
           <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto">
             <UploadCloud size={32} />
           </div>
@@ -359,7 +364,7 @@ export default function DocumentsDashboard() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               onClick={e => e.stopPropagation()}
-              className="bg-white rounded-[24px] p-6 sm:p-8 w-full max-w-lg shadow-2xl border border-border max-h-[90vh] overflow-y-auto"
+              className="bg-surface rounded-[24px] p-6 sm:p-8 w-full max-w-lg shadow-2xl border border-border max-h-[90vh] overflow-y-auto"
             >
               <div className="flex justify-between items-center mb-6 border-b border-border pb-4">
                 <div className="flex items-center gap-2">
@@ -371,7 +376,7 @@ export default function DocumentsDashboard() {
                     <p className="text-xs text-text-secondary">Supported: PDF, PNG, JPG, WEBP, DOCX</p>
                   </div>
                 </div>
-                <button onClick={() => setShowUploadModal(false)} disabled={isUploading} className="p-2 rounded-full hover:bg-gray-100 text-text-secondary">
+                <button onClick={() => setShowUploadModal(false)} disabled={isUploading} className="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 text-text-secondary">
                   <X size={18} />
                 </button>
               </div>
@@ -383,7 +388,7 @@ export default function DocumentsDashboard() {
                     value={uploadTripId}
                     onChange={e => setUploadTripId(e.target.value)}
                     required
-                    className="w-full p-3 bg-gray-50 border border-border rounded-xl text-sm font-medium outline-none focus:border-primary"
+                    className="w-full p-3 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-sm font-medium outline-none focus:border-primary"
                   >
                     {trips.length === 0 ? (
                       <option value="">No Trips Found - Please Create a Trip First</option>
@@ -404,7 +409,7 @@ export default function DocumentsDashboard() {
                         key={cat.id}
                         onClick={() => setUploadCategory(cat.id)}
                         className={`p-3 rounded-xl border flex items-center gap-2 text-xs font-bold text-left transition-all ${
-                          uploadCategory === cat.id ? 'border-primary bg-primary/10 text-primary shadow-sm' : 'border-border bg-gray-50 text-text-secondary hover:bg-gray-100'
+                          uploadCategory === cat.id ? 'border-primary bg-primary/10 text-primary shadow-sm' : 'border-border bg-black/5 dark:bg-white/5 text-text-secondary hover:bg-black/10 dark:hover:bg-white/10'
                         }`}
                       >
                         <cat.icon size={16} />
@@ -423,7 +428,7 @@ export default function DocumentsDashboard() {
 
                 <div>
                   <label className="block text-sm font-semibold text-text mb-1.5">Select File</label>
-                  <div className="border-2 border-dashed border-border hover:border-primary rounded-2xl p-6 text-center bg-gray-50 transition-colors cursor-pointer relative">
+                  <div className="border-2 border-dashed border-border hover:border-primary rounded-2xl p-6 text-center bg-black/5 dark:bg-white/5 transition-colors cursor-pointer relative">
                     <input
                       type="file"
                       required
@@ -477,7 +482,11 @@ export default function DocumentsDashboard() {
               >
                 <X size={20} />
               </button>
-              <img src={previewDoc.fileUrl} alt={previewDoc.name} className="max-h-[80vh] w-auto object-contain rounded-xl" />
+              {previewDoc?.fileType?.startsWith('image/') ? (
+                <img src={resolveFileUrl(previewDoc.fileUrl)} alt={previewDoc.name} className="max-h-[80vh] w-auto object-contain rounded-xl" />
+              ) : (
+                <iframe src={resolveFileUrl(previewDoc.fileUrl)} title={previewDoc.name} className="w-[85vw] max-w-4xl h-[75vh] bg-white rounded-xl border-none" />
+              )}
               <div className="p-3 text-white text-center">
                 <p className="font-bold text-base">{previewDoc.name}</p>
                 <p className="text-xs text-gray-400">{previewDoc.tripName} · {formatFileSize(previewDoc.fileSize)}</p>

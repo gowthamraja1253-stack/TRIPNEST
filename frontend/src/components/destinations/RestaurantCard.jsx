@@ -26,7 +26,7 @@ export default function RestaurantCard({ restaurant }) {
       viewport={{ once: true }}
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
-      className="group flex flex-col bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-200 dark:border-slate-800 transition-all h-full"
+      className="group flex flex-col bg-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-200 dark:border-slate-800 transition-all h-full"
     >
       {/* Image Section */}
       <div className="relative h-48 overflow-hidden">

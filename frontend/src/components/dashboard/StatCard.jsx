@@ -47,14 +47,14 @@ const StatCard = memo(({ title, value, prefix = '', suffix = '', icon: Icon, tre
         visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
       }}
       whileHover={{ y: -5, scale: 1.02 }}
-      className="relative overflow-hidden rounded-[20px] bg-white border border-border/50 p-6 shadow-sm hover:shadow-lg transition-all group"
+      className="relative overflow-hidden rounded-[20px] bg-surface border border-border/50 p-6 shadow-sm hover:shadow-lg transition-all group"
     >
       {/* Background Glow */}
       <div className={`absolute -right-6 -top-6 w-24 h-24 rounded-full opacity-10 group-hover:opacity-20 transition-opacity blur-2xl ${colorClass}`}></div>
 
       <div className="flex justify-between items-start mb-4">
-        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${colorClass} bg-opacity-10 text-current`}>
-          <Icon size={24} className={colorClass.replace('bg-', 'text-')} />
+        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${colorClass} text-white shadow-sm`}>
+          <Icon size={24} className="text-white" />
         </div>
         
         {trend && (

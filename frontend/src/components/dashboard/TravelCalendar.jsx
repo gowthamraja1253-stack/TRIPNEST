@@ -98,7 +98,7 @@ export default function TravelCalendar({ trips = [] }) {
   };
 
   return (
-    <div className="bg-white rounded-[20px] border border-border/50 p-6 shadow-sm">
+    <div className="bg-surface rounded-[20px] border border-border/50 p-6 shadow-sm">
       <div className="flex justify-between items-center mb-6">
         <h3 className="font-heading font-bold text-lg text-text">
           {monthNames[month]} {year}
@@ -106,13 +106,13 @@ export default function TravelCalendar({ trips = [] }) {
         <div className="flex gap-2">
           <button 
             onClick={handlePrevMonth}
-            className="p-1 rounded-md hover:bg-gray-100 text-text-secondary cursor-pointer"
+            className="p-1 rounded-md hover:bg-black/10 dark:hover:bg-white/10 text-text-secondary cursor-pointer"
           >
             <ChevronLeft size={18} />
           </button>
           <button 
             onClick={handleNextMonth}
-            className="p-1 rounded-md hover:bg-gray-100 text-text-secondary cursor-pointer"
+            className="p-1 rounded-md hover:bg-black/10 dark:hover:bg-white/10 text-text-secondary cursor-pointer"
           >
             <ChevronRight size={18} />
           </button>
@@ -142,7 +142,7 @@ export default function TravelCalendar({ trips = [] }) {
               key={date}
               whileHover={{ scale: 1.1 }}
               className={`text-center py-2 text-sm rounded-lg cursor-pointer transition-colors
-                ${isTrip ? 'bg-primary text-white font-bold' : 'text-text hover:bg-gray-100'}
+                ${isTrip ? 'bg-primary text-white font-bold' : 'text-text hover:bg-black/10 dark:hover:bg-white/10'}
                 ${isStart ? 'rounded-l-full' : ''}
                 ${isEnd ? 'rounded-r-full' : ''}
                 ${isTrip && !isStart && !isEnd ? 'rounded-none' : ''}

@@ -60,7 +60,7 @@ export default function Pricing() {
           <ScrollReveal key={plan.name} delay={index * 0.15}>
             <motion.div
               whileHover={{ y: -8 }}
-              className={`relative rounded-[24px] p-8 bg-white border-2 transition-all duration-300 shadow-lg ${
+              className={`relative rounded-[24px] p-8 bg-surface border-2 transition-all duration-300 shadow-lg ${
                 plan.popular ? 'border-primary shadow-xl shadow-primary/20 scale-105 z-10' : 'border-transparent'
               }`}
             >

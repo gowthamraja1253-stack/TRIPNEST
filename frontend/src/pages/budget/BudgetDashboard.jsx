@@ -175,7 +175,7 @@ export default function BudgetDashboard() {
 
         {/* Trip Selector Filter */}
         <div className="flex items-center gap-3 shrink-0">
-          <div className="flex items-center gap-2 bg-white p-2 border border-border rounded-xl shadow-sm">
+          <div className="flex items-center gap-2 bg-surface p-2 border border-border rounded-xl shadow-sm">
             <Filter size={16} className="text-gray-400" />
             <select
               value={selectedTripId}
@@ -196,17 +196,17 @@ export default function BudgetDashboard() {
 
       {/* Global Overview Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-[20px] p-6 border border-border shadow-sm">
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="bg-surface rounded-[20px] p-6 border border-border shadow-sm">
           <p className="text-text-secondary text-xs font-semibold uppercase tracking-wider mb-1">Target Planned Budget</p>
           <p className="text-3xl font-heading font-bold text-text">{formatINR(totalPlannedBudget)}</p>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white rounded-[20px] p-6 border border-border shadow-sm">
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-surface rounded-[20px] p-6 border border-border shadow-sm">
           <p className="text-text-secondary text-xs font-semibold uppercase tracking-wider mb-1">Actual Spent (From Expenses)</p>
           <p className="text-3xl font-heading font-bold text-primary">{formatINR(totalActualSpent)}</p>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-white rounded-[20px] p-6 border border-border shadow-sm">
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-surface rounded-[20px] p-6 border border-border shadow-sm">
           <p className="text-text-secondary text-xs font-semibold uppercase tracking-wider mb-1">Remaining Balance</p>
           <p className={`text-3xl font-heading font-bold ${overallRemaining >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
             {formatINR(overallRemaining)}
@@ -215,7 +215,7 @@ export default function BudgetDashboard() {
       </div>
 
       {/* ── Category Budget vs Actual Expense Comparison Table ── */}
-      <div className="bg-white rounded-[24px] border border-border p-6 shadow-sm space-y-6">
+      <div className="bg-surface rounded-[24px] border border-border p-6 shadow-sm space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/50 pb-4">
           <div>
             <h3 className="text-xl font-heading font-bold text-text">
@@ -246,7 +246,7 @@ export default function BudgetDashboard() {
                 const diff = planned - (actual || 0);
 
                 return (
-                  <tr key={cat.id} className="hover:bg-gray-50">
+                  <tr key={cat.id} className="hover:bg-black/5 dark:hover:bg-white/5">
                     <td className="py-4 px-4 font-bold text-text flex items-center gap-2">
                       <span className="text-lg">{cat.icon}</span>
                       <span>{cat.name}</span>
@@ -257,7 +257,7 @@ export default function BudgetDashboard() {
                     </td>
                     <td className="py-4 px-4">
                       {!hasSpent ? (
-                        <span className="px-3 py-1 bg-gray-100 text-gray-500 rounded-full text-xs font-bold uppercase">
+                        <span className="px-3 py-1 bg-black/10 dark:bg-white/10 text-gray-500 rounded-full text-xs font-bold uppercase">
                           Pending Expenses
                         </span>
                       ) : diff >= 0 ? (
@@ -287,7 +287,7 @@ export default function BudgetDashboard() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={e => e.stopPropagation()}
-              className="bg-white rounded-[24px] p-6 sm:p-8 w-full max-w-lg shadow-2xl border border-border max-h-[90vh] overflow-y-auto"
+              className="bg-surface rounded-[24px] p-6 sm:p-8 w-full max-w-lg shadow-2xl border border-border max-h-[90vh] overflow-y-auto"
             >
               <div className="flex justify-between items-center mb-6 border-b border-border pb-4">
                 <div className="flex items-center gap-2">
@@ -303,7 +303,7 @@ export default function BudgetDashboard() {
                 <p className="text-xs text-text-secondary">Enter how much money you plan to spend for each travel category:</p>
 
                 {CATEGORIES.map(cat => (
-                  <div key={cat.id} className="flex items-center justify-between gap-4 p-3 bg-gray-50 border border-border rounded-xl">
+                  <div key={cat.id} className="flex items-center justify-between gap-4 p-3 bg-black/5 dark:bg-white/5 border border-border rounded-xl">
                     <span className="font-bold text-sm text-text flex items-center gap-2">
                       <span>{cat.icon}</span> {cat.name}
                     </span>
@@ -312,7 +312,7 @@ export default function BudgetDashboard() {
                       placeholder="0"
                       value={editingBudgets[cat.id] || ''}
                       onChange={e => setEditingBudgets({ ...editingBudgets, [cat.id]: parseFloat(e.target.value) || 0 })}
-                      className="w-32 p-2 bg-white border border-border rounded-lg text-sm font-bold text-right outline-none focus:border-primary"
+                      className="w-32 p-2 bg-surface border border-border rounded-lg text-sm font-bold text-right outline-none focus:border-primary"
                     />
                   </div>
                 ))}

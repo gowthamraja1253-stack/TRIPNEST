@@ -106,7 +106,7 @@ const EditExpenseModal = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
 
-      <div className="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-2xl shadow-xl p-8 relative">
+      <div className="bg-surface rounded-2xl w-full max-w-2xl shadow-xl p-8 relative">
 
         <button
           onClick={onClose}

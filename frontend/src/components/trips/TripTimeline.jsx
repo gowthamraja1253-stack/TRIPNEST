@@ -6,7 +6,7 @@ import Button from '../ui/Button';
 export default function TripTimeline({ events, tripId }) {
   if (!events || events.length === 0) {
     return (
-      <div className="bg-white rounded-[20px] border border-border/50 p-6 text-center">
+      <div className="bg-surface rounded-[20px] border border-border/50 p-6 text-center">
         <p className="text-text-secondary">No itinerary events planned yet.</p>
         <Link to={`/dashboard/itinerary${tripId ? `?tripId=${tripId}` : ''}`}>
           <Button variant="outline" size="sm" className="mt-4">Add Event</Button>
@@ -40,12 +40,12 @@ export default function TripTimeline({ events, tripId }) {
       case 'dining': return 'bg-orange-100 text-orange-600 border-orange-200';
       case 'experience': return 'bg-purple-100 text-purple-600 border-purple-200';
       case 'entertainment': return 'bg-pink-100 text-pink-600 border-pink-200';
-      default: return 'bg-gray-100 text-gray-600 border-gray-200';
+      default: return 'bg-black/10 dark:bg-white/10 text-gray-600 border-gray-200';
     }
   };
 
   return (
-    <div className="bg-white rounded-[20px] border border-border/50 p-6 shadow-sm">
+    <div className="bg-surface rounded-[20px] border border-border/50 p-6 shadow-sm">
       <div className="flex justify-between items-center mb-6">
         <h3 className="font-heading font-bold text-lg text-text">Itinerary Timeline</h3>
         <Link to={`/dashboard/itinerary${tripId ? `?tripId=${tripId}` : ''}`}>
@@ -68,7 +68,7 @@ export default function TripTimeline({ events, tripId }) {
               {getIcon(event.type)}
             </div>
             
-            <div className="bg-gray-50/80 rounded-xl p-5 border border-border/50 hover:shadow-md transition-shadow group">
+            <div className="bg-black/5 dark:bg-white/5 rounded-xl p-5 border border-border/50 hover:shadow-md transition-shadow group">
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <h4 className="font-bold text-text text-lg group-hover:text-primary transition-colors">{event.title}</h4>

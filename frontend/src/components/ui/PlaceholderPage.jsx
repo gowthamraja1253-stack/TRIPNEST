@@ -39,11 +39,11 @@ export default function PlaceholderPage({
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-[24px] border border-border shadow-sm overflow-hidden"
+        className="bg-surface rounded-[24px] border border-border shadow-sm overflow-hidden"
       >
         <div className="grid lg:grid-cols-2">
           {/* Left: Illustration */}
-          <div className="relative h-64 lg:h-auto bg-gray-100 overflow-hidden">
+          <div className="relative h-64 lg:h-auto bg-black/10 dark:bg-white/10 overflow-hidden">
             <img 
               src={safeImage} 
               alt={title}

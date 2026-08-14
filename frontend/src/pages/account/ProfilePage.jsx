@@ -98,7 +98,7 @@ export default function ProfilePage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left Column: Avatar & Summary */}
         <div className="lg:col-span-1">
-          <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+          <div className="bg-surface rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
             <div className="flex flex-col items-center">
               <div className="relative group mb-4">
                 <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white dark:border-slate-700 shadow-lg bg-slate-100 dark:bg-slate-800">
@@ -164,7 +164,7 @@ export default function ProfilePage() {
 
         {/* Right Column: Form */}
         <div className="lg:col-span-2">
-          <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-700">
+          <div className="bg-surface rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-700">
             <form onSubmit={handleSubmit} className="space-y-6">
               
               <div className="space-y-4">
@@ -236,7 +236,7 @@ export default function ProfilePage() {
                     onChange={handleChange}
                     placeholder="E.g., Tokyo, Paris, New York..."
                     rows={2}
-                    className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-colors"
+                    className="w-full px-3 py-2 bg-surface border border-slate-300 dark:border-slate-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-colors"
                   />
                 </div>
                 
@@ -250,7 +250,7 @@ export default function ProfilePage() {
                     onChange={handleChange}
                     placeholder="E.g., I prefer window seats, luxury hotels, and adventure sports."
                     rows={3}
-                    className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-colors"
+                    className="w-full px-3 py-2 bg-surface border border-slate-300 dark:border-slate-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-colors"
                   />
                 </div>
               </div>

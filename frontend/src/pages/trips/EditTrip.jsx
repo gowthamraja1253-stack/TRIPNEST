@@ -83,7 +83,7 @@ export default function EditTrip() {
         </AnimatePresence>
       </div>
 
-      <div className="bg-white rounded-[24px] shadow-sm border border-border p-6 sm:p-10">
+      <div className="bg-surface rounded-[24px] shadow-sm border border-border p-6 sm:p-10">
         <h1 className="text-3xl font-heading font-bold text-text mb-8">Edit Trip Settings</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -115,7 +115,7 @@ export default function EditTrip() {
             <div className="mt-6">
               <label className="block text-sm font-semibold text-text-secondary mb-2">Description</label>
               <textarea
-                className="w-full p-4 bg-gray-50 border border-border rounded-xl text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all min-h-[120px]"
+                className="w-full p-4 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all min-h-[120px]"
                 {...register('description')}
               />
             </div>
@@ -164,7 +164,7 @@ export default function EditTrip() {
               <div className="md:col-span-2">
                 <label className="block text-sm font-semibold text-text-secondary mb-2">Status</label>
                 <select
-                  className="w-full p-4 bg-gray-50 border border-border rounded-xl text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                  className="w-full p-4 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                   {...register('status')}
                 >
                   <option value="Planning">Planning</option>

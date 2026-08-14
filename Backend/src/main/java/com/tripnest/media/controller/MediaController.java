@@ -27,16 +27,11 @@ public class MediaController {
 
     @PostMapping("/upload")
     public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file) {
-        String fileName = fileStorageService.storeFile(file);
-
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/api/v1/media/download/")
-                .path(fileName)
-                .toUriString();
+        String fileUrl = fileStorageService.storeFile(file);
 
         Map<String, String> response = new HashMap<>();
-        response.put("fileName", fileName);
-        response.put("fileDownloadUri", fileDownloadUri);
+        response.put("fileName", file.getOriginalFilename());
+        response.put("fileDownloadUri", fileUrl); // Provide direct Cloudinary URL
         response.put("fileType", file.getContentType());
         response.put("size", String.valueOf(file.getSize()));
 

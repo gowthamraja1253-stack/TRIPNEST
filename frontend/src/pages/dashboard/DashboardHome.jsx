@@ -42,7 +42,17 @@ export default function DashboardHome() {
         setLoading(false);
       }
     };
+    
     fetchData();
+    
+    const handleTripCreated = () => {
+      fetchData();
+    };
+    window.addEventListener('trip-created', handleTripCreated);
+    
+    return () => {
+      window.removeEventListener('trip-created', handleTripCreated);
+    };
   }, []);
 
   const getUpcomingTrip = () => {
@@ -178,7 +188,7 @@ export default function DashboardHome() {
               <section>
                 <div className="flex justify-between items-end mb-6">
                   <h2 className="text-2xl font-heading font-bold text-text">Recent Trips</h2>
-                  <button className="text-sm font-semibold text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded px-1">View All</button>
+                  <Link to="/dashboard/trips" className="text-sm font-semibold text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded px-1">View All</Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {data.trips.slice(0, 2).map((trip, i) => (

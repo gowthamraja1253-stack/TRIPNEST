@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 
 const Card = ({ title, value, icon, color }) => (
-  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-md p-6 hover:shadow-xl transition-all duration-300">
+  <div className="bg-surface rounded-2xl shadow-md p-6 hover:shadow-xl transition-all duration-300">
 
     <div className="flex justify-between items-center">
 
@@ -83,7 +83,7 @@ const BudgetSummaryCards = ({ summary }) => {
 
       {/* Progress */}
 
-      <div className="bg-white dark:bg-slate-800 mt-8 rounded-2xl shadow-md p-6">
+      <div className="bg-surface mt-8 rounded-2xl shadow-md p-6">
 
         <div className="flex justify-between">
 
@@ -97,7 +97,7 @@ const BudgetSummaryCards = ({ summary }) => {
 
         </div>
 
-        <div className="w-full h-4 bg-gray-200 rounded-full mt-5 overflow-hidden">
+        <div className="w-full h-4 bg-black/20 dark:bg-white/20 rounded-full mt-5 overflow-hidden">
 
           <div
             className={`h-4 rounded-full transition-all duration-700 ${

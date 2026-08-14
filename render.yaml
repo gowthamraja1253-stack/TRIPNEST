@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: tripnest-backend
+    env: docker
+    dockerContext: ./backend
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+      - key: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+        value: org.postgresql.Driver
+      - key: CLOUDINARY_URL
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+    plan: free
+
+  - type: web
+    name: tripnest-frontend
+    env: docker
+    dockerContext: ./Frontend
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: tripnest-backend
+          envVarKey: RENDER_EXTERNAL_URL
+    plan: free

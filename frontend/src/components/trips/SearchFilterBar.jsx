@@ -12,7 +12,7 @@ export default function SearchFilterBar({
     <motion.div 
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-[20px] border border-border/50 p-4 shadow-sm flex flex-col md:flex-row items-center gap-4 z-10 relative"
+      className="bg-surface rounded-[20px] border border-border/50 p-4 shadow-sm flex flex-col md:flex-row items-center gap-4 z-10 relative"
     >
       {/* Search */}
       <div className="relative flex-1 w-full group">
@@ -24,7 +24,7 @@ export default function SearchFilterBar({
           placeholder="Search trips, destinations, or countries..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 pr-4 py-3 bg-gray-50/50 border border-border rounded-xl text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all focus:bg-white"
+          className="w-full pl-10 pr-4 py-3 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all focus:bg-white"
         />
       </div>
 
@@ -34,7 +34,7 @@ export default function SearchFilterBar({
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="appearance-none pl-10 pr-8 py-3 bg-white border border-border rounded-xl text-sm font-medium text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 cursor-pointer min-w-[140px]"
+            className="appearance-none pl-10 pr-8 py-3 bg-surface border border-border rounded-xl text-sm font-medium text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 cursor-pointer min-w-[140px]"
           >
             <option value="All">All Statuses</option>
             <option value="Planning">Planning</option>
@@ -50,7 +50,7 @@ export default function SearchFilterBar({
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="appearance-none pl-10 pr-8 py-3 bg-white border border-border rounded-xl text-sm font-medium text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 cursor-pointer min-w-[150px]"
+            className="appearance-none pl-10 pr-8 py-3 bg-surface border border-border rounded-xl text-sm font-medium text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 cursor-pointer min-w-[150px]"
           >
             <option value="newest">Newest First</option>
             <option value="oldest">Oldest First</option>
@@ -62,16 +62,16 @@ export default function SearchFilterBar({
         </div>
 
         {/* View Toggle */}
-        <div className="flex bg-gray-100 p-1 rounded-xl shrink-0">
+        <div className="flex bg-black/10 dark:bg-white/10 p-1 rounded-xl shrink-0">
           <button
             onClick={() => setViewMode('grid')}
-            className={`p-2 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-white shadow-sm text-primary' : 'text-text-muted hover:text-text'}`}
+            className={`p-2 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-surface shadow-sm text-primary' : 'text-text-muted hover:text-text'}`}
           >
             <LayoutGrid size={18} />
           </button>
           <button
             onClick={() => setViewMode('list')}
-            className={`p-2 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-white shadow-sm text-primary' : 'text-text-muted hover:text-text'}`}
+            className={`p-2 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-surface shadow-sm text-primary' : 'text-text-muted hover:text-text'}`}
           >
             <List size={18} />
           </button>

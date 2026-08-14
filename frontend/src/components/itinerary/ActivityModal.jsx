@@ -65,15 +65,15 @@ const ActivityModal = ({ isOpen, onClose, onSave, activity, trip }) => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
-              className="w-full max-w-2xl overflow-hidden bg-slate-900 border border-white/10 rounded-3xl shadow-2xl shadow-indigo-500/20 pointer-events-auto flex flex-col max-h-[90vh] sm:max-h-[85vh]"
+              className="w-full max-w-2xl overflow-hidden bg-surface border border-border/50 rounded-3xl shadow-2xl shadow-indigo-500/20 pointer-events-auto flex flex-col max-h-[90vh] sm:max-h-[85vh]"
             >
-              <div className="flex items-center justify-between p-6 border-b border-white/10 bg-white/5">
-                <h2 className="text-2xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
+              <div className="flex items-center justify-between p-6 border-b border-border/50 bg-black/5 dark:bg-white/5">
+                <h2 className="text-2xl font-bold text-text font-heading">
                   {activity ? 'Edit Activity' : 'Add New Activity'}
                 </h2>
                 <button
                   onClick={onClose}
-                  className="p-2 text-white/50 transition-colors rounded-full hover:bg-white/10 hover:text-white"
+                  className="p-2 text-text-muted transition-colors rounded-full hover:bg-white/10 hover:text-text"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -82,37 +82,37 @@ const ActivityModal = ({ isOpen, onClose, onSave, activity, trip }) => {
               <div className="p-6 overflow-y-auto">
                 <form id="activity-form" onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-white/70">Activity Title</label>
+                    <label className="text-sm font-medium text-text-secondary">Activity Title</label>
                     <Input 
                       {...register('title', { required: 'Title is required' })}
                       placeholder="e.g. Eiffel Tower Visit"
-                      className="w-full bg-white/5 border-white/10 focus:border-indigo-500 text-white placeholder-white/30"
+                      className="w-full"
                     />
                     {errors.title && <span className="text-xs text-red-400">{errors.title.message}</span>}
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-sm font-medium text-white/70">Category</label>
+                      <label className="text-sm font-medium text-text-secondary">Category</label>
                       <select 
                         {...register('category')}
-                        className="w-full h-10 px-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all appearance-none"
+                        className="w-full h-10 px-3 bg-black/5 dark:bg-white/5 border border-border/50 rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all appearance-none"
                       >
-                        {CATEGORIES.map(c => <option key={c} value={c} className="bg-slate-800">{c}</option>)}
+                        {CATEGORIES.map(c => <option key={c} value={c} className="bg-surface">{c}</option>)}
                       </select>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium text-white/70">Priority</label>
+                      <label className="text-sm font-medium text-text-secondary">Priority</label>
                       <select 
                         {...register('priority')}
-                        className="w-full h-10 px-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all appearance-none"
+                        className="w-full h-10 px-3 bg-black/5 dark:bg-white/5 border border-border/50 rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all appearance-none"
                       >
-                        {PRIORITIES.map(p => <option key={p} value={p} className="bg-slate-800">{p}</option>)}
+                        {PRIORITIES.map(p => <option key={p} value={p} className="bg-surface">{p}</option>)}
                       </select>
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-sm font-medium text-white/70 flex items-center gap-2">
+                      <label className="text-sm font-medium text-text-secondary flex items-center gap-2">
                         <Calendar className="w-4 h-4" /> Date
                       </label>
                       <Input 
@@ -133,69 +133,69 @@ const ActivityModal = ({ isOpen, onClose, onSave, activity, trip }) => {
                             return true;
                           }
                         })} 
-                        className="w-full bg-white/5 border-white/10 focus:border-indigo-500 text-white" 
+                        className="w-full" 
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <label className="text-sm font-medium text-white/70 flex items-center gap-2">
+                      <label className="text-sm font-medium text-text-secondary flex items-center gap-2">
                         <Clock className="w-4 h-4" /> Time
                       </label>
                       <div className="flex gap-2">
                         <Input 
                           type="time" 
                           {...register('time')} 
-                          className="w-full bg-white/5 border-white/10 focus:border-indigo-500 text-white" 
+                          className="w-full" 
                         />
                         <Input 
                           placeholder="Duration (e.g. 2h)" 
                           {...register('duration')} 
-                          className="w-full bg-white/5 border-white/10 focus:border-indigo-500 text-white placeholder-white/30" 
+                          className="w-full" 
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2 md:col-span-2">
-                      <label className="text-sm font-medium text-white/70 flex items-center gap-2">
+                      <label className="text-sm font-medium text-text-secondary flex items-center gap-2">
                         <MapPin className="w-4 h-4" /> Location
                       </label>
                       <Input 
                         {...register('location')} 
                         placeholder="Address or Place name" 
-                        className="w-full bg-white/5 border-white/10 focus:border-indigo-500 text-white placeholder-white/30" 
+                        className="w-full" 
                       />
                     </div>
 
                     <div className="space-y-2 md:col-span-2">
-                      <label className="text-sm font-medium text-white/70 flex items-center gap-2">
+                      <label className="text-sm font-medium text-text-secondary flex items-center gap-2">
                         <DollarSign className="w-4 h-4" /> Cost (Optional)
                       </label>
                       <Input 
                         type="number" 
                         {...register('cost')} 
                         placeholder="0.00" 
-                        className="w-full bg-white/5 border-white/10 focus:border-indigo-500 text-white placeholder-white/30" 
+                        className="w-full" 
                       />
                     </div>
 
                     <div className="space-y-2 md:col-span-2">
-                      <label className="text-sm font-medium text-white/70">Notes</label>
+                      <label className="text-sm font-medium text-text-secondary">Notes</label>
                       <textarea 
                         {...register('notes')}
                         rows={3}
                         placeholder="Any additional details..."
-                        className="w-full p-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none"
+                        className="w-full p-3 bg-black/5 dark:bg-white/5 border border-border/50 rounded-lg text-text placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none"
                       />
                     </div>
                   </div>
                 </form>
               </div>
 
-              <div className="flex items-center justify-end p-6 border-t border-white/10 bg-white/5 gap-3">
+              <div className="flex items-center justify-end p-6 border-t border-border/50 bg-black/5 dark:bg-white/5 gap-3">
                 <Button 
                   onClick={onClose} 
                   variant="ghost" 
-                  className="px-6 py-2 text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                  className="px-6 py-2 text-text-secondary hover:text-white hover:bg-white/10 transition-colors"
                 >
                   Cancel
                 </Button>

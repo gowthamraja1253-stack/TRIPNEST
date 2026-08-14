@@ -54,7 +54,7 @@ export default function ActivityDetails() {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-[24px] overflow-hidden shadow-sm border border-border flex flex-col md:flex-row relative"
+        className="bg-surface rounded-[24px] overflow-hidden shadow-sm border border-border flex flex-col md:flex-row relative"
       >
         <div className="w-full md:w-2/5 h-[300px] md:h-auto relative group">
           <img 
@@ -101,7 +101,7 @@ export default function ActivityDetails() {
       {/* ── Details Grid ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Map Placeholder */}
-        <div className="bg-gray-100 rounded-[24px] border border-border h-[400px] overflow-hidden relative group shadow-sm">
+        <div className="bg-black/10 dark:bg-white/10 rounded-[24px] border border-border h-[400px] overflow-hidden relative group shadow-sm">
           <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop" alt="Map" className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-1000" />
           <div className="absolute inset-0 bg-gradient-to-t from-dark/60 via-transparent to-transparent"></div>
           <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-6">
@@ -121,7 +121,7 @@ export default function ActivityDetails() {
         </div>
 
         <div className="space-y-6">
-          <div className="bg-white rounded-[24px] border border-border shadow-sm p-6">
+          <div className="bg-surface rounded-[24px] border border-border shadow-sm p-6">
             <h3 className="font-heading font-bold text-lg text-text mb-4">Preparation Checklist</h3>
             <div className="space-y-3">
               {[
@@ -141,9 +141,9 @@ export default function ActivityDetails() {
             </Button>
           </div>
 
-          <div className="bg-white rounded-[24px] border border-border shadow-sm p-6">
+          <div className="bg-surface rounded-[24px] border border-border shadow-sm p-6">
             <h3 className="font-heading font-bold text-lg text-text mb-4">Attachments & Documents</h3>
-            <div className="border-2 border-dashed border-border/60 rounded-xl p-8 flex flex-col items-center justify-center text-center bg-gray-50/50 hover:bg-gray-50 transition-colors cursor-pointer">
+            <div className="border-2 border-dashed border-border/60 rounded-xl p-8 flex flex-col items-center justify-center text-center bg-black/5 dark:bg-white/5 hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer">
               <p className="text-sm font-semibold text-text mb-1">Upload Tickets or Booking Conf.</p>
               <p className="text-xs text-text-muted">PDF, PNG, or JPG (max 5MB)</p>
             </div>

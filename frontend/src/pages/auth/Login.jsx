@@ -1,18 +1,22 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import AuthLayout from '../../components/auth/AuthLayout';
 import Input from '../../components/ui/Input';
 import SocialLogin from '../../components/auth/SocialLogin';
 import Button from '../../components/ui/Button';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import { authService } from '../../services/authService';
+import LoginSuccessAnim from '../../components/auth/LoginSuccessAnim';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState('');
+  const [showSuccessAnim, setShowSuccessAnim] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const successMessage = location.state?.message || '';
   
   const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -21,8 +25,10 @@ export default function Login() {
     setAuthError('');
     try {
       await authService.login(data.email, data.password);
-      // Navigate to dashboard on success
-      navigate('/dashboard');
+      setShowSuccessAnim(true);
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 2500);
     } catch (err) {
       setAuthError(err.message || 'Failed to login');
     } finally {
@@ -32,11 +38,33 @@ export default function Login() {
 
   return (
     <AuthLayout 
-      title="Welcome back" 
-      subtitle="Enter your details to access your account."
+      title={showSuccessAnim ? "" : "Welcome back"} 
+      subtitle={showSuccessAnim ? "" : "Enter your details to access your account."}
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <AnimatePresence mode="wait">
+        {showSuccessAnim ? (
+          <LoginSuccessAnim key="success" />
+        ) : (
+          <motion.div 
+            key="form"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+            className="w-full"
+          >
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         
+        {successMessage && !authError && (
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm text-center"
+          >
+            {successMessage}
+          </motion.div>
+        )}
+
         {authError && (
           <motion.div 
             initial={{ opacity: 0, y: -10 }}
@@ -102,6 +130,9 @@ export default function Login() {
           Sign up
         </Link>
       </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </AuthLayout>
   );
 }

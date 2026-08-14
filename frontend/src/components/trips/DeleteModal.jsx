@@ -21,12 +21,12 @@ export default function DeleteModal({ isOpen, onClose, onConfirm, tripName, isDe
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-md bg-white rounded-[24px] shadow-2xl overflow-hidden p-6 z-10 border border-border"
+            className="relative w-full max-w-md bg-surface rounded-[24px] shadow-2xl overflow-hidden p-6 z-10 border border-border"
           >
             <button 
               onClick={onClose}
               disabled={isDeleting}
-              className="absolute top-4 right-4 p-2 text-text-muted hover:text-text bg-gray-50 hover:bg-gray-100 rounded-full transition-colors disabled:opacity-50"
+              className="absolute top-4 right-4 p-2 text-text-muted hover:text-text bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 rounded-full transition-colors disabled:opacity-50"
             >
               <X size={18} />
             </button>

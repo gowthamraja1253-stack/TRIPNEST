@@ -6,7 +6,7 @@ export default function WizardStepper({ steps, currentStep }) {
     <div className="w-full py-6 mb-8">
       <div className="flex items-center justify-between relative">
         {/* Background Line */}
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-gray-200 rounded-full z-0"></div>
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-black/20 dark:bg-white/20 rounded-full z-0"></div>
         
         {/* Active Progress Line */}
         <motion.div 

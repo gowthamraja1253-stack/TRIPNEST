@@ -61,7 +61,7 @@ export default function Destinations() {
           <ScrollReveal key={destination.name} delay={index * 0.12}>
             <motion.div
               whileHover={{ y: -8 }}
-              className="bg-white rounded-[20px] overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 group"
+              className="bg-surface rounded-[20px] overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 group"
             >
               {/* Image */}
               <div className="h-64 overflow-hidden relative">

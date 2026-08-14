@@ -1,16 +1,23 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Search, Bell, MessageSquare, Sun, ChevronDown, Menu } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, Bell, MessageSquare, Sun, ChevronDown, Menu, LogOut, Settings, User } from 'lucide-react';
 import { notificationService } from '../../services/notificationService';
+import AIAssistant from '../ai/AIAssistant';
 
 import Breadcrumbs from '../ui/Breadcrumbs';
 
 export default function DashboardNavbar({ isCollapsed, setIsCollapsed, setIsMobileOpen }) {
   const [unreadCount, setUnreadCount] = useState(0);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isAiAssistantOpen, setIsAiAssistantOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Initialize theme
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
     fetchUnreadCount();
     const interval = setInterval(fetchUnreadCount, 10000); // Check every 10 seconds for real-time alerts
     const handleNotificationEvent = () => fetchUnreadCount();
@@ -91,13 +98,21 @@ export default function DashboardNavbar({ isCollapsed, setIsCollapsed, setIsMobi
                 </span>
               )}
             </button>
-            <button className="hidden sm:block p-2 text-text-secondary hover:text-primary hover:bg-primary/10 rounded-full transition-colors" aria-label="Messages">
+            <button 
+              onClick={() => setIsAiAssistantOpen(true)}
+              className="p-2 text-text-secondary hover:text-primary hover:bg-primary/10 rounded-full transition-colors" 
+              aria-label="AI Travel Assistant"
+              title="AI Travel Assistant"
+            >
               <MessageSquare size={20} />
             </button>
             <button 
               className="p-2 text-text-secondary hover:text-primary hover:bg-primary/10 rounded-full transition-colors" 
               aria-label="Toggle Theme"
-              onClick={() => document.documentElement.classList.toggle('dark')}
+              onClick={() => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+              }}
             >
               <Sun size={20} />
             </button>
@@ -105,31 +120,84 @@ export default function DashboardNavbar({ isCollapsed, setIsCollapsed, setIsMobi
 
           <div className="h-8 w-px bg-border mx-1"></div>
 
-          {/* Profile Dropdown (UI Only) */}
-          {(() => {
-            const userStr = localStorage.getItem('tripnest_user');
-            const user = userStr ? JSON.parse(userStr) : null;
-            const username = user ? (user.username || user.email) : 'Sarah Jenkins';
-            return (
-              <button className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer" aria-label="User Profile Menu">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-secondary p-0.5">
-                  <img 
-                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop" 
-                    alt="User Avatar" 
-                    className="w-full h-full rounded-full object-cover border-2 border-white"
-                  />
-                </div>
-                <div className="hidden sm:block text-left">
-                  <p className="text-sm font-semibold text-text leading-tight">{username}</p>
-                  <p className="text-xs text-text-secondary">{user ? 'Traveler' : 'Pro Member'}</p>
-                </div>
-                <ChevronDown size={16} className="text-text-muted hidden sm:block" />
-              </button>
-            );
-          })()}
+          {/* Profile Dropdown */}
+          <div className="relative">
+            {(() => {
+              const userStr = localStorage.getItem('tripnest_user');
+              const user = userStr ? JSON.parse(userStr) : null;
+              const username = user ? (user.username || user.email) : 'Sarah Jenkins';
+              return (
+                <button 
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer focus:outline-none" 
+                  aria-label="User Profile Menu"
+                >
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-secondary p-0.5">
+                    <img 
+                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop" 
+                      alt="User Avatar" 
+                      className="w-full h-full rounded-full object-cover border-2 border-white"
+                    />
+                  </div>
+                  <div className="hidden sm:block text-left">
+                    <p className="text-sm font-semibold text-text leading-tight">{username}</p>
+                    <p className="text-xs text-text-secondary">{user ? 'Traveler' : 'Pro Member'}</p>
+                  </div>
+                  <ChevronDown size={16} className={`text-text-muted hidden sm:block transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''}`} />
+                </button>
+              );
+            })()}
+
+            <AnimatePresence>
+              {isProfileOpen && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-40" 
+                    onClick={() => setIsProfileOpen(false)}
+                  ></div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 mt-3 w-56 bg-surface border border-border rounded-xl shadow-xl z-50 overflow-hidden"
+                  >
+                    <div className="py-2">
+                      <button onClick={() => { setIsProfileOpen(false); navigate('/dashboard/profile'); }} className="w-full flex items-center gap-3 px-4 py-2 text-sm text-text-secondary hover:text-primary hover:bg-primary/5 transition-colors">
+                        <User size={16} /> Profile
+                      </button>
+                      <button onClick={() => { setIsProfileOpen(false); navigate('/dashboard/settings'); }} className="w-full flex items-center gap-3 px-4 py-2 text-sm text-text-secondary hover:text-primary hover:bg-primary/5 transition-colors">
+                        <Settings size={16} /> Settings
+                      </button>
+                      <div className="h-px bg-border my-2"></div>
+                      <button 
+                        onClick={() => {
+                          setIsProfileOpen(false);
+                          sessionStorage.removeItem('tripnest_token');
+                          sessionStorage.removeItem('tripnest_user');
+                          localStorage.removeItem('tripnest_token');
+                          localStorage.removeItem('tripnest_user');
+                          navigate('/login');
+                        }} 
+                        className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors"
+                      >
+                        <LogOut size={16} /> Log out
+                      </button>
+                    </div>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
 
         </div>
       </div>
+      
+      {/* AI Assistant Panel */}
+      <AIAssistant 
+        isOpen={isAiAssistantOpen} 
+        onClose={() => setIsAiAssistantOpen(false)} 
+      />
     </header>
   );
 }

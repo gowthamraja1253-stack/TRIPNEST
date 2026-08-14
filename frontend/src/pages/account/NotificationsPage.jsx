@@ -117,7 +117,7 @@ export default function NotificationsPage() {
               onClick={() => setFilter('all')}
               className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 filter === 'all' 
-                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm' 
+                  ? 'bg-surface text-slate-900 dark:text-white shadow-sm' 
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
@@ -127,7 +127,7 @@ export default function NotificationsPage() {
               onClick={() => setFilter('unread')}
               className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 filter === 'unread' 
-                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm' 
+                  ? 'bg-surface text-slate-900 dark:text-white shadow-sm' 
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
@@ -143,7 +143,7 @@ export default function NotificationsPage() {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+      <div className="bg-surface rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
         {notifications.length === 0 ? (
           <div className="text-center py-20">
             <div className="w-16 h-16 mx-auto rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center mb-4">

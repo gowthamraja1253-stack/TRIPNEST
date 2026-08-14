@@ -37,7 +37,7 @@ export default function HotelCard({ hotel }) {
       viewport={{ once: true }}
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
-      className="group flex flex-col md:flex-row bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-200 dark:border-slate-800 transition-all"
+      className="group flex flex-col md:flex-row bg-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-200 dark:border-slate-800 transition-all"
     >
       {/* Image Section */}
       <div className="relative h-56 md:h-auto md:w-2/5 overflow-hidden">

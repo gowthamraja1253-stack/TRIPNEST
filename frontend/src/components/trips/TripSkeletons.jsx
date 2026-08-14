@@ -5,9 +5,9 @@ export function TripGridSkeleton({ count = 6 }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="bg-white rounded-[20px] border border-border/50 h-[380px] overflow-hidden flex flex-col">
+        <div key={i} className="bg-surface rounded-[20px] border border-border/50 h-[380px] overflow-hidden flex flex-col">
           <Skeleton width="w-full" height="h-48" rounded="rounded-none" />
-          <div className="p-5 space-y-4 flex-1 bg-white">
+          <div className="p-5 space-y-4 flex-1 bg-surface">
             <div className="flex justify-between mb-4">
               <Skeleton width="w-1/4" height="h-4" />
               <Skeleton width="w-1/4" height="h-4" />
@@ -33,7 +33,7 @@ export function TripListSkeleton({ count = 4 }) {
   return (
     <div className="space-y-4">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="bg-white rounded-[20px] border border-border/50 h-[140px] flex overflow-hidden">
+        <div key={i} className="bg-surface rounded-[20px] border border-border/50 h-[140px] flex overflow-hidden">
           <Skeleton width="w-[200px]" height="h-full" rounded="rounded-none" className="shrink-0" />
           <div className="p-5 flex-1 flex flex-col justify-between">
             <Skeleton width="w-1/4" height="h-6" />

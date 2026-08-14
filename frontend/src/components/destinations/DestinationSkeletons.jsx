@@ -4,7 +4,7 @@ export function DestinationGridSkeleton() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {[...Array(8)].map((_, i) => (
-        <div key={i} className="flex flex-col bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-800 animate-pulse">
+        <div key={i} className="flex flex-col bg-surface rounded-2xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-800 animate-pulse">
           {/* Image skeleton */}
           <div className="h-64 bg-slate-200 dark:bg-slate-800 w-full"></div>
           

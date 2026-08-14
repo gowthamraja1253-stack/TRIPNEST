@@ -5,8 +5,8 @@ export default function DaySelector({ days, selectedDay, onSelectDay }) {
   if (!days || days.length === 0) return null;
 
   return (
-    <div className="bg-white rounded-[20px] border border-border/50 shadow-sm overflow-hidden flex flex-col h-full max-h-[calc(100vh-200px)] sticky top-24">
-      <div className="p-5 border-b border-border/50 bg-gray-50/50">
+    <div className="bg-surface rounded-[20px] border border-border/50 shadow-sm overflow-hidden flex flex-col h-full max-h-[calc(100vh-200px)] sticky top-24">
+      <div className="p-5 border-b border-border/50 bg-black/5 dark:bg-white/5">
         <h3 className="font-heading font-bold text-lg text-text flex items-center gap-2">
           <CalendarDays size={20} className="text-primary" />
           Trip Days
@@ -16,7 +16,7 @@ export default function DaySelector({ days, selectedDay, onSelectDay }) {
       <div className="overflow-y-auto p-3 space-y-1 no-scrollbar flex-1">
         <button 
           onClick={() => onSelectDay('all')}
-          className={`w-full text-left px-4 py-3 rounded-xl transition-all font-medium text-sm ${selectedDay === 'all' ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-text-secondary hover:bg-gray-100'}`}
+          className={`w-full text-left px-4 py-3 rounded-xl transition-all font-medium text-sm ${selectedDay === 'all' ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-text-secondary hover:bg-black/10 dark:hover:bg-white/10'}`}
         >
           All Days Overview
         </button>
@@ -29,7 +29,7 @@ export default function DaySelector({ days, selectedDay, onSelectDay }) {
             <button
               key={day.id}
               onClick={() => onSelectDay(day.id)}
-              className={`w-full text-left px-4 py-3 rounded-xl transition-all flex flex-col group ${isSelected ? 'bg-primary/10 border border-primary/20' : 'hover:bg-gray-50 border border-transparent'}`}
+              className={`w-full text-left px-4 py-3 rounded-xl transition-all flex flex-col group ${isSelected ? 'bg-primary/10 border border-primary/20' : 'hover:bg-black/5 dark:hover:bg-white/5 border border-transparent'}`}
             >
               <div className="flex justify-between items-center">
                 <span className={`font-semibold text-sm ${isSelected ? 'text-primary' : 'text-text'}`}>

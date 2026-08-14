@@ -114,7 +114,7 @@ export default function DestinationDetails() {
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`px-6 py-2.5 rounded-full font-semibold text-sm capitalize transition-all whitespace-nowrap ${
-              activeTab === tab ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-text-secondary hover:bg-gray-100'
+              activeTab === tab ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-text-secondary hover:bg-black/10 dark:hover:bg-white/10'
             }`}
           >
             {tab}
@@ -134,7 +134,7 @@ export default function DestinationDetails() {
           {activeTab === 'overview' && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-8">
-                <section className="bg-white p-8 rounded-[24px] border border-border/50 shadow-sm">
+                <section className="bg-surface p-8 rounded-[24px] border border-border/50 shadow-sm">
                   <h3 className="text-xl font-heading font-bold mb-4">About {destination.name}</h3>
                   <p className="text-text-secondary leading-relaxed text-lg">
                     Experience the perfect blend of tradition and modernity in {destination.name}. 
@@ -145,7 +145,7 @@ export default function DestinationDetails() {
                 
                 <section>
                   <h3 className="text-xl font-heading font-bold mb-4 flex items-center gap-2"><Map size={20} className="text-primary"/> Interactive Map</h3>
-                  <div className="bg-gray-100 rounded-[24px] border border-border h-[400px] overflow-hidden relative shadow-inner">
+                  <div className="bg-black/10 dark:bg-white/10 rounded-[24px] border border-border h-[400px] overflow-hidden relative shadow-inner">
                      <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop" alt="Map" className="w-full h-full object-cover opacity-60 mix-blend-luminosity" />
                      <div className="absolute inset-0 flex items-center justify-center">
                        <a 

@@ -386,7 +386,7 @@ export default function GroupDetails() {
       </button>
 
       {/* Group Hero Banner */}
-      <div className="bg-white rounded-[24px] border border-border overflow-hidden shadow-sm">
+      <div className="bg-surface rounded-[24px] border border-border overflow-hidden shadow-sm">
         <div className="h-44 bg-gradient-to-r from-primary to-indigo-600 relative p-6 flex flex-col justify-end text-white">
           <span className="px-3 py-1 bg-black/40 backdrop-blur-md text-[11px] font-bold uppercase tracking-wider rounded-full w-fit mb-2 border border-white/20">
             Created by {group.createdByUsername}
@@ -485,7 +485,7 @@ export default function GroupDetails() {
               const displayName = member.firstName ? `${member.firstName} ${member.lastName || ''}` : member.username;
 
               return (
-                <div key={member.id} className="bg-white rounded-[20px] p-5 border border-border shadow-sm flex flex-col justify-between space-y-4">
+                <div key={member.id} className="bg-surface rounded-[20px] p-5 border border-border shadow-sm flex flex-col justify-between space-y-4">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-full bg-primary/10 text-primary font-bold text-lg flex items-center justify-center shrink-0">
                       {(displayName || 'U')[0].toUpperCase()}
@@ -508,7 +508,7 @@ export default function GroupDetails() {
                       <select
                         value={member.role}
                         onChange={(e) => handleUpdateRole(member.id, e.target.value)}
-                        className="p-1.5 bg-gray-50 border border-border rounded-lg text-xs font-semibold outline-none"
+                        className="p-1.5 bg-black/5 dark:bg-white/5 border border-border rounded-lg text-xs font-semibold outline-none"
                       >
                         <option value="MEMBER">Member</option>
                         <option value="ADMIN">Group Admin</option>
@@ -539,7 +539,7 @@ export default function GroupDetails() {
 
       {/* ── TAB 2: SENT INVITATIONS STATUS ── */}
       {activeTab === 'invitations' && (
-        <div className="bg-white rounded-[24px] border border-border p-6 shadow-sm space-y-4">
+        <div className="bg-surface rounded-[24px] border border-border p-6 shadow-sm space-y-4">
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-heading font-bold text-text">Group Invitations Status</h3>
             <Button variant="primary" glow onClick={() => setShowInviteModal(true)} className="flex items-center gap-1.5 text-xs">
@@ -561,13 +561,13 @@ export default function GroupDetails() {
                 </thead>
                 <tbody className="divide-y divide-border/50 font-medium">
                   {invitations.map(inv => (
-                    <tr key={inv.id} className="hover:bg-gray-50">
+                    <tr key={inv.id} className="hover:bg-black/5 dark:hover:bg-white/5">
                       <td className="py-3.5 px-4 text-text font-semibold">{inv.invitedUserEmail || inv.invitedUserUsername}</td>
                       <td className="py-3.5 px-4">
                         <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
                           inv.status === 'ACCEPTED' ? 'bg-emerald-500/10 text-emerald-600' :
                           inv.status === 'REJECTED' ? 'bg-red-500/10 text-red-600' :
-                          inv.status === 'CANCELLED' ? 'bg-gray-100 text-gray-500' : 'bg-amber-500/10 text-amber-600 animate-pulse'
+                          inv.status === 'CANCELLED' ? 'bg-black/10 dark:bg-white/10 text-gray-500' : 'bg-amber-500/10 text-amber-600 animate-pulse'
                         }`}>
                           {inv.status}
                         </span>
@@ -576,7 +576,7 @@ export default function GroupDetails() {
                         {inv.status === 'PENDING' && (
                           <button
                             onClick={() => handleCancelInvitation(inv.id)}
-                            className="px-3 py-1 bg-gray-100 hover:bg-red-50 text-red-600 rounded-lg text-xs font-bold border border-border"
+                            className="px-3 py-1 bg-black/10 dark:bg-white/10 hover:bg-red-50 text-red-600 rounded-lg text-xs font-bold border border-border"
                           >
                             Cancel Invite
                           </button>
@@ -614,7 +614,7 @@ export default function GroupDetails() {
           </div>
 
           {/* Member Net Balances Table */}
-          <div className="bg-white rounded-[24px] border border-border p-6 shadow-sm space-y-4">
+          <div className="bg-surface rounded-[24px] border border-border p-6 shadow-sm space-y-4">
             <h4 className="font-heading font-bold text-text text-base">Individual Member Balances</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm border-collapse">
@@ -628,7 +628,7 @@ export default function GroupDetails() {
                 </thead>
                 <tbody className="divide-y divide-border/50 font-medium">
                   {memberBalances.map(mb => (
-                    <tr key={mb.id} className="hover:bg-gray-50">
+                    <tr key={mb.id} className="hover:bg-black/5 dark:hover:bg-white/5">
                       <td className="py-3.5 px-4 font-bold text-text">{mb.name}</td>
                       <td className="py-3.5 px-4 text-text">{formatINR(mb.totalPaid)}</td>
                       <td className="py-3.5 px-4 text-text-secondary">{formatINR(mb.owedShare)}</td>
@@ -636,7 +636,7 @@ export default function GroupDetails() {
                         <div className="flex flex-col items-start gap-1">
                           <span className={`px-3 py-1 rounded-full text-xs font-bold ${
                             mb.netBalance > 0 ? 'bg-emerald-500/10 text-emerald-600' :
-                            mb.netBalance < 0 ? 'bg-red-500/10 text-red-600' : 'bg-gray-100 text-gray-600'
+                            mb.netBalance < 0 ? 'bg-red-500/10 text-red-600' : 'bg-black/10 dark:bg-white/10 text-gray-600'
                           }`}>
                             {mb.netBalance > 0 ? `Gets back ${formatINR(mb.netBalance)}` :
                              mb.netBalance < 0 ? `Owes ${formatINR(Math.abs(mb.netBalance))}` : 'Settled (₹0)'}
@@ -673,7 +673,7 @@ export default function GroupDetails() {
           </div>
 
           {/* Recorded Group Payments List */}
-          <div className="bg-white rounded-[24px] border border-border p-6 shadow-sm space-y-4">
+          <div className="bg-surface rounded-[24px] border border-border p-6 shadow-sm space-y-4">
             <h4 className="font-heading font-bold text-text text-base">Recorded Shared Payments</h4>
             {expenses.length === 0 ? (
               <div className="text-center py-8 text-text-secondary text-sm">
@@ -701,7 +701,7 @@ export default function GroupDetails() {
 
       {/* ── TAB 4: GROUP CHAT ── */}
       {activeTab === 'chat' && (
-        <div className="bg-white rounded-[24px] border border-border p-6 shadow-sm flex flex-col h-[550px]">
+        <div className="bg-surface rounded-[24px] border border-border p-6 shadow-sm flex flex-col h-[550px]">
           <div className="border-b border-border pb-3 mb-4 flex items-center justify-between shrink-0">
             <div>
               <h3 className="text-lg font-heading font-bold text-text">Group Trip Chat</h3>
@@ -726,7 +726,7 @@ export default function GroupDetails() {
                     <div className={`max-w-[70%] rounded-2xl px-4 py-2.5 shadow-sm text-sm ${
                       isMe 
                         ? 'bg-primary text-white rounded-tr-none' 
-                        : 'bg-gray-100 text-text rounded-tl-none border border-gray-200'
+                        : 'bg-black/10 dark:bg-white/10 text-text rounded-tl-none border border-gray-200'
                     }`}>
                       {!isMe && (
                         <p className="text-[10px] font-bold text-primary mb-0.5">
@@ -754,7 +754,7 @@ export default function GroupDetails() {
               placeholder="Type a message..."
               value={newMessageText}
               onChange={e => setNewMessageText(e.target.value)}
-              className="flex-1 p-3 bg-gray-50 border border-border rounded-xl text-sm font-medium outline-none focus:border-primary focus:bg-white transition-all"
+              className="flex-1 p-3 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-sm font-medium outline-none focus:border-primary focus:bg-white transition-all"
             />
             <Button variant="primary" glow type="submit" className="flex items-center justify-center p-3 w-12 h-12 shrink-0">
               <Send size={18} />
@@ -772,7 +772,7 @@ export default function GroupDetails() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={e => e.stopPropagation()}
-              className="bg-white rounded-[24px] p-6 sm:p-8 w-full max-w-md shadow-2xl border border-border"
+              className="bg-surface rounded-[24px] p-6 sm:p-8 w-full max-w-md shadow-2xl border border-border"
             >
               <div className="flex justify-between items-center mb-6 border-b border-border pb-4">
                 <div className="flex items-center gap-2">
@@ -785,12 +785,12 @@ export default function GroupDetails() {
               </div>
 
               {/* Method Switcher */}
-              <div className="flex bg-gray-100 p-1 rounded-xl border border-border mb-4">
+              <div className="flex bg-black/10 dark:bg-white/10 p-1 rounded-xl border border-border mb-4">
                 <button
                   type="button"
                   onClick={() => setInviteMethod('email')}
                   className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${
-                    inviteMethod === 'email' ? 'bg-white text-primary shadow-sm' : 'text-text-secondary'
+                    inviteMethod === 'email' ? 'bg-surface text-primary shadow-sm' : 'text-text-secondary'
                   }`}
                 >
                   Invite by Email
@@ -799,7 +799,7 @@ export default function GroupDetails() {
                   type="button"
                   onClick={() => setInviteMethod('username')}
                   className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${
-                    inviteMethod === 'username' ? 'bg-white text-primary shadow-sm' : 'text-text-secondary'
+                    inviteMethod === 'username' ? 'bg-surface text-primary shadow-sm' : 'text-text-secondary'
                   }`}
                 >
                   Add by Username

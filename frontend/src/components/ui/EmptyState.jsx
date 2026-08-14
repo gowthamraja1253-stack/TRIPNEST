@@ -13,9 +13,9 @@ export default function EmptyState({
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="flex flex-col items-center justify-center p-8 text-center bg-gray-50/50 rounded-[20px] border border-dashed border-border/70 h-full min-h-[200px]"
+      className="flex flex-col items-center justify-center p-8 text-center bg-black/5 dark:bg-white/5 rounded-[20px] border border-dashed border-border/70 h-full min-h-[200px]"
     >
-      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
+      <div className="w-16 h-16 bg-surface rounded-full flex items-center justify-center shadow-sm mb-4">
         <Icon className="w-8 h-8 text-text-muted" strokeWidth={1.5} />
       </div>
       <h3 className="text-lg font-heading font-bold text-text mb-2">{title}</h3>

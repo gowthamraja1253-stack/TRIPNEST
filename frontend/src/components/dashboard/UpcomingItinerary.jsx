@@ -17,7 +17,7 @@ const getColorForType = (type) => {
     case 'sightseeing': return 'bg-blue-100 text-blue-600';
     case 'dining': return 'bg-orange-100 text-orange-600';
     case 'experience': return 'bg-purple-100 text-purple-600';
-    default: return 'bg-gray-100 text-gray-600';
+    default: return 'bg-black/10 dark:bg-white/10 text-gray-600';
   }
 };
 
@@ -41,7 +41,7 @@ const UpcomingItinerary = memo(({ itinerary, trip }) => {
 
   if (!itinerary || itinerary.length === 0) {
     return (
-      <div className="bg-white rounded-[20px] border border-border/50 p-6 shadow-sm">
+      <div className="bg-surface rounded-[20px] border border-border/50 p-6 shadow-sm">
         <h3 className="font-heading font-bold text-lg text-text mb-4">Today's Itinerary</h3>
         <EmptyState title="Free day!" message="You have no activities planned for today. Time to explore or relax." />
       </div>
@@ -49,7 +49,7 @@ const UpcomingItinerary = memo(({ itinerary, trip }) => {
   }
 
   return (
-    <div className="bg-white rounded-[20px] border border-border/50 p-6 shadow-sm">
+    <div className="bg-surface rounded-[20px] border border-border/50 p-6 shadow-sm">
       <div className="flex justify-between items-center mb-6">
         <h3 className="font-heading font-bold text-lg text-text">Today's Itinerary</h3>
         {trip && (
@@ -72,7 +72,7 @@ const UpcomingItinerary = memo(({ itinerary, trip }) => {
             <div className={`absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-white ${getColorForType(item.type).split(' ')[0]}`}></div>
             
             <div 
-              className="bg-background rounded-xl p-4 cursor-pointer hover:bg-gray-100 transition-colors"
+              className="bg-background rounded-xl p-4 cursor-pointer hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
               onClick={() => setExpanded(expanded === index ? null : index)}
             >
               <div className="flex justify-between items-start">

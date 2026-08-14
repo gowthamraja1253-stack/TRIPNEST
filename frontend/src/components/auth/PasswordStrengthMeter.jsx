@@ -25,12 +25,12 @@ const getStrengthLabel = (score) => {
 
 const getStrengthColor = (score) => {
   switch (score) {
-    case 0: return 'bg-gray-200';
+    case 0: return 'bg-black/20 dark:bg-white/20';
     case 1: return 'bg-red-500';
     case 2: return 'bg-orange-500';
     case 3: return 'bg-blue-500';
     case 4: return 'bg-emerald-500';
-    default: return 'bg-gray-200';
+    default: return 'bg-black/20 dark:bg-white/20';
   }
 };
 
@@ -47,7 +47,7 @@ export default function PasswordStrengthMeter({ password }) {
     >
       <div className="flex gap-2 mb-1.5">
         {[1, 2, 3, 4].map((level) => (
-          <div key={level} className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
+          <div key={level} className="h-1.5 w-full bg-black/20 dark:bg-white/20 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: strength >= level ? '100%' : '0%' }}

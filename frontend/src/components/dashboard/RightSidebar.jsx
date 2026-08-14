@@ -62,7 +62,7 @@ export default function RightSidebar() {
   const reminders = getReminders();
 
   return (
-    <aside className="hidden xl:block w-80 bg-white/50 backdrop-blur-md border-l border-border/50 h-[calc(100vh-80px)] sticky top-20 overflow-y-auto p-6 space-y-8 no-scrollbar">
+    <aside className="hidden xl:block w-80 bg-surface/50 backdrop-blur-md border-l border-border/50 h-[calc(100vh-80px)] sticky top-20 overflow-y-auto p-6 space-y-8 no-scrollbar">
       
       {/* Travel Countdown */}
       {upcomingTrip && (
@@ -104,7 +104,7 @@ export default function RightSidebar() {
             <motion.div 
               key={i}
               whileHover={{ x: 4 }}
-              className="flex items-start gap-3 p-3 rounded-xl bg-white border border-border shadow-sm cursor-pointer"
+              className="flex items-start gap-3 p-3 rounded-xl bg-surface border border-border shadow-sm cursor-pointer"
             >
               <div className={`w-2 h-2 mt-1.5 rounded-full ${item.color} shrink-0`}></div>
               <div>

@@ -107,7 +107,7 @@ export default function ExpenseOverview() {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-[20px] border border-border/50 p-6 shadow-sm flex flex-col"
+      className="bg-surface rounded-[20px] border border-border/50 p-6 shadow-sm flex flex-col"
     >
       <div className="flex justify-between items-start mb-6">
         <div>

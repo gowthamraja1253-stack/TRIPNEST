@@ -43,7 +43,7 @@ export default function DashboardLayout() {
 
       {/* ── Main Content Area ── */}
       <div 
-        className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${isSidebarCollapsed ? 'lg:ml-[88px]' : 'lg:ml-[280px]'}`}
+        className={`flex-1 flex flex-col min-h-screen min-w-0 transition-all duration-300 ${isSidebarCollapsed ? 'lg:ml-[88px]' : 'lg:ml-[280px]'}`}
       >
         <DashboardNavbar 
           isCollapsed={isSidebarCollapsed}
@@ -51,9 +51,9 @@ export default function DashboardLayout() {
           setIsMobileOpen={setIsMobileMenuOpen} 
         />
         
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-1 overflow-hidden min-w-0">
           {/* Main Router Outlet */}
-          <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 no-scrollbar">
+          <main className="flex-1 min-w-0 overflow-y-auto p-4 sm:p-6 lg:p-8 no-scrollbar">
             <ErrorBoundary>
               <AnimatePresence mode="wait">
                 <motion.div

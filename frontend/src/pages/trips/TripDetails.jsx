@@ -109,7 +109,7 @@ export default function TripDetails() {
   const storedUserStr = sessionStorage.getItem('tripnest_user') || localStorage.getItem('tripnest_user');
   const currentUser = storedUserStr ? JSON.parse(storedUserStr) : null;
   const currentUsername = currentUser?.username || localStorage.getItem('username');
-  const isOwner = trip && (!trip.owner || trip.owner === currentUsername);
+  const isOwner = trip && (!trip.ownerUsername || trip.ownerUsername === currentUsername);
 
   return (
     <AnimatePresence mode="wait">
@@ -177,8 +177,8 @@ export default function TripDetails() {
           {/* ── Hero Banner ── */}
           <div className="relative rounded-[24px] overflow-hidden shadow-lg h-[300px] md:h-[400px] group">
             <img 
-              src={trip.image || 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=600&auto=format&fit=crop'} 
-              alt={trip.name} 
+              src={trip.destinationNameImageUrl || 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=600&auto=format&fit=crop'} 
+              alt={trip.title} 
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
@@ -193,9 +193,9 @@ export default function TripDetails() {
                     {trip.travelType || 'Leisure'}
                   </span>
                 </div>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold mb-1 md:mb-2 drop-shadow-md truncate">{trip.name}</h1>
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold mb-1 md:mb-2 drop-shadow-md truncate">{trip.title}</h1>
                 <p className="text-base md:text-xl text-white/90 flex items-center gap-2 font-medium">
-                  <MapPin size={18} /> {trip.destination}{trip.country ? `, ${trip.country}` : ''}
+                  <MapPin size={18} /> {trip.destinationName}{trip.destinationCountry ? `, ${trip.destinationCountry}` : ''}
                 </p>
               </div>
               
@@ -203,12 +203,12 @@ export default function TripDetails() {
                 <div>
                   <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-1">Dates</p>
                   <p className="text-white font-semibold flex items-center gap-2">
-                    <Calendar size={16}/> {trip.startDate ? formatDate(trip.startDate) : ''} - {trip.endDate ? formatDate(trip.endDate) : ''} ({trip.duration} Days)
+                    <Calendar size={16}/> {trip.startDate ? formatDate(trip.startDate) : ''} - {trip.endDate ? formatDate(trip.endDate) : ''} ({Math.ceil((new Date(trip.endDate) - new Date(trip.startDate)) / (1000 * 60 * 60 * 24)) + 1} Days)
                   </p>
                 </div>
                 <div>
                   <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-1">Travelers</p>
-                  <p className="text-white font-semibold flex items-center gap-2"><Users size={16}/> {trip.travelers}</p>
+                  <p className="text-white font-semibold flex items-center gap-2"><Users size={16}/> {trip.travelerUsernames ? trip.travelerUsernames.length : 1}</p>
                 </div>
                 <div>
                   <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-1">Budget</p>
@@ -222,7 +222,7 @@ export default function TripDetails() {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         {/* Left Column (Span 2) */}
         <div className="xl:col-span-2 space-y-8">
-          <div className="bg-white rounded-[20px] border border-border/50 p-6 shadow-sm">
+          <div className="bg-surface rounded-[20px] border border-border/50 p-6 shadow-sm">
             <h3 className="font-heading font-bold text-lg text-text mb-2">About this trip</h3>
             <p className="text-text-secondary leading-relaxed">{trip.description}</p>
           </div>
@@ -234,7 +234,7 @@ export default function TripDetails() {
         {/* Right Column (Span 1) */}
         <div className="space-y-8">
           {/* Map Placeholder */}
-          <div className="bg-gray-100 rounded-[20px] border border-border/50 h-[300px] overflow-hidden relative group">
+          <div className="bg-black/10 dark:bg-white/10 rounded-[20px] border border-border/50 h-[300px] overflow-hidden relative group">
             <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=600&auto=format&fit=crop" alt="Map" className="w-full h-full object-cover opacity-60" />
             <div className="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent"></div>
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
@@ -251,14 +251,14 @@ export default function TripDetails() {
           </div>
 
           {/* Organizer Info */}
-          <div className="bg-white rounded-[20px] border border-border/50 p-6 shadow-sm">
+          <div className="bg-surface rounded-[20px] border border-border/50 p-6 shadow-sm">
             <h3 className="font-heading font-bold text-lg text-text mb-4">Trip Organizer</h3>
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-primary to-secondary p-0.5">
                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop" alt="Avatar" className="w-full h-full rounded-full object-cover border-2 border-white" />
               </div>
               <div>
-                <p className="font-semibold text-text">{trip.organizer}</p>
+                <p className="font-semibold text-text">{trip.ownerUsernameUsername}</p>
                 <p className="text-sm text-text-secondary">Pro Member</p>
               </div>
             </div>
@@ -270,7 +270,7 @@ export default function TripDetails() {
         isOpen={deleteModalOpen}
         onClose={() => !isDeleting && setDeleteModalOpen(false)}
         onConfirm={handleDelete}
-        tripName={trip.name}
+        tripName={trip.title}
         isDeleting={isDeleting}
       />
         </motion.div>

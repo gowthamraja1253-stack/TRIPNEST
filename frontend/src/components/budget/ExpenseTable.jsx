@@ -85,7 +85,7 @@ const ExpenseTable = ({ expenses = [], loading, refreshData }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-md">
+    <div className="bg-surface rounded-2xl shadow-md">
 
       {/* Header */}
 
@@ -208,25 +208,25 @@ const ExpenseTable = ({ expenses = [], loading, refreshData }) => {
                   className="border-b animate-pulse"
                 >
                   <td className="px-6 py-5">
-                    <div className="h-4 w-40 bg-gray-300 rounded"></div>
+                    <div className="h-4 w-40 bg-black/30 dark:bg-white/30 rounded"></div>
                   </td>
 
                   <td className="px-6 py-5">
-                    <div className="h-4 w-24 bg-gray-300 rounded"></div>
+                    <div className="h-4 w-24 bg-black/30 dark:bg-white/30 rounded"></div>
                   </td>
 
                   <td className="px-6 py-5">
-                    <div className="h-4 w-28 bg-gray-300 rounded"></div>
+                    <div className="h-4 w-28 bg-black/30 dark:bg-white/30 rounded"></div>
                   </td>
 
                   <td className="px-6 py-5">
-                    <div className="h-4 w-20 bg-gray-300 rounded"></div>
+                    <div className="h-4 w-20 bg-black/30 dark:bg-white/30 rounded"></div>
                   </td>
 
                   <td className="px-6 py-5">
                     <div className="flex justify-center gap-3">
-                      <div className="h-8 w-8 rounded bg-gray-300"></div>
-                      <div className="h-8 w-8 rounded bg-gray-300"></div>
+                      <div className="h-8 w-8 rounded bg-black/30 dark:bg-white/30"></div>
+                      <div className="h-8 w-8 rounded bg-black/30 dark:bg-white/30"></div>
                     </div>
                   </td>
                 </tr>

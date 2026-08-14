@@ -101,7 +101,7 @@ export default function HelpSupportPage() {
           onClick={() => setActiveTab('faq')}
           className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors ${
             activeTab === 'faq'
-              ? 'bg-white dark:bg-slate-700 text-brand-600 dark:text-brand-400 shadow-sm'
+              ? 'bg-surface text-brand-600 dark:text-brand-400 shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700/50'
           }`}
         >
@@ -111,7 +111,7 @@ export default function HelpSupportPage() {
           onClick={() => setActiveTab('contact')}
           className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors ${
             activeTab === 'contact'
-              ? 'bg-white dark:bg-slate-700 text-brand-600 dark:text-brand-400 shadow-sm'
+              ? 'bg-surface text-brand-600 dark:text-brand-400 shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700/50'
           }`}
         >
@@ -121,7 +121,7 @@ export default function HelpSupportPage() {
           onClick={() => setActiveTab('tickets')}
           className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors ${
             activeTab === 'tickets'
-              ? 'bg-white dark:bg-slate-700 text-brand-600 dark:text-brand-400 shadow-sm'
+              ? 'bg-surface text-brand-600 dark:text-brand-400 shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700/50'
           }`}
         >
@@ -133,7 +133,7 @@ export default function HelpSupportPage() {
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-700"
+          className="bg-surface rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-700"
         >
           <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Frequently Asked Questions</h2>
           <div className="space-y-4">
@@ -179,7 +179,7 @@ export default function HelpSupportPage() {
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-700"
+          className="bg-surface rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-700"
         >
           <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Submit a Ticket</h2>
           <p className="text-slate-600 dark:text-slate-400 mb-6 text-sm">
@@ -207,7 +207,7 @@ export default function HelpSupportPage() {
                 placeholder="Please describe your issue in detail..."
                 required
                 rows={5}
-                className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-colors"
+                className="w-full px-3 py-2 bg-surface border border-slate-300 dark:border-slate-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-colors"
               />
             </div>
             
@@ -231,7 +231,7 @@ export default function HelpSupportPage() {
               <Loader2 className="w-8 h-8 animate-spin text-brand-600" />
             </div>
           ) : tickets.length === 0 ? (
-            <div className="text-center p-12 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 border-dashed">
+            <div className="text-center p-12 bg-surface rounded-2xl border border-slate-200 dark:border-slate-700 border-dashed">
               <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4">
                 <MessageSquare size={24} />
               </div>
@@ -245,7 +245,7 @@ export default function HelpSupportPage() {
           ) : (
             <div className="space-y-4">
               {tickets.map(ticket => (
-                <div key={ticket.id} className="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-brand-300 transition-colors cursor-pointer">
+                <div key={ticket.id} className="bg-surface rounded-xl p-5 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-brand-300 transition-colors cursor-pointer">
                   <div>
                     <div className="flex items-center gap-3 mb-2">
                       <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${getStatusColor(ticket.status)}`}>

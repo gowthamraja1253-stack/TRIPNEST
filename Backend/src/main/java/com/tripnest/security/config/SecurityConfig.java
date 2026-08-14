@@ -51,6 +51,7 @@ public class SecurityConfig {
                     "/api/v1/test/**",
                     "/api/v1/destinations/**",
                     "/api/v1/media/download/**",
+                    "/uploads/**",
                     "/v3/api-docs/**",
                     "/swagger-ui/**",
                     "/swagger-ui.html",

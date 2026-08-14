@@ -139,7 +139,7 @@ export default function GroupsDashboard() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {pendingInvitations.map(inv => (
-              <div key={inv.id} className="bg-white rounded-xl p-4 border border-border flex items-center justify-between shadow-sm">
+              <div key={inv.id} className="bg-surface rounded-xl p-4 border border-border flex items-center justify-between shadow-sm">
                 <div>
                   <h4 className="font-bold text-text text-base">{inv.groupName}</h4>
                   <p className="text-xs text-text-secondary">
@@ -156,7 +156,7 @@ export default function GroupsDashboard() {
                   </button>
                   <button
                     onClick={() => handleRejectInvite(inv.id)}
-                    className="px-3 py-1.5 bg-gray-100 hover:bg-red-50 text-red-600 rounded-lg text-xs font-bold transition-colors border border-border flex items-center gap-1"
+                    className="px-3 py-1.5 bg-black/10 dark:bg-white/10 hover:bg-red-50 text-red-600 rounded-lg text-xs font-bold transition-colors border border-border flex items-center gap-1"
                   >
                     <Ban size={14} /> Reject
                   </button>
@@ -177,7 +177,7 @@ export default function GroupsDashboard() {
               placeholder="Search travel groups or destinations..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-white border border-border rounded-xl focus:outline-none focus:border-primary text-sm font-medium"
+              className="w-full pl-10 pr-4 py-2.5 bg-surface border border-border rounded-xl focus:outline-none focus:border-primary text-sm font-medium"
             />
           </div>
         </div>
@@ -185,7 +185,7 @@ export default function GroupsDashboard() {
 
       {/* Groups Grid */}
       {filteredGroups.length === 0 ? (
-        <div className="bg-white rounded-[24px] border border-border p-12 text-center space-y-4 max-w-lg mx-auto">
+        <div className="bg-surface rounded-[24px] border border-border p-12 text-center space-y-4 max-w-lg mx-auto">
           <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto">
             <Users size={32} />
           </div>
@@ -205,7 +205,7 @@ export default function GroupsDashboard() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               onClick={() => navigate(`/dashboard/groups/${group.id}`)}
-              className="bg-white rounded-[20px] border border-border p-6 shadow-sm hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group space-y-4"
+              className="bg-surface rounded-[20px] border border-border p-6 shadow-sm hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group space-y-4"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
@@ -246,7 +246,7 @@ export default function GroupsDashboard() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={e => e.stopPropagation()}
-              className="bg-white rounded-[24px] p-6 sm:p-8 w-full max-w-md shadow-2xl border border-border"
+              className="bg-surface rounded-[24px] p-6 sm:p-8 w-full max-w-md shadow-2xl border border-border"
             >
               <div className="flex justify-between items-center mb-6 border-b border-border pb-4">
                 <div className="flex items-center gap-2">
@@ -273,7 +273,7 @@ export default function GroupsDashboard() {
                     value={newGroup.tripId}
                     onChange={e => setNewGroup({ ...newGroup, tripId: e.target.value })}
                     required
-                    className="w-full p-3 bg-gray-50 border border-border rounded-xl text-sm font-medium outline-none focus:border-primary"
+                    className="w-full p-3 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-sm font-medium outline-none focus:border-primary"
                   >
                     <option value="">Select a Planned Trip</option>
                     {trips.map(t => (
@@ -289,7 +289,7 @@ export default function GroupsDashboard() {
                     value={newGroup.description}
                     onChange={e => setNewGroup({ ...newGroup, description: e.target.value })}
                     rows={3}
-                    className="w-full p-3 bg-gray-50 border border-border rounded-xl text-sm font-medium outline-none focus:border-primary"
+                    className="w-full p-3 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-sm font-medium outline-none focus:border-primary"
                   />
                 </div>
 

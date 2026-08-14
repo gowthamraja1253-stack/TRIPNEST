@@ -145,7 +145,7 @@ export default function DestinationExplorer() {
           <button
             onClick={() => setActiveCategory('All')}
             className={`flex items-center gap-2 px-6 py-3 rounded-full whitespace-nowrap transition-all font-semibold ${
-              activeCategory === 'All' ? 'bg-primary text-white shadow-md shadow-primary/20' : 'bg-white border border-border/50 text-text-secondary hover:bg-gray-50'
+              activeCategory === 'All' ? 'bg-primary text-white shadow-md shadow-primary/20' : 'bg-surface border border-border/50 text-text-secondary hover:bg-black/5 dark:hover:bg-white/5'
             }`}
           >
             <Map size={18} /> All Destinations
@@ -156,7 +156,7 @@ export default function DestinationExplorer() {
               key={cat.name}
               onClick={() => setActiveCategory(cat.name)}
               className={`flex items-center gap-2 px-6 py-3 rounded-full whitespace-nowrap transition-all font-semibold border ${
-                activeCategory === cat.name ? 'bg-white shadow-md border-primary text-primary' : 'bg-white border-border/50 text-text-secondary hover:bg-gray-50'
+                activeCategory === cat.name ? 'bg-surface shadow-md border-primary text-primary' : 'bg-surface border-border/50 text-text-secondary hover:bg-black/5 dark:hover:bg-white/5'
               }`}
             >
               <cat.icon size={18} className={cat.color} /> {cat.name}
@@ -180,7 +180,7 @@ export default function DestinationExplorer() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-white rounded-3xl border border-border/50 p-8">
+          <div className="text-center py-20 bg-surface rounded-3xl border border-border/50 p-8">
             <MapPin size={48} className="mx-auto text-gray-300 mb-4" />
             <h3 className="text-xl font-heading font-bold text-text mb-2">No destinations found</h3>
             <p className="text-text-secondary mb-6">Be the first to add this destination!</p>
@@ -206,7 +206,7 @@ export default function DestinationExplorer() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               onClick={e => e.stopPropagation()}
-              className="bg-white rounded-[24px] shadow-2xl border border-border p-6 sm:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto"
+              className="bg-surface rounded-[24px] shadow-2xl border border-border p-6 sm:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto"
             >
               <div className="flex justify-between items-center mb-6 border-b border-border pb-4">
                 <div className="flex items-center gap-2">
@@ -221,7 +221,7 @@ export default function DestinationExplorer() {
                 <button 
                   onClick={() => setShowAddModal(false)} 
                   disabled={isSubmitting}
-                  className="p-2 rounded-full hover:bg-gray-100 text-text-secondary"
+                  className="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 text-text-secondary"
                 >
                   <X size={18} />
                 </button>
@@ -266,7 +266,7 @@ export default function DestinationExplorer() {
                     value={destDescription}
                     onChange={e => setDestDescription(e.target.value)}
                     placeholder="Describe what makes this destination special..."
-                    className="w-full p-3 bg-gray-50 border border-border rounded-xl text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm"
+                    className="w-full p-3 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm"
                   />
                 </div>
 

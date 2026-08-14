@@ -78,7 +78,7 @@ export default function Features() {
             <ScrollReveal key={feature.title} delay={index * 0.1}>
               <motion.div
                 whileHover={{ y: -8 }}
-                className="bg-white rounded-[20px] p-6 relative overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-primary/10"
+                className="bg-surface rounded-[20px] p-6 relative overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-primary/10"
               >
                 {/* Top gradient bar */}
                 <div

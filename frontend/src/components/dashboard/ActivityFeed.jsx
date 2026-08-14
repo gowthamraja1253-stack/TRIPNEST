@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Plane, CreditCard, FileText, UserPlus, Bell } from 'lucide-react';
 import EmptyState from '../ui/EmptyState';
+import { Link } from 'react-router-dom';
 import { memo } from 'react';
 
 const getIcon = (iconName) => {
@@ -19,14 +20,14 @@ const getColor = (type) => {
     case 'expense': return 'bg-orange-100 text-orange-600';
     case 'document': return 'bg-emerald-100 text-emerald-600';
     case 'social': return 'bg-purple-100 text-purple-600';
-    default: return 'bg-gray-100 text-gray-600';
+    default: return 'bg-black/10 dark:bg-white/10 text-gray-600';
   }
 };
 
 const ActivityFeed = memo(({ activities }) => {
   if (!activities || activities.length === 0) {
     return (
-      <div className="bg-white rounded-[20px] border border-border/50 p-6 shadow-sm h-full flex flex-col">
+      <div className="bg-surface rounded-[20px] border border-border/50 p-6 shadow-sm h-full flex flex-col">
         <h3 className="font-heading font-bold text-lg text-text mb-4">Recent Activity</h3>
         <div className="flex-1">
           <EmptyState title="No activity yet" message="When you plan trips, add expenses, or invite friends, the activity will show up here." />
@@ -36,10 +37,10 @@ const ActivityFeed = memo(({ activities }) => {
   }
 
   return (
-    <div className="bg-white rounded-[20px] border border-border/50 p-6 shadow-sm">
+    <div className="bg-surface rounded-[20px] border border-border/50 p-6 shadow-sm">
       <div className="flex justify-between items-center mb-6">
         <h3 className="font-heading font-bold text-lg text-text">Recent Activity</h3>
-        <button className="text-sm font-semibold text-primary hover:underline">View All</button>
+        <Link to="/dashboard/notifications" className="text-sm font-semibold text-primary hover:underline">View All</Link>
       </div>
 
       <div className="space-y-6">
