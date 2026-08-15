@@ -147,7 +147,8 @@ export default function DocumentsDashboard() {
   const resolveFileUrl = (url) => {
     if (!url) return '';
     if (url.startsWith('http') || url.startsWith('blob:') || url.startsWith('data:')) return url;
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+    const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+    const baseUrl = rawApiUrl.endsWith('/api/v1') ? rawApiUrl : `${rawApiUrl.replace(/\/+$/, '')}/api/v1`;
     const host = baseUrl.replace(/\/api\/v1\/?$/, '');
     return `${host}${url.startsWith('/') ? '' : '/'}${url}`;
   };

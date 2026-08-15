@@ -3,7 +3,8 @@ import axios from 'axios';
 // Set up for Spring Boot API
 // In development, this points to localhost:8080 (default Spring Boot port)
 // We use a relative path here assuming Vite proxy will be configured, or full URL
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+const API_URL = rawApiUrl.endsWith('/api/v1') ? rawApiUrl : `${rawApiUrl.replace(/\/+$/, '')}/api/v1`;
 
 export const apiClient = axios.create({
   baseURL: API_URL,

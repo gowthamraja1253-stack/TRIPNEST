@@ -125,7 +125,8 @@ export default function GroupDetails() {
         chatEndRef.current?.scrollIntoView({ behavior: 'auto' });
       }, 100);
 
-      const baseApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+      const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+      const baseApiUrl = rawApiUrl.endsWith('/api/v1') ? rawApiUrl : `${rawApiUrl.replace(/\/+$/, '')}/api/v1`;
       const wsBase = baseApiUrl.replace('/api/v1', '').replace('http:', 'ws:').replace('https:', 'wss:');
       const wsUrl = `${wsBase}/ws`;
 
