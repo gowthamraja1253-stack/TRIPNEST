@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { Outlet, useLocation, Navigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import DashboardNavbar from './DashboardNavbar';
 import RightSidebar from './RightSidebar';
@@ -11,9 +11,15 @@ export default function DashboardLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
+  const token = sessionStorage.getItem('tripnest_token') || localStorage.getItem('tripnest_token');
+
+  const mainRef = useRef(null);
+
   // Scroll window to top whenever route path changes
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (mainRef.current) {
+      mainRef.current.scrollTo(0, 0);
+    }
   }, [location.pathname]);
 
   // Auto-collapse sidebar on smaller desktop screens
@@ -30,6 +36,10 @@ export default function DashboardLayout() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  if (!token) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -53,7 +63,7 @@ export default function DashboardLayout() {
         
         <div className="flex flex-1 overflow-hidden min-w-0">
           {/* Main Router Outlet */}
-          <main className="flex-1 min-w-0 overflow-y-auto p-4 sm:p-6 lg:p-8 no-scrollbar">
+          <main ref={mainRef} className="flex-1 min-w-0 overflow-y-auto p-4 sm:p-6 lg:p-8 no-scrollbar">
             <ErrorBoundary>
               <AnimatePresence mode="wait">
                 <motion.div

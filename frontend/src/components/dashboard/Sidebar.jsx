@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { notificationService } from '../../services/notificationService';
 import { NavLink } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -40,7 +41,7 @@ const menuItems = [
     { icon: BarChart3, label: 'Reports & Analytics', path: '/dashboard/reports' },
   ]},
   { group: 'Account', items: [
-    { icon: Bell, label: 'Notifications', path: '/dashboard/notifications', badge: 3 },
+    { icon: Bell, label: 'Notifications', path: '/dashboard/notifications', badge: null },
     { icon: User, label: 'Profile', path: '/dashboard/profile' },
     { icon: Settings, label: 'Settings', path: '/dashboard/settings' },
     { icon: LifeBuoy, label: 'Help & Support', path: '/dashboard/help' },
@@ -48,6 +49,20 @@ const menuItems = [
 ];
 
 export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen }) {
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const count = await notificationService.getUnreadCount();
+        setUnreadCount(count);
+      } catch (err) {
+        console.error("Failed to fetch notification count", err);
+      }
+    };
+    fetchCount();
+  }, []);
+
   // Mobile overlay click handler
   const handleOverlayClick = () => setIsMobileOpen(false);
 
@@ -110,9 +125,9 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileOpen, set
                       )}
 
                       {/* Badge */}
-                      {!isCollapsed && item.badge && (
+                      {!isCollapsed && (item.label === 'Notifications' ? unreadCount > 0 : item.badge) && (
                         <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${isActive ? 'bg-white text-primary' : 'bg-accent text-white'}`}>
-                          {item.badge}
+                          {item.label === 'Notifications' ? (unreadCount > 99 ? '99+' : unreadCount) : item.badge}
                         </span>
                       )}
 

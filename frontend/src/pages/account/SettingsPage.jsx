@@ -158,48 +158,7 @@ export default function SettingsPage() {
                 </select>
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                  App Theme
-                </label>
-                <div className="flex items-center gap-4">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="theme"
-                      value="light"
-                      checked={settings.theme === 'light'}
-                      onChange={handleChange}
-                      className="text-brand-600 focus:ring-brand-500"
-                    />
-                    <span className="text-slate-700 dark:text-slate-300 text-sm">Light</span>
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="theme"
-                      value="dark"
-                      checked={settings.theme === 'dark'}
-                      onChange={handleChange}
-                      className="text-brand-600 focus:ring-brand-500"
-                    />
-                    <span className="text-slate-700 dark:text-slate-300 text-sm flex items-center gap-1">
-                      Dark <Moon size={14} />
-                    </span>
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="theme"
-                      value="system"
-                      checked={settings.theme === 'system'}
-                      onChange={handleChange}
-                      className="text-brand-600 focus:ring-brand-500"
-                    />
-                    <span className="text-slate-700 dark:text-slate-300 text-sm">System</span>
-                  </label>
-                </div>
-              </div>
+
             </div>
           </div>
 
@@ -257,7 +216,14 @@ export default function SettingsPage() {
                 <span className="block text-sm font-medium text-slate-900 dark:text-white">Password</span>
                 <span className="block text-sm text-slate-500 dark:text-slate-400 mt-1">Last changed 3 months ago</span>
               </div>
-              <Button variant="outline" type="button" size="sm">Update</Button>
+              <Button 
+                variant="outline" 
+                type="button" 
+                size="sm"
+                onClick={() => alert('Password update requires backend/API functionality which is currently missing.')}
+              >
+                Update
+              </Button>
             </div>
           </div>
 

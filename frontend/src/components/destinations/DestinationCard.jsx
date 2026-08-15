@@ -51,6 +51,10 @@ const DestinationCard = ({ destination }) => {
           src={destination?.image || getFallbackImage(destination?.name)} 
           alt={destination?.name || 'Destination'}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = getFallbackImage(destination?.name);
+          }}
         />
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent pointer-events-none" />

@@ -250,7 +250,6 @@ export default function DestinationExplorer() {
                   value={destImageUrl}
                   onChange={e => setDestImageUrl(e.target.value)}
                   placeholder="https://images.unsplash.com/photo-..."
-                  icon={ImageIcon}
                 />
 
                 {destImageUrl && (

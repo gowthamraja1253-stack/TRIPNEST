@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { MapPin, Star, ArrowRight } from 'lucide-react';
 import SectionHeading from '../ui/SectionHeading';
 import ScrollReveal from '../ui/ScrollReveal';
@@ -49,6 +50,17 @@ const destinations = [
 ];
 
 export default function Destinations() {
+  const navigate = useNavigate();
+
+  const handleAction = () => {
+    const token = sessionStorage.getItem('tripnest_token') || localStorage.getItem('tripnest_token');
+    if (token) {
+      navigate('/dashboard');
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <section id="destinations" className="py-24">
       <SectionHeading
@@ -102,6 +114,7 @@ export default function Destinations() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   className="w-full mt-4 flex items-center justify-center gap-2 py-2.5 rounded-xl border-2 border-primary text-primary font-semibold text-sm hover:bg-primary hover:text-white transition-colors duration-300 cursor-pointer"
+                  onClick={handleAction}
                 >
                   Explore
                   <ArrowRight className="w-4 h-4" />

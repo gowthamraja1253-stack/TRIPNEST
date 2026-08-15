@@ -1,6 +1,18 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 export default function CTA() {
+  const navigate = useNavigate();
+
+  const handleAction = (path) => {
+    const token = sessionStorage.getItem('tripnest_token') || localStorage.getItem('tripnest_token');
+    if (token) {
+      navigate('/dashboard');
+    } else {
+      navigate(path);
+    }
+  };
+
   return (
     <section className="py-24">
       <div className="max-w-4xl mx-auto px-6">
@@ -33,6 +45,7 @@ export default function CTA() {
                   ],
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
+                onClick={() => handleAction('/register')}
               >
                 Create Account
               </motion.button>
@@ -41,6 +54,7 @@ export default function CTA() {
                 className="border-2 border-white/50 text-white px-8 py-4 rounded-full hover:bg-white/10 transition cursor-pointer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => handleAction('/login')}
               >
                 Explore Platform
               </motion.button>

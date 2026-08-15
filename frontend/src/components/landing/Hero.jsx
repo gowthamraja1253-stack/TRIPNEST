@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Compass, Sparkles, Star } from 'lucide-react';
 import Button from '../ui/Button';
 
@@ -109,6 +110,16 @@ export default function Hero() {
 
   const headlineWords1 = ['Plan', 'Smarter.'];
   const headlineWords2 = ['Travel', 'Better.'];
+  const navigate = useNavigate();
+
+  const handleAction = (path) => {
+    const token = sessionStorage.getItem('tripnest_token') || localStorage.getItem('tripnest_token');
+    if (token) {
+      navigate('/dashboard');
+    } else {
+      navigate(path);
+    }
+  };
 
   return (
     <section
@@ -210,13 +221,13 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.8 }}
               className="mt-8 flex flex-wrap gap-4"
             >
-              <Button variant="primary" size="lg" glow>
+              <Button variant="primary" size="lg" glow onClick={() => handleAction('/register')}>
                 <span className="flex items-center gap-2">
                   Start Planning
                   <ArrowRight className="w-5 h-5" />
                 </span>
               </Button>
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" onClick={() => handleAction('/login')}>
                 <span className="flex items-center gap-2">
                   <Compass className="w-5 h-5" />
                   Explore Destinations

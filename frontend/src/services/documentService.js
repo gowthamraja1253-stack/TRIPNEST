@@ -4,11 +4,7 @@ export const documentService = {
   uploadDocument: async (formData) => {
     try {
       // Use raw fetch / custom axios header for multipart form data if needed or apiClient.post
-      const data = await apiClient.post('/documents/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+      const data = await apiClient.post('/documents/upload', formData);
       return data;
     } catch (error) {
       console.error("Failed to upload document", error);

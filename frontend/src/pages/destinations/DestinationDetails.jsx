@@ -13,6 +13,23 @@ import HotelCard from '../../components/destinations/HotelCard';
 import RestaurantCard from '../../components/destinations/RestaurantCard';
 import TravelGuideWidget from '../../components/destinations/TravelGuideWidget';
 
+const FALLBACK_IMAGES = [
+  'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=800&q=80'
+];
+
+const getFallbackImage = (name) => {
+  if (!name) return FALLBACK_IMAGES[0];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return FALLBACK_IMAGES[Math.abs(hash) % FALLBACK_IMAGES.length];
+};
+
 export default function DestinationDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -81,9 +98,13 @@ export default function DestinationDetails() {
         className="relative rounded-[32px] overflow-hidden h-[400px] shadow-sm group"
       >
         <img 
-          src={destination.image} 
+          src={destination.image || getFallbackImage(destination.name)} 
           alt={destination.name} 
           className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = getFallbackImage(destination.name);
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
         

@@ -42,7 +42,7 @@ export default function Footer() {
     <footer id="contact" className="bg-dark text-white pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-6">
         {/* Main grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand column */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2">
@@ -91,32 +91,7 @@ export default function Footer() {
             </div>
           ))}
 
-          {/* Newsletter column */}
-          <div>
-            <h4 className="font-heading font-semibold text-lg mb-4">
-              Stay Updated
-            </h4>
-            <p className="text-sm text-text-muted mt-2">
-              Get travel tips, product updates, and exclusive deals delivered to
-              your inbox.
-            </p>
-            <form
-              className="mt-4 flex gap-2"
-              onSubmit={(e) => e.preventDefault()}
-            >
-              <input
-                type="email"
-                placeholder="Your email"
-                className="flex-1 bg-white/10 border border-white/10 rounded-full px-4 py-2.5 text-sm text-white placeholder:text-text-muted focus:outline-none focus:border-primary"
-              />
-              <button
-                type="submit"
-                className="bg-primary hover:bg-primary-light text-white px-6 py-2.5 rounded-full text-sm font-medium transition-colors cursor-pointer"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
+
         </div>
 
         {/* Divider + bottom bar */}
