@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -29,6 +30,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
+    @Value("${app.frontend.url:http://localhost:5173}")
+    private String frontendUrl;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
@@ -39,6 +43,11 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
+        String login = oAuth2User.getAttribute("login");
+        
+        if (email == null) {
+            email = (login != null ? login : "user" + System.currentTimeMillis()) + "@tripnest.local";
+        }
 
         Optional<User> userOptional = userRepository.findByEmail(email);
 
@@ -74,7 +83,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         String token = tokenProvider.generateToken(user.getUsername());
 
         String targetUrl = UriComponentsBuilder
-                .fromUriString("http://localhost:5173/oauth2/redirect")
+                .fromUriString(frontendUrl + "/oauth2/redirect")
                 .queryParam("token", token)
                 .build()
                 .toUriString();
