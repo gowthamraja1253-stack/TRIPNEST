@@ -18,13 +18,21 @@ const GithubIcon = () => (
 
 export default function SocialLogin({ mode = 'login' }) {
   const text = mode === 'login' ? 'Log in' : 'Sign up';
+  const [isLoading, setIsLoading] = useState({ google: false, github: false });
   
   const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    setIsLoading({ ...isLoading, google: true });
+    // In a real app, you would redirect to your backend's OAuth2 authorization endpoint
+    const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+    const baseUrl = rawApiUrl.replace(/\/api\/v1\/?$/, '');
+    window.location.href = `${baseUrl}/oauth2/authorization/google`;
   };
 
   const handleGithubLogin = () => {
-    window.location.href = 'http://localhost:8080/oauth2/authorization/github';
+    setIsLoading({ ...isLoading, github: true });
+    const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+    const baseUrl = rawApiUrl.replace(/\/api\/v1\/?$/, '');
+    window.location.href = `${baseUrl}/oauth2/authorization/github`;
   };
 
   return (

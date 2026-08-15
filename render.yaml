@@ -26,8 +26,5 @@ services:
     dockerfilePath: frontend/Dockerfile
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: tripnest-backend
-          envVarKey: RENDER_EXTERNAL_URL
+        value: https://tripnest-backend-o5tm.onrender.com
     plan: free
