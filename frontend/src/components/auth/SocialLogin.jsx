@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 // Dummy Google/Github icons since Lucide doesn't have brand icons
