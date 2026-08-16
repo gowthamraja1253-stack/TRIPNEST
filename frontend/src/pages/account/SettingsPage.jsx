@@ -1,13 +1,23 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Settings, Bell, Lock, Globe, Moon, Save, Loader2, CheckCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Settings, Bell, Lock, Globe, Moon, Save, Loader2, CheckCircle, X } from 'lucide-react';
 import Button from '../../components/ui/Button';
+import { useToast } from '../../components/ui/ToastProvider';
 import { userService } from '../../services/userService';
 
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
+  
+  const { addToast } = useToast();
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
   
   const [settings, setSettings] = useState({
     currency: 'USD',
@@ -70,6 +80,32 @@ export default function SettingsPage() {
       console.error("Failed to save settings:", error);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handlePasswordSubmit = async (e) => {
+    e.preventDefault();
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      addToast('New passwords do not match', 'error');
+      return;
+    }
+    if (passwordForm.newPassword.length < 6) {
+      addToast('New password must be at least 6 characters', 'error');
+      return;
+    }
+    try {
+      setIsUpdatingPassword(true);
+      await userService.updatePassword({
+        currentPassword: passwordForm.currentPassword,
+        newPassword: passwordForm.newPassword
+      });
+      addToast('Password updated successfully', 'success');
+      setIsPasswordModalOpen(false);
+      setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+    } catch (error) {
+      addToast(error.message || 'Failed to update password', 'error');
+    } finally {
+      setIsUpdatingPassword(false);
     }
   };
 
@@ -220,7 +256,7 @@ export default function SettingsPage() {
                 variant="outline" 
                 type="button" 
                 size="sm"
-                onClick={() => alert('Password update requires backend/API functionality which is currently missing.')}
+                onClick={() => setIsPasswordModalOpen(true)}
               >
                 Update
               </Button>
@@ -259,6 +295,66 @@ export default function SettingsPage() {
 
         </form>
       </div>
+
+      {/* Password Update Modal */}
+      <AnimatePresence>
+        {isPasswordModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-slate-900/50 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="w-full max-w-md bg-surface p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700"
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white">Update Password</h2>
+                <button onClick={() => setIsPasswordModalOpen(false)} className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">
+                  <X size={20} />
+                </button>
+              </div>
+              <form onSubmit={handlePasswordSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Current Password</label>
+                  <input
+                    type="password"
+                    required
+                    value={passwordForm.currentPassword}
+                    onChange={(e) => setPasswordForm(prev => ({ ...prev, currentPassword: e.target.value }))}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">New Password</label>
+                  <input
+                    type="password"
+                    required
+                    value={passwordForm.newPassword}
+                    onChange={(e) => setPasswordForm(prev => ({ ...prev, newPassword: e.target.value }))}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Confirm New Password</label>
+                  <input
+                    type="password"
+                    required
+                    value={passwordForm.confirmPassword}
+                    onChange={(e) => setPasswordForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white"
+                  />
+                </div>
+                <div className="flex justify-end gap-3 mt-6 pt-2">
+                  <Button type="button" variant="outline" onClick={() => setIsPasswordModalOpen(false)}>Cancel</Button>
+                  <Button type="submit" variant="primary" disabled={isUpdatingPassword}>
+                    {isUpdatingPassword ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Update Password'}
+                  </Button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </motion.div>
   );
 }

@@ -19,5 +19,9 @@ export const userService = {
 
   updateSettings: async (settingsData) => {
     return await apiClient.put('/users/settings', settingsData);
+  },
+
+  updatePassword: async (passwordData) => {
+    return await apiClient.put('/users/password', passwordData);
   }
 };

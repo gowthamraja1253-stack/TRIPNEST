@@ -4,6 +4,7 @@ import com.tripnest.common.dto.ApiResponse;
 import com.tripnest.user.dto.SettingsResponse;
 import com.tripnest.user.dto.UpdateProfileRequest;
 import com.tripnest.user.dto.UpdateSettingsRequest;
+import com.tripnest.user.dto.UpdatePasswordRequest;
 import com.tripnest.user.dto.UserProfileResponse;
 import com.tripnest.user.service.UserService;
 import jakarta.validation.Valid;
@@ -57,5 +58,14 @@ public class UserController {
         String username = authentication.getName();
         SettingsResponse updatedSettings = userService.updateSettings(username, request);
         return ResponseEntity.ok(ApiResponse.success(updatedSettings, "Settings updated successfully"));
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<ApiResponse<Void>> updatePassword(
+            Authentication authentication,
+            @Valid @RequestBody UpdatePasswordRequest request) {
+        String username = authentication.getName();
+        userService.updatePassword(username, request);
+        return ResponseEntity.ok(ApiResponse.success(null, "Password updated successfully"));
     }
 }

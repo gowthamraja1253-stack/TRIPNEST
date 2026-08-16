@@ -4,6 +4,7 @@ import com.tripnest.exception.ResourceNotFoundException;
 import com.tripnest.user.dto.SettingsResponse;
 import com.tripnest.user.dto.UpdateProfileRequest;
 import com.tripnest.user.dto.UpdateSettingsRequest;
+import com.tripnest.user.dto.UpdatePasswordRequest;
 import com.tripnest.user.dto.UserProfileResponse;
 import com.tripnest.user.entity.User;
 import com.tripnest.user.entity.UserPreference;
@@ -11,16 +12,20 @@ import com.tripnest.user.mapper.UserMapper;
 import com.tripnest.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import com.tripnest.exception.BadRequestException;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -85,5 +90,19 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         
         return userMapper.toSettingsResponse(preference);
+    }
+
+    @Override
+    @Transactional
+    public void updatePassword(String username, UpdatePasswordRequest request) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
+
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new BadRequestException("Incorrect current password");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
     }
 }
