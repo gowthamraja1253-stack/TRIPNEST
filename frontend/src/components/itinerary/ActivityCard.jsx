@@ -123,7 +123,7 @@ const ActivityCard = ({ activity, onEdit, onDelete }) => {
                     Edit
                   </button>
                   <button 
-                    onClick={() => { setShowMenu(false); onDelete?.(activity); }}
+                    onClick={() => { setShowMenu(false); onDelete?.(activity.id); }}
                     className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-500 font-medium hover:bg-red-500/10 rounded-lg transition-colors"
                   >
                     <Trash2 size={16} />

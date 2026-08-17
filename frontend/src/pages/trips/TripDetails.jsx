@@ -8,7 +8,7 @@ import Button from '../../components/ui/Button';
 import { formatINR } from '../../utils/currency';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import TripTimeline from '../../components/trips/TripTimeline';
-import TripGallery from '../../components/trips/TripGallery';
+
 import DeleteModal from '../../components/trips/DeleteModal';
 import { useToast } from '../../components/ui/ToastProvider';
 
@@ -228,7 +228,7 @@ export default function TripDetails() {
           </div>
 
           <TripTimeline events={events} tripId={trip.id} />
-          <TripGallery images={[]} />
+
         </div>
 
         {/* Right Column (Span 1) */}

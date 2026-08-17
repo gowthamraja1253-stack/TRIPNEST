@@ -152,41 +152,7 @@ const TripCard = memo(({ trip, variant = 'manage', viewMode = 'grid', onDeleteRe
           </div>
         )}
         
-        <div className={`flex ${isDashboard ? 'justify-between items-center mb-6' : 'flex-col mb-4'}`}>
-          <span className="text-text-muted text-sm">Est. Budget</span>
-          <span className={`font-semibold text-text ${!isDashboard ? 'font-heading text-lg mt-1' : ''}`}>
-            {formatINR(rawBudget)}
-          </span>
-        </div>
-
-        {/* Expense/Planning Progress */}
         <div className="mt-auto">
-          <div className="flex justify-between text-xs font-semibold mb-2">
-            {isDashboard ? (
-               <span className="text-text-secondary">Planning Progress</span>
-            ) : (
-               <span className="text-text-secondary">Expenses: {formatINR(rawExpenses)}</span>
-            )}
-            <span className="text-primary">{Math.round(progressPercent)}% {isDashboard ? '' : 'Used'}</span>
-          </div>
-          <div className={`w-full bg-black/10 dark:bg-white/10 rounded-full overflow-hidden ${isDashboard ? 'h-2 mb-5' : 'h-1.5 mb-6'}`}>
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: `${progressPercent}%` }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className={`h-full rounded-full relative ${progressPercent > 90 && !isDashboard ? 'bg-red-500' : 'bg-primary'}`}
-            >
-              {isDashboard && (
-                <div className="absolute inset-0 bg-white/20 w-full overflow-hidden">
-                  <motion.div 
-                    animate={{ x: ['-100%', '200%'] }}
-                    transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                    className="h-full w-1/2 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12"
-                  />
-                </div>
-              )}
-            </motion.div>
-          </div>
 
           {isDashboard ? (
             <div className="grid grid-cols-2 gap-3">

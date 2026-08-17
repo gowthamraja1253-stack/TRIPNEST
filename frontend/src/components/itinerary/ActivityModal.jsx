@@ -96,7 +96,7 @@ const ActivityModal = ({ isOpen, onClose, onSave, activity, trip }) => {
                       <label className="text-sm font-medium text-text-secondary">Category</label>
                       <select 
                         {...register('category')}
-                        className="w-full h-10 px-3 bg-black/5 dark:bg-white/5 border border-border/50 rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all appearance-none"
+                        className="w-full h-10 px-3 bg-black/5 dark:bg-white/5 border border-border/50 rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all appearance-none"
                       >
                         {CATEGORIES.map(c => <option key={c} value={c} className="bg-surface">{c}</option>)}
                       </select>
@@ -105,7 +105,7 @@ const ActivityModal = ({ isOpen, onClose, onSave, activity, trip }) => {
                       <label className="text-sm font-medium text-text-secondary">Priority</label>
                       <select 
                         {...register('priority')}
-                        className="w-full h-10 px-3 bg-black/5 dark:bg-white/5 border border-border/50 rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all appearance-none"
+                        className="w-full h-10 px-3 bg-black/5 dark:bg-white/5 border border-border/50 rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all appearance-none"
                       >
                         {PRIORITIES.map(p => <option key={p} value={p} className="bg-surface">{p}</option>)}
                       </select>

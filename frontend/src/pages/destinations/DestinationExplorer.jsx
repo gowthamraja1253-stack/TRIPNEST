@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Compass, Map, Palmtree, Mountain, Tent, Building2, MapPin, Plus, X, Image as ImageIcon, Sparkles } from 'lucide-react';
+import { Search, Compass, MapPin, Plus, X, Image as ImageIcon, Sparkles } from 'lucide-react';
 import { destinationService } from '../../services/destinationService';
 import DestinationCard from '../../components/destinations/DestinationCard';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
@@ -9,20 +9,12 @@ import Input from '../../components/ui/Input';
 import SEO from '../../components/ui/SEO';
 import { useToast } from '../../components/ui/ToastProvider';
 
-const CATEGORIES = [
-  { name: 'Beaches', icon: Palmtree, color: 'text-sky-500', bg: 'bg-sky-500/10' },
-  { name: 'Mountains', icon: Mountain, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
-  { name: 'Cities', icon: Building2, color: 'text-indigo-500', bg: 'bg-indigo-500/10' },
-  { name: 'Historical', icon: MapPin, color: 'text-amber-500', bg: 'bg-amber-500/10' },
-  { name: 'Camping', icon: Tent, color: 'text-orange-500', bg: 'bg-orange-500/10' },
-];
+
 
 export default function DestinationExplorer() {
   const [destinations, setDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategory, setActiveCategory] = useState('All');
-  
   // Add Destination Modal State
   const [showAddModal, setShowAddModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -55,7 +47,7 @@ export default function DestinationExplorer() {
     if (!destName || !destCountry) return;
     setIsSubmitting(true);
     try {
-      await destinationService.createDestination({
+      const newDest = await destinationService.createDestination({
         name: destName,
         country: destCountry,
         description: destDescription,
@@ -72,8 +64,14 @@ export default function DestinationExplorer() {
       setDestAttractions('');
       setDestImageUrl('');
       setDestPopular(true);
-      // Reload destinations
-      await fetchDestinations();
+      // Reload destinations immediately
+      setDestinations(prev => {
+        // Only prepend if it doesn't already exist in the list
+        if (!prev.find(d => d.id === newDest.id)) {
+          return [newDest, ...prev];
+        }
+        return prev;
+      });
     } catch (error) {
       console.error('Failed to add destination:', error);
       addToast('Failed to add destination. Please check the backend connection.', 'error');
@@ -83,10 +81,8 @@ export default function DestinationExplorer() {
   };
 
   const filteredDestinations = destinations.filter(dest => {
-    const matchesSearch = (dest.name || '').toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          (dest.country || '').toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = activeCategory === 'All' || dest.category === activeCategory;
-    return matchesSearch && matchesCategory;
+    return (dest.name || '').toLowerCase().includes(searchQuery.toLowerCase()) || 
+           (dest.country || '').toLowerCase().includes(searchQuery.toLowerCase());
   });
 
   return (
@@ -129,7 +125,7 @@ export default function DestinationExplorer() {
       <section className="max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
           <h2 className="text-2xl font-heading font-bold flex items-center gap-2 text-text">
-            <Compass className="text-primary" /> Popular Categories
+            <Compass className="text-primary" /> Popular Destinations
           </h2>
           <Button 
             variant="primary" 
@@ -139,29 +135,6 @@ export default function DestinationExplorer() {
           >
             <Plus size={18} /> Add New Destination
           </Button>
-        </div>
-        
-        <div className="flex gap-4 overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
-          <button
-            onClick={() => setActiveCategory('All')}
-            className={`flex items-center gap-2 px-6 py-3 rounded-full whitespace-nowrap transition-all font-semibold ${
-              activeCategory === 'All' ? 'bg-primary text-white shadow-md shadow-primary/20' : 'bg-surface border border-border/50 text-text-secondary hover:bg-black/5 dark:hover:bg-white/5'
-            }`}
-          >
-            <Map size={18} /> All Destinations
-          </button>
-          
-          {CATEGORIES.map(cat => (
-            <button
-              key={cat.name}
-              onClick={() => setActiveCategory(cat.name)}
-              className={`flex items-center gap-2 px-6 py-3 rounded-full whitespace-nowrap transition-all font-semibold border ${
-                activeCategory === cat.name ? 'bg-surface shadow-md border-primary text-primary' : 'bg-surface border-border/50 text-text-secondary hover:bg-black/5 dark:hover:bg-white/5'
-              }`}
-            >
-              <cat.icon size={18} className={cat.color} /> {cat.name}
-            </button>
-          ))}
         </div>
       </section>
 

@@ -150,7 +150,7 @@ export default function SettingsPage() {
                   name="language"
                   value={settings.language}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white"
                 >
                   <option value="en">English (US)</option>
                   <option value="es">Español</option>
@@ -167,7 +167,7 @@ export default function SettingsPage() {
                   name="currency"
                   value={settings.currency}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white"
                 >
                   <option value="USD">USD ($)</option>
                   <option value="EUR">EUR (€)</option>
@@ -185,7 +185,7 @@ export default function SettingsPage() {
                   name="timezone"
                   value={settings.timezone}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white"
                 >
                   <option value="UTC">UTC (Coordinated Universal Time)</option>
                   <option value="EST">EST (Eastern Standard Time)</option>

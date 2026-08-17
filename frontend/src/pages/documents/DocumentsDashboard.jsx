@@ -60,9 +60,9 @@ export default function DocumentsDashboard() {
       if (!uploadTripId && userTrips && userTrips.length > 0) {
         setUploadTripId(userTrips[0].id);
       }
-    } catch (err) {
-      console.error('Failed to load documents:', err);
-      addToast('Failed to load documents', 'error');
+    } catch (error) {
+      console.error('Failed to load documents:', error);
+      addToast(error.message || 'Failed to load documents', 'error');
     } finally {
       setLoading(false);
     }
@@ -103,7 +103,7 @@ export default function DocumentsDashboard() {
       await loadData();
     } catch (err) {
       console.error('Failed to upload document:', err);
-      addToast('Failed to upload file. Please check backend connection.', 'error');
+      addToast(err.message || 'Failed to upload document. Please check file size.', 'error');
     } finally {
       setIsUploading(false);
     }

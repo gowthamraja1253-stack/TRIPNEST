@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '../components/landing/Navbar';
 import Hero from '../components/landing/Hero';
@@ -18,6 +19,14 @@ const pageVariants = {
 };
 
 export default function LandingPage() {
+  useEffect(() => {
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
   return (
     <motion.div
       variants={pageVariants}

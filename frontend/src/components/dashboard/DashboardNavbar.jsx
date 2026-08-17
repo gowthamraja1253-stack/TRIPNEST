@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Bell, MessageSquare, Sun, ChevronDown, Menu, LogOut, Settings, User } from 'lucide-react';
+import { Bell, MessageSquare, Sun, ChevronDown, Menu, LogOut, Settings, User } from 'lucide-react';
 import { notificationService } from '../../services/notificationService';
 import AIAssistant from '../ai/AIAssistant';
 
@@ -72,18 +72,7 @@ export default function DashboardNavbar({ isCollapsed, setIsCollapsed, setIsMobi
         {/* Right: Search & Actions */}
         <div className="flex items-center gap-3 sm:gap-6">
           
-          {/* Global Search */}
-          <div className="hidden md:flex relative group">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="w-4 h-4 text-text-muted group-focus-within:text-primary transition-colors" />
-            </div>
-            <input
-              type="text"
-              placeholder="Search destinations, trips..."
-              className="w-64 pl-10 pr-4 py-2 bg-white/50 border border-border rounded-full text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all focus:w-80"
-              aria-label="Search destinations and trips"
-            />
-          </div>
+
 
           <div className="flex items-center gap-2">
             <button 

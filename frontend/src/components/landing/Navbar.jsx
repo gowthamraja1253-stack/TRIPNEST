@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plane, Menu, X } from 'lucide-react';
+import { Plane, Menu, X, Sun, Moon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Button from '../ui/Button';
 
@@ -16,6 +16,17 @@ const navLinks = [
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    setIsDark(document.documentElement.classList.contains('dark') || localStorage.getItem('theme') === 'dark');
+  }, []);
+
+  const toggleTheme = () => {
+    const newThemeDark = document.documentElement.classList.toggle('dark');
+    setIsDark(newThemeDark);
+    localStorage.setItem('theme', newThemeDark ? 'dark' : 'light');
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -93,6 +104,13 @@ export default function Navbar() {
 
             {/* ── Desktop Actions ── */}
             <div className="hidden lg:flex items-center gap-3">
+              <button 
+                onClick={toggleTheme}
+                className="p-2 text-text-secondary hover:text-primary transition-colors rounded-full hover:bg-black/5 dark:hover:bg-white/5"
+                aria-label="Toggle Theme"
+              >
+                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
               <Link to="/login">
                 <Button variant="ghost" size="sm">
                   Login
@@ -159,13 +177,21 @@ export default function Navbar() {
                     TripNest
                   </span>
                 </a>
-                <button
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 rounded-lg text-text-secondary hover:text-primary hover:bg-primary/10 transition-colors"
-                  aria-label="Close menu"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+                <div className="flex items-center gap-2">
+                  <button 
+                    onClick={toggleTheme}
+                    className="p-2 rounded-lg text-text-secondary hover:text-primary hover:bg-primary/10 transition-colors"
+                  >
+                    {isDark ? <Sun size={20} /> : <Moon size={20} />}
+                  </button>
+                  <button
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="p-2 rounded-lg text-text-secondary hover:text-primary hover:bg-primary/10 transition-colors"
+                    aria-label="Close menu"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
 
               {/* Nav Links */}
